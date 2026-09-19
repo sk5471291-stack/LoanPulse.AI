@@ -1,12 +1,23 @@
 "use client";
 
-import { useState } from "react";
-import { User, Sliders, Server, Save, CheckCircle } from "lucide-react";
+import { useState, useEffect } from "react";
+import { User, Sliders, Server, Save, CheckCircle, Mail, ShieldCheck } from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
 
 export default function SettingsPage() {
+  const { user } = useAuth();
+  const [name, setName] = useState(user?.name || "Credit Analyst");
+  const [email, setEmail] = useState(user?.email || "analyst@bank.com");
   const [kNeighbors, setKNeighbors] = useState(19);
   const [apiUrl, setApiUrl] = useState("http://localhost:5000");
   const [saved, setSaved] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      setName(user.name);
+      setEmail(user.email);
+    }
+  }, [user]);
 
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,31 +30,61 @@ export default function SettingsPage() {
       {/* Title */}
       <div className="border-b border-white/10 pb-6">
         <h1 className="text-3xl font-extrabold text-white">Profile & Model Preferences</h1>
-        <p className="text-slate-400 text-sm">Manage user credentials and backend API configuration.</p>
+        <p className="text-slate-400 text-sm">Manage user credentials, authentication method, and backend API configuration.</p>
       </div>
 
       <form onSubmit={handleSave} className="space-y-6">
         {/* User Profile Settings */}
         <div className="glass-card rounded-3xl p-6 border border-white/10 space-y-4">
-          <h3 className="text-lg font-bold text-white flex items-center gap-2">
-            <User className="h-5 w-5 text-indigo-400" /> User Profile Information
-          </h3>
+          <div className="flex items-center justify-between">
+            <h3 className="text-lg font-bold text-white flex items-center gap-2">
+              <User className="h-5 w-5 text-indigo-400" /> User Profile Information
+            </h3>
+            {user?.method === "google" && (
+              <span className="text-xs font-semibold text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20 flex items-center gap-1.5">
+                <ShieldCheck className="h-4 w-4" /> Google Verified Account
+              </span>
+            )}
+          </div>
+
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
             <div>
               <label className="text-slate-300 font-medium block mb-1">Full Name</label>
               <input
                 type="text"
-                defaultValue="Credit Officer Analyst"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 className="w-full rounded-xl bg-white/5 border border-white/10 px-3 py-2.5 text-white focus:outline-none focus:border-indigo-500"
               />
             </div>
             <div>
-              <label className="text-slate-300 font-medium block mb-1">Role</label>
+              <label className="text-slate-300 font-medium block mb-1">Email / Gmail Address</label>
+              <div className="relative">
+                <input
+                  type="email"
+                  value={email}
+                  disabled={user?.method === "google"}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full rounded-xl bg-white/5 border border-white/10 px-3 py-2.5 text-white focus:outline-none focus:border-indigo-500 disabled:opacity-60"
+                />
+              </div>
+            </div>
+            <div>
+              <label className="text-slate-300 font-medium block mb-1">Assigned Role</label>
               <input
                 type="text"
-                defaultValue="Senior Risk Underwriter"
+                value={user?.role || "Senior Risk Underwriter"}
                 disabled
                 className="w-full rounded-xl bg-white/5 border border-white/10 px-3 py-2.5 text-slate-400 cursor-not-allowed"
+              />
+            </div>
+            <div>
+              <label className="text-slate-300 font-medium block mb-1">Authentication Method</label>
+              <input
+                type="text"
+                value={user?.method === "google" ? "Google OAuth 2.0 (Gmail)" : "Password Authentication"}
+                disabled
+                className="w-full rounded-xl bg-white/5 border border-white/10 px-3 py-2.5 text-indigo-400 cursor-not-allowed font-medium"
               />
             </div>
           </div>
@@ -79,7 +120,7 @@ export default function SettingsPage() {
         {/* REST API Endpoint Settings */}
         <div className="glass-card rounded-3xl p-6 border border-white/10 space-y-4">
           <h3 className="text-lg font-bold text-white flex items-center gap-2">
-            <Server className="h-5 w-5 text-cyan-400" /> Flask REST API Endpoint
+            <Server className="h-5 w-5 text-cyan-400" /> API Endpoint Settings
           </h3>
           <div className="text-xs space-y-2">
             <label className="text-slate-300 font-medium block">Backend URL</label>
@@ -89,7 +130,7 @@ export default function SettingsPage() {
               onChange={(e) => setApiUrl(e.target.value)}
               className="w-full rounded-xl bg-white/5 border border-white/10 px-3 py-2.5 text-white focus:outline-none focus:border-indigo-500"
             />
-            <p className="text-slate-500">Default local endpoint: http://localhost:5000</p>
+            <p className="text-slate-500">Production API uses Next.js serverless routes or custom backend endpoint.</p>
           </div>
         </div>
 
@@ -97,7 +138,7 @@ export default function SettingsPage() {
         <div className="flex items-center justify-between">
           {saved && (
             <span className="text-emerald-400 text-xs font-semibold flex items-center gap-1">
-              <CheckCircle className="h-4 w-4" /> Preferences Saved Successfully!
+              <CheckCircle className="h-4 w-4" /> Profile & Settings Saved!
             </span>
           )}
           <button
