@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LoanPulse AI - Account &amp; Model Preferences</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Inter and JetBrains Mono Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config as mandated -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-secondary-container": "#00311f",
+            "on-error": "#690005",
+            "surface-dim": "#0b1326",
+            "on-primary-container": "#0d0096",
+            "on-error-container": "#ffdad6",
+            "outline": "#908fa0",
+            "surface-variant": "#2d3449",
+            "surface-tint": "#c0c1ff",
+            "on-tertiary-fixed": "#001f26",
+            "secondary-fixed-dim": "#4edea3",
+            "surface": "#0b1326",
+            "on-primary-fixed-variant": "#2f2ebe",
+            "tertiary-fixed": "#acedff",
+            "secondary": "#4edea3",
+            "surface-container-highest": "#2d3449",
+            "primary-container": "#8083ff",
+            "surface-container-lowest": "#060e20",
+            "inverse-primary": "#494bd6",
+            "outline-variant": "#464554",
+            "inverse-on-surface": "#283044",
+            "on-tertiary": "#003640",
+            "tertiary": "#4cd7f6",
+            "on-surface-variant": "#c7c4d7",
+            "surface-bright": "#31394d",
+            "secondary-container": "#00a572",
+            "primary": "#c0c1ff",
+            "background": "#0b1326",
+            "on-primary": "#1000a9",
+            "tertiary-fixed-dim": "#4cd7f6",
+            "secondary-fixed": "#6ffbbe",
+            "on-tertiary-fixed-variant": "#004e5c",
+            "surface-container": "#171f33",
+            "inverse-surface": "#dae2fd",
+            "on-background": "#dae2fd",
+            "tertiary-container": "#009eb9",
+            "error": "#ffb4ab",
+            "error-container": "#93000a",
+            "primary-fixed-dim": "#c0c1ff",
+            "on-tertiary-container": "#002f38",
+            "primary-fixed": "#e1e0ff",
+            "surface-container-low": "#131b2e",
+            "on-primary-fixed": "#07006c",
+            "on-secondary-fixed": "#002113",
+            "on-surface": "#dae2fd",
+            "on-secondary-fixed-variant": "#005236",
+            "on-secondary": "#003824",
+            "surface-container-high": "#222a3d"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "grid-margin-tablet": "1.5rem",
+            "grid-margin-desktop": "2rem",
+            "gutter-desktop": "1.5rem",
+            "gutter-tablet": "1rem",
+            "gutter-mobile": "0.75rem",
+            "grid-margin-mobile": "1rem",
+            "card-pad-compact": "1rem",
+            "card-pad-spacious": "2rem",
+            "card-pad-default": "1.5rem"
+          },
+          "fontFamily": {
+            "body-sm": ["Inter"],
+            "display-lg": ["Inter"],
+            "display-lg-mobile": ["Inter"],
+            "headline-sm": ["Inter"],
+            "body-lg": ["Inter"],
+            "body-md": ["Inter"],
+            "label-md": ["JetBrains Mono"],
+            "label-sm": ["JetBrains Mono"],
+            "headline-md": ["Inter"],
+            "headline-lg": ["Inter"],
+            "headline-lg-mobile": ["Inter"]
+          },
+          "fontSize": {
+            "body-sm": ["12px", { "lineHeight": "18px", "letterSpacing": "0.005em", "fontWeight": "400" }],
+            "display-lg": ["44px", { "lineHeight": "52px", "letterSpacing": "-0.025em", "fontWeight": "600" }],
+            "display-lg-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+            "headline-sm": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "body-lg": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.005em", "fontWeight": "400" }],
+            "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "label-md": ["13px", { "lineHeight": "18px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+            "label-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "500" }],
+            "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "500" }],
+            "headline-lg": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+            "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600" }]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    /* Custom refined glassmorphism and luminous utilities adhering strictly to system */
+    .glass-panel {
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .glow-ai {
+      box-shadow: 0 0 24px -4px rgba(99, 102, 241, 0.25);
+    }
+    .glow-positive {
+      box-shadow: 0 0 24px -4px rgba(16, 185, 129, 0.2);
+    }
+    .glow-cyan {
+      box-shadow: 0 0 24px -4px rgba(6, 182, 212, 0.25);
+    }
+    /* Material Symbols base styling */
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+  </style>
+</head>
+<body class="bg-surface text-on-surface antialiased min-h-screen flex flex-col selection:bg-primary selection:text-on-primary font-body-md text-body-md pb-28">
+<!-- ================= TOP NAVIGATION BAR (Exact adherence to Shared Component JSON) ================= -->
+<header class="docked full-width top-0 z-50 sticky bg-surface-container-lowest/80 backdrop-blur-md dark:bg-surface-container-lowest/80 border-b border-outline-variant/30 shadow-2xl shadow-surface-container-lowest/50">
+<div class="w-full px-grid-margin-desktop max-w-[1680px] mx-auto flex items-center justify-between h-16">
+<!-- Brand & Left Cluster -->
+<div class="flex items-center gap-8">
+<a class="text-headline-sm font-headline-sm text-on-surface tracking-tight flex items-center gap-2 group" href="#">
+<div class="w-8 h-8 rounded-lg bg-surface-container-high border border-outline-variant flex items-center justify-center text-primary group-hover:border-primary transition-colors">
+<span class="material-symbols-outlined text-primary" data-icon="insights">insights</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-on-surface">LoanPulse AI</span>
+</a>
+<!-- Global Search Bar (on_left) -->
+<div class="relative hidden lg:block w-72">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[18px]" data-icon="search">search</span>
+<input class="w-full h-9 pl-9 pr-3 text-body-sm font-body-sm bg-surface-container-low/60 border border-outline-variant/40 rounded-lg text-on-surface placeholder:text-outline focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/40 transition-all" placeholder="Search accounts, models, logs..." type="text"/>
+<kbd class="absolute right-2.5 top-1/2 -translate-y-1/2 text-label-sm font-label-sm text-outline border border-outline-variant/50 rounded px-1.5 py-0.5 bg-surface-container-highest/40">⌘K</kbd>
+</div>
+</div>
+<!-- Navigation Links -->
+<nav class="hidden md:flex items-center gap-6 h-full">
+<!-- Underwriting -->
+<a class="text-on-surface-variant font-body-md hover:text-on-surface pb-3.5 pt-4 transition-colors" href="#">Underwriting</a>
+<!-- Risk Models -->
+<a class="text-on-surface-variant font-body-md hover:text-on-surface pb-3.5 pt-4 transition-colors" href="#">Risk Models</a>
+<!-- Batch Assessment -->
+<a class="text-on-surface-variant font-body-md hover:text-on-surface pb-3.5 pt-4 transition-colors" href="#">Batch Assessment</a>
+<!-- Audit Log -->
+<a class="text-on-surface-variant font-body-md hover:text-on-surface pb-3.5 pt-4 transition-colors" href="#">Audit Log</a>
+<!-- Docs -->
+<a class="text-on-surface-variant font-body-md hover:text-on-surface pb-3.5 pt-4 transition-colors" href="#">Docs</a>
+</nav>
+<!-- Trailing Action Cluster -->
+<div class="flex items-center gap-3">
+<!-- Trailing Secondary Badge: KNN v1.2 Active -->
+<div class="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-secondary/10 border border-secondary/30 text-secondary text-label-sm font-label-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary animate-ping"></span>
+<span>KNN v1.2 Active</span>
+</div>
+<!-- Trailing Primary Action: New Assessment -->
+<button class="hidden xl:flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-primary-container text-on-primary-container font-headline-sm text-label-md hover:bg-primary transition-all active:scale-[0.98]">
+<span class="material-symbols-outlined text-[18px]" data-icon="add">add</span>
+<span>New Assessment</span>
+</button>
+<!-- Notification Icon -->
+<button class="w-9 h-9 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container-high/60 hover:text-on-surface transition-all active:scale-[0.98] relative" title="Notifications">
+<span class="material-symbols-outlined text-[20px]" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-tertiary"></span>
+</button>
+<!-- Settings Icon (Active context for this page) -->
+<button class="w-9 h-9 flex items-center justify-center rounded-lg bg-surface-container-high text-primary border border-primary/30 shadow-sm" title="Settings">
+<span class="material-symbols-outlined text-[20px]" data-icon="settings">settings</span>
+</button>
+<!-- Separator -->
+<div class="w-px h-6 bg-outline-variant/30"></div>
+<!-- User Profile Avatar -->
+<div class="flex items-center gap-2 pl-1 cursor-pointer">
+<div class="relative w-8 h-8 rounded-full border border-primary/40 p-0.5 bg-surface-container-high">
+<img alt="Senior Underwriter Avatar" class="w-full h-full rounded-full object-cover" data-alt="A distinguished institutional senior underwriter woman with short sleek hair, looking thoughtfully into an illuminated multi-display financial terminal in a futuristic dark fintech banking office with soft cyan and indigo ambient reflections." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbO22_A-c3StIvJ929Xhawh6NixmzkGOJ3zvNryhloQmwF-ugD-hFEmpLV8O2drxn1eaK22834J0dSTSMtapfnRRXb8GOYajG3ZK41xC5GXIfkb99UAyJ61G2tNNJkNzQZFe1wHpVoi69d3c5qgKQQX4d1XEdrhmXmhO42KVzUAal3-0FoJSMdsJO6WtmdagdnmUtPLjnvxqHwYaUfxrEGXDi1hUSLwj27A1HFk6d_xmRrmWRwvFrMPQ"/>
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-secondary border-2 border-surface-container-lowest"></span>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- ================= MAIN CONTENT CANVAS ================= -->
+<main class="w-full max-w-[1680px] mx-auto px-grid-margin-mobile md:px-grid-margin-tablet lg:px-grid-margin-desktop pt-8 pb-12 flex-1">
+<!-- Breadcrumbs -->
+<nav aria-label="Breadcrumb" class="flex items-center gap-2 text-label-sm font-label-sm text-outline mb-3">
+<a class="hover:text-on-surface transition-colors" href="#">Dashboard</a>
+<span class="material-symbols-outlined text-[14px]" data-icon="chevron_right">chevron_right</span>
+<a class="hover:text-on-surface transition-colors" href="#">Settings</a>
+<span class="material-symbols-outlined text-[14px]" data-icon="chevron_right">chevron_right</span>
+<span class="text-primary">Account &amp; Model Preferences</span>
+</nav>
+<!-- Page Header & Cluster Telemetry Badge -->
+<div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 pb-6 border-b border-white/[0.06]">
+<div>
+<h1 class="text-headline-lg font-headline-lg text-on-surface tracking-tight">Account &amp; Model Configuration</h1>
+<p class="text-body-md font-body-md text-on-surface-variant mt-1 max-w-3xl">
+          Manage institutional credentials, fine-tune inference hyperparameters, and configure underwriting telemetry defaults.
+        </p>
+</div>
+<!-- Quick status telemetry pill -->
+<div class="flex items-center gap-3 self-start lg:self-center bg-surface-container-low border border-white/10 px-4 py-2 rounded-xl">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+<span class="text-label-sm font-label-sm text-on-surface">Cluster: <span class="text-tertiary font-label-md">us-east-algobank-04</span></span>
+</div>
+<span class="text-outline-variant">•</span>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-secondary text-[16px]" data-icon="verified_user">verified_user</span>
+<span class="text-label-sm font-label-sm text-on-surface">Environment: <span class="text-secondary font-label-md">Production</span></span>
+</div>
+</div>
+</div>
+<!-- Segmented Tab Navigation -->
+<div class="mt-6 flex overflow-x-auto no-scrollbar border-b border-white/10 gap-2 sm:gap-6">
+<!-- Profile Settings (Active) -->
+<button class="flex items-center gap-2 text-primary font-headline-sm text-headline-sm border-b-2 border-primary pb-3.5 pt-2 whitespace-nowrap transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="person">person</span>
+<span>Profile Settings</span>
+</button>
+<!-- AI Model Preferences -->
+<button class="flex items-center gap-2 text-on-surface-variant font-body-md text-body-md hover:text-on-surface pb-3.5 pt-2 whitespace-nowrap transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="neurology">neurology</span>
+<span>AI Model Preferences</span>
+</button>
+<!-- API Keys & Webhooks -->
+<button class="flex items-center gap-2 text-on-surface-variant font-body-md text-body-md hover:text-on-surface pb-3.5 pt-2 whitespace-nowrap transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="key">key</span>
+<span>API Keys &amp; Webhooks</span>
+</button>
+<!-- Notification & Alerts -->
+<button class="flex items-center gap-2 text-on-surface-variant font-body-md text-body-md hover:text-on-surface pb-3.5 pt-2 whitespace-nowrap transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="notifications_active">notifications_active</span>
+<span>Notification &amp; Alerts</span>
+</button>
+</div>
+<!-- 12-Column Responsive Layout Grid -->
+<div class="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- ================= CARD 1: PROFILE SETTINGS (7 Columns on Large) ================= -->
+<section class="lg:col-span-7 flex flex-col gap-6">
+<div class="glass-panel rounded-xl p-card-default sm:p-card-spacious shadow-xl relative overflow-hidden">
+<!-- Card Header & Identity Identifier -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-5 border-b border-white/[0.04]">
+<div>
+<span class="text-label-sm font-label-sm uppercase tracking-wider text-outline">Identity &amp; Credentials</span>
+<h2 class="text-headline-md font-headline-md text-on-surface mt-0.5">Profile Information</h2>
+</div>
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-high border border-white/10 text-label-sm font-label-sm text-tertiary">
+<span class="material-symbols-outlined text-[14px]" data-icon="badge">badge</span>
+<span>Institutional Underwriter ID: #USR-4491</span>
+</div>
+</div>
+<!-- Avatar Section -->
+<div class="mt-6 flex flex-col sm:flex-row items-start sm:items-center gap-6 pb-6 border-b border-white/[0.04]">
+<div class="relative w-20 h-20 rounded-2xl p-1 bg-surface-container-high border-2 border-tertiary/40 glow-cyan">
+<img alt="Sarah Connor Profile Avatar" class="w-full h-full rounded-xl object-cover" data-alt="Close up portrait photograph of Sarah Connor, an elite financial risk analyst in modern institutional dark office with subtle emerald cyan edge-lighting and high depth of field." src="https://lh3.googleusercontent.com/aida-public/AB6AXuASDMzfSCq4MmDbo332KGk4WO5rngMiwjb9Gz9l2BH5Hffjrhj-49ZJuGUopcm2k-mAgVAZwMzsF7IRLR6glh7LAoOxQfUhbPgMoCMZLcB5Wv1V9UJs5qUvH8Xf_e4eZHwRugKVl01EBZzS9pzta_YTnk-0iP1VS3uEoH437XgOJJQAQCiClkXCM9Iyu43E6p1Hz67mKLVzSG-0_3aO-LNSrst8eUQ6A3_3sTKSRlEPFfl-hx5MHY1Yxg"/>
+<span class="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-secondary border-2 border-surface flex items-center justify-center">
+<span class="material-symbols-outlined text-[10px] text-surface font-bold" data-icon="check">check</span>
+</span>
+</div>
+<div class="space-y-2">
+<div class="flex items-center gap-3">
+<button class="px-3.5 py-1.5 rounded-lg bg-white/[0.06] hover:bg-white/[0.1] border border-white/10 text-on-surface font-headline-sm text-label-md transition-all active:scale-[0.98] flex items-center gap-1.5" type="button">
+<span class="material-symbols-outlined text-[16px]" data-icon="upload">upload</span>
+<span>Change Avatar</span>
+</button>
+<button class="px-3.5 py-1.5 rounded-lg bg-error/10 hover:bg-error/20 border border-error/30 text-error font-headline-sm text-label-md transition-all active:scale-[0.98]" type="button">
+                  Remove
+                </button>
+</div>
+<p class="text-body-sm font-body-sm text-outline">
+                JPG, PNG, or WebP up to 4MB. Transparent PNG recommended for ledger exports.
+              </p>
+</div>
+</div>
+<!-- Input Fields Form -->
+<form class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-5" onsubmit="event.preventDefault();">
+<!-- Full Name -->
+<div class="sm:col-span-1">
+<label class="block text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider mb-2">
+                Full Legal Name
+              </label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline text-[18px]" data-icon="person">person</span>
+<input class="w-full h-10 pl-10 pr-3 rounded-lg bg-surface-dim/60 border border-white/10 text-on-surface font-body-md text-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none" type="text" value="Sarah Connor"/>
+</div>
+</div>
+<!-- Work Email -->
+<div class="sm:col-span-1">
+<div class="flex items-center justify-between mb-2">
+<label class="block text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">
+                  Work Email
+                </label>
+<span class="text-label-sm font-label-sm text-secondary flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[13px]" data-icon="verified">verified</span> Verified
+                </span>
+</div>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline text-[18px]" data-icon="mail">mail</span>
+<input class="w-full h-10 pl-10 pr-10 rounded-lg bg-surface-dim/60 border border-white/10 text-on-surface font-body-md text-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none" type="email" value="sarah.connor@meridianbank.com"/>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-outline text-[16px]" data-icon="lock" title="Institutional Domain Locked">lock</span>
+</div>
+</div>
+<!-- Professional Role Dropdown -->
+<div class="sm:col-span-1">
+<label class="block text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider mb-2">
+                Professional Role
+              </label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline text-[18px]" data-icon="work">work</span>
+<select class="w-full h-10 pl-10 pr-9 rounded-lg bg-surface-dim/60 border border-white/10 text-on-surface font-body-md text-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none appearance-none cursor-pointer">
+<option selected="">Senior Loan Officer / Risk Analyst</option>
+<option>Chief Risk Officer</option>
+<option>ML Systems Engineer</option>
+<option>Junior Underwriter</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-outline pointer-events-none text-[18px]" data-icon="expand_more">expand_more</span>
+</div>
+</div>
+<!-- Department / Organization -->
+<div class="sm:col-span-1">
+<label class="block text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider mb-2">
+                Department / Organization
+              </label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline text-[18px]" data-icon="corporate_fare">corporate_fare</span>
+<input class="w-full h-10 pl-10 pr-3 rounded-lg bg-surface-dim/60 border border-white/10 text-on-surface font-body-md text-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none" type="text" value="Meridian Capital - Commercial Lending Div."/>
+</div>
+</div>
+<!-- Phone / 2FA Contact -->
+<div class="sm:col-span-2">
+<div class="flex items-center justify-between mb-2">
+<label class="block text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">
+                  Phone / Hardware 2FA Device
+                </label>
+<span class="text-label-sm font-label-sm text-secondary flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[13px]" data-icon="shield">shield</span> Active YubiKey Bound
+                </span>
+</div>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline text-[18px]" data-icon="call">call</span>
+<input class="w-full h-10 pl-10 pr-24 rounded-lg bg-surface-dim/60 border border-white/10 text-on-surface font-body-md text-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none font-label-md" type="tel" value="+1 (555) 234-8901"/>
+<span class="absolute right-3 top-1/2 -translate-y-1/2 text-label-sm font-label-sm text-secondary bg-secondary/10 px-2 py-0.5 rounded border border-secondary/20">
+                  Verified
+                </span>
+</div>
+</div>
+</form>
+</div>
+<!-- ================= CARD 3: API KEYS & WEBHOOKS PREVIEW ================= -->
+<div class="glass-panel rounded-xl p-card-default shadow-xl">
+<div class="flex items-center justify-between pb-4 border-b border-white/[0.04]">
+<div class="flex items-center gap-2.5">
+<div class="w-7 h-7 rounded bg-tertiary/10 border border-tertiary/30 flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined text-[16px]" data-icon="key">key</span>
+</div>
+<div>
+<h3 class="text-headline-sm font-headline-sm text-on-surface">API Credentials &amp; Ingestion Rate</h3>
+<span class="text-label-sm font-label-sm text-outline">Production Environment Key: Meridian Engine 01</span>
+</div>
+</div>
+<a class="text-label-sm font-label-sm text-primary hover:underline flex items-center gap-1" href="#">
+              Manage all keys <span class="material-symbols-outlined text-[14px]" data-icon="arrow_forward">arrow_forward</span>
+</a>
+</div>
+<div class="mt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-surface-dim/80 p-3.5 rounded-lg border border-white/10">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-outline" data-icon="vpn_key">vpn_key</span>
+<div>
+<p class="text-label-md font-label-md text-on-surface">lp_live_9f8a43••••••••••••••••7b4</p>
+<p class="text-label-sm font-label-sm text-outline">Last accessed: Today, 14:02:11 UTC via 192.88.99.12</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-3 py-1.5 rounded-md bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 text-label-sm font-label-sm text-on-surface flex items-center gap-1.5 transition-all">
+<span class="material-symbols-outlined text-[14px]" data-icon="content_copy">content_copy</span> Copy
+              </button>
+<button class="px-3 py-1.5 rounded-md bg-error/10 hover:bg-error/20 border border-error/20 text-label-sm font-label-sm text-error flex items-center gap-1.5 transition-all">
+<span class="material-symbols-outlined text-[14px]" data-icon="refresh">refresh</span> Roll Key
+              </button>
+</div>
+</div>
+<!-- Rate Limit Telemetry Meter -->
+<div class="mt-4 pt-2">
+<div class="flex items-center justify-between text-label-sm font-label-sm mb-1.5">
+<span class="text-on-surface-variant">Monthly Telemetry Inference Calls</span>
+<span class="text-on-surface font-label-md">25,000 / 50,000 used (50%)</span>
+</div>
+<div class="w-full h-2 rounded-full bg-surface-container-highest overflow-hidden">
+<div class="h-full bg-gradient-to-r from-primary via-tertiary to-secondary rounded-full" style="width: 50%"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- ================= CARD 2: AI MODEL PREFERENCES & TELEMETRY (5 Columns on Large) ================= -->
+<section class="lg:col-span-5 flex flex-col gap-6">
+<div class="glass-panel rounded-xl p-card-default sm:p-card-spacious shadow-xl glow-ai border border-primary/20 relative">
+<!-- Ambient decorative light glow -->
+<div class="absolute -top-12 -right-12 w-48 h-48 bg-primary/10 rounded-full blur-3xl pointer-events-none"></div>
+<!-- Section Header -->
+<div class="flex items-start justify-between pb-5 border-b border-white/[0.04]">
+<div>
+<span class="text-label-sm font-label-sm uppercase tracking-wider text-primary">Algorithmic Precision</span>
+<h2 class="text-headline-md font-headline-md text-on-surface mt-0.5">KNN Inference Defaults</h2>
+</div>
+<div class="p-1.5 rounded-lg bg-primary/10 text-primary border border-primary/20">
+<span class="material-symbols-outlined text-[20px]" data-icon="tune">tune</span>
+</div>
+</div>
+<!-- K-Nearest Neighbors Stepper -->
+<div class="mt-6">
+<div class="flex items-center justify-between mb-2">
+<label class="text-body-md font-headline-sm text-on-surface flex items-center gap-1.5">
+                Default Neighbor Value (k)
+                <span class="material-symbols-outlined text-outline text-[16px] cursor-help" data-icon="info" title="k=13 minimizes cross-validation variance on 10-fold CV on commercial portfolios">info</span>
+</label>
+<span class="text-label-sm font-label-sm px-2 py-0.5 rounded bg-secondary/15 text-secondary border border-secondary/30">
+                k = 13 [Optimal Balance]
+              </span>
+</div>
+<p class="text-body-sm font-body-sm text-outline mb-3">
+              Hyperparameter balancing variance and inductive bias across standard credit cohorts.
+            </p>
+<div class="grid grid-cols-4 gap-2">
+<button class="py-2 rounded-lg bg-surface-dim/60 border border-white/10 text-label-md font-label-md text-on-surface-variant hover:border-white/20 transition-all" type="button">
+                k=5
+              </button>
+<button class="py-2 rounded-lg bg-surface-dim/60 border border-white/10 text-label-md font-label-md text-on-surface-variant hover:border-white/20 transition-all" type="button">
+                k=9
+              </button>
+<button class="py-2 rounded-lg bg-primary/20 border-2 border-primary text-label-md font-label-md text-primary font-bold shadow-lg shadow-primary/20 transition-all" type="button">
+                k=13
+              </button>
+<button class="py-2 rounded-lg bg-surface-dim/60 border border-white/10 text-label-md font-label-md text-on-surface-variant hover:border-white/20 transition-all" type="button">
+                k=21
+              </button>
+</div>
+</div>
+<!-- Classification Decision Threshold Slider -->
+<div class="mt-8 pt-6 border-t border-white/[0.04]">
+<div class="flex items-center justify-between mb-2">
+<label class="text-body-md font-headline-sm text-on-surface">
+                Decision Threshold Probability
+              </label>
+<span class="font-label-md text-label-md text-tertiary">
+                θ = 0.50
+              </span>
+</div>
+<p class="text-body-sm font-body-sm text-outline mb-4">
+              Calibrated boundary between automated acceptance and risk underwrite flag.
+            </p>
+<!-- Custom Threshold Range Slider Track -->
+<div class="relative pt-1 pb-3">
+<div class="h-2 w-full rounded-full bg-surface-dim relative overflow-hidden border border-white/10">
+<div class="absolute inset-0 bg-gradient-to-r from-secondary via-tertiary to-error opacity-80"></div>
+</div>
+<!-- Thumb Marker Pin -->
+<div class="absolute top-0 left-1/2 -translate-x-1/2 w-4 h-6 bg-white rounded-md shadow-md flex items-center justify-center border border-surface cursor-pointer">
+<div class="w-1 h-3 bg-surface-dim rounded-full"></div>
+</div>
+</div>
+<div class="flex items-center justify-between text-label-sm font-label-sm text-outline px-1">
+<span class="text-secondary">0.00 (Risk Tolerant)</span>
+<span class="text-on-surface font-label-md">0.50 Balanced</span>
+<span class="text-error">1.00 (Ultra Restrictive)</span>
+</div>
+<!-- Callout Metric Badge -->
+<div class="mt-3 p-3 rounded-lg bg-surface-dim/80 border border-white/10 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[18px]" data-icon="check_circle">check_circle</span>
+<span class="text-body-sm font-body-sm text-on-surface">0.50 Default Balanced</span>
+</div>
+<span class="text-label-sm font-label-sm text-outline">Precision 89.6% / Recall 92.0%</span>
+</div>
+<!-- Preset Buttons -->
+<div class="flex items-center gap-2 mt-3">
+<button class="flex-1 py-1.5 px-2 rounded bg-surface-dim/40 hover:bg-surface-dim border border-white/10 text-label-sm font-label-sm text-outline hover:text-on-surface transition-all">
+                Conservative (0.65)
+              </button>
+<button class="flex-1 py-1.5 px-2 rounded bg-surface-dim/40 hover:bg-surface-dim border border-white/10 text-label-sm font-label-sm text-outline hover:text-on-surface transition-all">
+                Growth-Aggressive (0.35)
+              </button>
+</div>
+</div>
+<!-- Currency & Distance Metric Configuration -->
+<div class="mt-8 pt-6 border-t border-white/[0.04] grid grid-cols-1 sm:grid-cols-2 gap-4">
+<!-- Currency selector -->
+<div>
+<label class="block text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider mb-2">
+                Default Currency
+              </label>
+<select class="w-full h-10 px-3 rounded-lg bg-surface-dim/60 border border-white/10 text-on-surface font-body-md text-body-md focus:border-primary outline-none">
+<option selected="">USD ($)</option>
+<option>EUR (€)</option>
+<option>GBP (£)</option>
+<option>CAD ($)</option>
+</select>
+</div>
+<!-- Number format toggle -->
+<div>
+<label class="block text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider mb-2">
+                Notation Mode
+              </label>
+<div class="flex h-10 rounded-lg bg-surface-dim/60 p-1 border border-white/10">
+<button class="flex-1 rounded text-label-sm font-label-sm bg-primary/20 text-primary font-semibold">
+                  Standard ($145k)
+                </button>
+<button class="flex-1 rounded text-label-sm font-label-sm text-outline hover:text-on-surface">
+                  Exact ($145,000)
+                </button>
+</div>
+</div>
+<!-- Distance Metric -->
+<div class="sm:col-span-2">
+<label class="block text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider mb-2">
+                Feature Space Distance Metric
+              </label>
+<div class="grid grid-cols-3 gap-2">
+<div class="flex items-center gap-2 p-2 rounded-lg bg-primary/10 border border-primary/40 text-on-surface cursor-pointer">
+<input checked="" class="text-primary focus:ring-0 bg-transparent border-outline" name="metric" type="radio"/>
+<span class="text-label-sm font-label-sm text-primary">Scaled L2</span>
+</div>
+<div class="flex items-center gap-2 p-2 rounded-lg bg-surface-dim/40 border border-white/10 text-outline hover:text-on-surface cursor-pointer">
+<input class="text-primary focus:ring-0 bg-transparent border-outline" name="metric" type="radio"/>
+<span class="text-label-sm font-label-sm">Manhattan (L1)</span>
+</div>
+<div class="flex items-center gap-2 p-2 rounded-lg bg-surface-dim/40 border border-white/10 text-outline hover:text-on-surface cursor-pointer">
+<input class="text-primary focus:ring-0 bg-transparent border-outline" name="metric" type="radio"/>
+<span class="text-label-sm font-label-sm">Minkowski</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Real-Time Feature Attribution Toggle -->
+<div class="mt-8 pt-6 border-t border-white/[0.04]">
+<div class="flex items-start justify-between gap-4">
+<div>
+<h4 class="text-body-md font-headline-sm text-on-surface">Real-Time Feature Attribution</h4>
+<p class="text-body-sm font-body-sm text-outline mt-0.5">
+                  Auto-calculate Kernel SHAP waterfall contribution on every individual credit dossier run.
+                </p>
+</div>
+<!-- Styled Switch ON -->
+<label class="relative inline-flex items-center cursor-pointer shrink-0 mt-1">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-variant rounded-full peer peer-checked:bg-primary peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
+</label>
+</div>
+</div>
+</div>
+<!-- ================= CARD 4: NOTIFICATION PREFERENCES ================= -->
+<div class="glass-panel rounded-xl p-card-default shadow-xl">
+<div class="flex items-center gap-2.5 pb-4 border-b border-white/[0.04]">
+<div class="w-7 h-7 rounded bg-secondary/10 border border-secondary/30 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[16px]" data-icon="tune">tune</span>
+</div>
+<div>
+<h3 class="text-headline-sm font-headline-sm text-on-surface">Telemetry &amp; Drift Alerts</h3>
+<span class="text-label-sm font-label-sm text-outline">Real-time risk dispatcher rules</span>
+</div>
+</div>
+<div class="mt-4 space-y-4">
+<!-- Alert 1 -->
+<div class="flex items-center justify-between">
+<div>
+<p class="text-body-sm font-headline-sm text-on-surface">High Risk Escalation Alerts (&gt; $300k)</p>
+<p class="text-label-sm font-label-sm text-outline">Direct ping to compliance officer channel</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-9 h-5 bg-surface-variant rounded-full peer peer-checked:bg-secondary peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all"></div>
+</label>
+</div>
+<!-- Alert 2 -->
+<div class="flex items-center justify-between">
+<div>
+<p class="text-body-sm font-headline-sm text-on-surface">Daily Model Drift Digest</p>
+<p class="text-label-sm font-label-sm text-outline">Covariate shift updates at 00:00 UTC</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-9 h-5 bg-surface-variant rounded-full peer peer-checked:bg-secondary peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all"></div>
+</label>
+</div>
+<!-- Alert 3 -->
+<div class="flex items-center justify-between">
+<div>
+<p class="text-body-sm font-headline-sm text-on-surface">Anomaly Detection SMS</p>
+<p class="text-label-sm font-label-sm text-outline">Spike detection in rejection volume</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox"/>
+<div class="w-9 h-5 bg-surface-variant rounded-full peer peer-checked:bg-secondary peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all"></div>
+</label>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- ================= STICKY FOOTER ACTION BAR ================= -->
+<aside class="fixed bottom-0 left-0 right-0 z-40 bg-surface-dim/85 backdrop-blur-2xl border-t border-white/10 shadow-[0_-10px_30px_rgba(0,0,0,0.6)]">
+<div class="w-full max-w-[1680px] mx-auto px-grid-margin-mobile md:px-grid-margin-tablet lg:px-grid-margin-desktop h-16 flex items-center justify-between">
+<!-- Unsaved Changes Notice -->
+<div class="flex items-center gap-2.5">
+<span class="relative flex h-2.5 w-2.5">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-500"></span>
+</span>
+<span class="text-body-sm font-body-sm text-on-surface">
+          Unsaved changes detected in <span class="font-headline-sm text-primary">Model Preferences</span>
+</span>
+</div>
+<!-- Action Buttons -->
+<div class="flex items-center gap-3">
+<button class="px-4 py-2 rounded-lg text-body-md font-headline-sm text-on-surface-variant hover:text-on-surface hover:bg-white/[0.05] transition-all active:scale-[0.98]" type="button">
+          Discard Changes
+        </button>
+<button class="px-5 py-2 rounded-lg bg-primary-container hover:bg-primary text-on-primary-container font-headline-sm text-body-md shadow-lg shadow-primary-container/25 flex items-center gap-2 transition-all active:scale-[0.98] border border-white/20" type="button">
+<span class="material-symbols-outlined text-[18px]" data-icon="bolt">bolt</span>
+<span>Save Changes</span>
+</button>
+</div>
+</div>
+</aside>
+</body></html>

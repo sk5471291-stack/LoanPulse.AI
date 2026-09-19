@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LoanPulse AI - Model Performance &amp; Hyperparameter Telemetry</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts: Inter & JetBrains Mono -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config directly from Design System -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "secondary": "#4edea3",
+            "on-surface-variant": "#c7c4d7",
+            "surface-bright": "#31394d",
+            "on-primary-container": "#0d0096",
+            "secondary-fixed": "#6ffbbe",
+            "on-error": "#690005",
+            "on-error-container": "#ffdad6",
+            "on-secondary-fixed": "#002113",
+            "inverse-on-surface": "#283044",
+            "secondary-container": "#00a572",
+            "on-tertiary-container": "#002f38",
+            "on-background": "#dae2fd",
+            "surface-variant": "#2d3449",
+            "on-secondary-fixed-variant": "#005236",
+            "tertiary-container": "#009eb9",
+            "on-primary": "#1000a9",
+            "on-surface": "#dae2fd",
+            "primary-fixed": "#e1e0ff",
+            "surface": "#0b1326",
+            "surface-tint": "#c0c1ff",
+            "on-tertiary": "#003640",
+            "on-tertiary-fixed": "#001f26",
+            "primary-container": "#8083ff",
+            "on-secondary-container": "#00311f",
+            "tertiary-fixed": "#acedff",
+            "surface-dim": "#0b1326",
+            "outline": "#908fa0",
+            "on-primary-fixed-variant": "#2f2ebe",
+            "background": "#0b1326",
+            "on-primary-fixed": "#07006c",
+            "surface-container-highest": "#2d3449",
+            "tertiary-fixed-dim": "#4cd7f6",
+            "error": "#ffb4ab",
+            "primary-fixed-dim": "#c0c1ff",
+            "secondary-fixed-dim": "#4edea3",
+            "error-container": "#93000a",
+            "surface-container-low": "#131b2e",
+            "surface-container": "#171f33",
+            "inverse-surface": "#dae2fd",
+            "on-secondary": "#003824",
+            "surface-container-lowest": "#060e20",
+            "tertiary": "#4cd7f6",
+            "surface-container-high": "#222a3d",
+            "outline-variant": "#464554",
+            "inverse-primary": "#494bd6",
+            "primary": "#c0c1ff",
+            "on-tertiary-fixed-variant": "#004e5c"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "card-pad-spacious": "2rem",
+            "gutter-mobile": "0.75rem",
+            "gutter-desktop": "1.5rem",
+            "gutter-tablet": "1rem",
+            "card-pad-default": "1.5rem",
+            "grid-margin-tablet": "1.5rem",
+            "grid-margin-desktop": "2rem",
+            "card-pad-compact": "1rem",
+            "grid-margin-mobile": "1rem"
+          },
+          "fontFamily": {
+            "label-sm": ["JetBrains Mono"],
+            "display-lg": ["Inter"],
+            "headline-sm": ["Inter"],
+            "headline-lg": ["Inter"],
+            "body-lg": ["Inter"],
+            "body-sm": ["Inter"],
+            "body-md": ["Inter"],
+            "headline-md": ["Inter"],
+            "label-md": ["JetBrains Mono"],
+            "headline-lg-mobile": ["Inter"],
+            "display-lg-mobile": ["Inter"]
+          },
+          "fontSize": {
+            "label-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "500" }],
+            "display-lg": ["44px", { "lineHeight": "52px", "letterSpacing": "-0.025em", "fontWeight": "600" }],
+            "headline-sm": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "headline-lg": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+            "body-lg": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.005em", "fontWeight": "400" }],
+            "body-sm": ["12px", { "lineHeight": "18px", "letterSpacing": "0.005em", "fontWeight": "400" }],
+            "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "500" }],
+            "label-md": ["13px", { "lineHeight": "18px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+            "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600" }],
+            "display-lg-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600" }]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .glass-panel {
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .glow-ai {
+      box-shadow: 0 0 24px -4px rgba(99, 102, 241, 0.25);
+    }
+    .glow-emerald {
+      box-shadow: 0 0 24px -4px rgba(16, 185, 129, 0.25);
+    }
+    .tabular-nums {
+      font-variant-numeric: tabular-nums;
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface min-h-screen font-body-md antialiased selection:bg-primary-container selection:text-on-primary-container relative">
+<!-- TOP APP BAR (Shared Component Execution from JSON) -->
+<header class="bg-surface-container-lowest/80 backdrop-blur-md dark:bg-surface-container-lowest/80 docked full-width top-0 z-50 sticky border-b border-outline-variant/30 shadow-2xl shadow-surface-container-lowest/50">
+<div class="w-full px-grid-margin-desktop max-w-[1680px] mx-auto flex items-center justify-between h-16">
+<!-- Left: Logo & Search -->
+<div class="flex items-center gap-6">
+<div class="text-headline-sm font-headline-sm text-on-surface tracking-tight flex items-center gap-2">
+<span class="w-8 h-8 rounded-lg bg-gradient-to-tr from-primary-container via-inverse-primary to-secondary flex items-center justify-center shadow-lg shadow-primary-container/20">
+<span class="material-symbols-outlined text-surface-container-lowest text-xl" data-icon="insights">insights</span>
+</span>
+<span class="tracking-tight font-headline-sm">LoanPulse AI</span>
+</div>
+<!-- Search Bar on Left as specified in JSON -->
+<div class="relative hidden lg:block w-72">
+<span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-outline">
+<span class="material-symbols-outlined text-lg" data-icon="search">search</span>
+</span>
+<input class="w-full h-9 pl-9 pr-3 text-body-sm font-body-sm bg-surface-container-low/60 border border-white/10 rounded-lg text-on-surface placeholder:text-outline focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all duration-150" placeholder="Search parameters, runs, borrower IDs..." type="text"/>
+<div class="absolute inset-y-0 right-0 pr-2.5 flex items-center pointer-events-none">
+<span class="text-[10px] font-label-sm text-outline border border-outline-variant/50 rounded px-1">⌘K</span>
+</div>
+</div>
+</div>
+<!-- Center: Navigation Links -->
+<nav class="hidden md:flex items-center gap-7 h-full">
+<a class="text-on-surface-variant font-body-md hover:text-on-surface pb-3.5 pt-4 transition-colors" href="#underwriting">Underwriting</a>
+<!-- Active Nav: Risk Models -->
+<a class="text-primary font-headline-sm border-b-2 border-primary pb-3.5 pt-4 transition-colors" href="#risk-models">Risk Models</a>
+<a class="text-on-surface-variant font-body-md hover:text-on-surface pb-3.5 pt-4 transition-colors" href="#batch-assessment">Batch Assessment</a>
+<a class="text-on-surface-variant font-body-md hover:text-on-surface pb-3.5 pt-4 transition-colors" href="#audit-log">Audit Log</a>
+<a class="text-on-surface-variant font-body-md hover:text-on-surface pb-3.5 pt-4 transition-colors" href="#docs">Docs</a>
+</nav>
+<!-- Right: Badges & Trailing Actions -->
+<div class="flex items-center gap-3">
+<!-- Live Latency telemetry pill -->
+<div class="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-secondary/10 border border-secondary/20">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>
+<span class="font-label-sm text-label-sm text-secondary tabular-nums">12ms</span>
+</div>
+<!-- KNN Active Indicator Pill (trailing_secondary_action from JSON) -->
+<div class="flex items-center gap-2 px-3 py-1 rounded-full bg-tertiary/10 border border-tertiary/30 text-tertiary font-label-sm text-label-sm">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+<span>KNN v1.2 Active</span>
+</div>
+<!-- Trailing Icons -->
+<button class="w-9 h-9 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container-high/60 transition-all duration-150 active:scale-[0.98]">
+<span class="material-symbols-outlined text-xl" data-icon="notifications">notifications</span>
+</button>
+<button class="w-9 h-9 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container-high/60 transition-all duration-150 active:scale-[0.98]">
+<span class="material-symbols-outlined text-xl" data-icon="settings">settings</span>
+</button>
+<!-- Primary CTA: New Assessment (trailing_primary_action from JSON) -->
+<button class="ml-1 px-3.5 py-2 bg-primary text-on-primary font-headline-sm text-body-sm rounded-lg hover:bg-primary-fixed-dim transition-all shadow-sm active:scale-[0.98] flex items-center gap-1.5">
+<span class="material-symbols-outlined text-base" data-icon="add_circle">add_circle</span>
+<span>New Assessment</span>
+</button>
+<!-- Senior Underwriter Profile Avatar -->
+<div class="w-8 h-8 rounded-full border border-primary/30 bg-surface-variant flex items-center justify-center text-primary font-label-sm text-label-sm ring-2 ring-primary/20">
+          SU
+        </div>
+</div>
+</div>
+</header>
+<!-- MAIN CANVAS -->
+<main class="w-full max-w-[1680px] mx-auto px-grid-margin-desktop py-6 space-y-6">
+<!-- BREADCRUMBS & CONTEXT BAR -->
+<nav class="flex items-center gap-2 text-label-sm font-label-sm text-outline">
+<a class="hover:text-on-surface transition-colors flex items-center gap-1" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="grid_view">grid_view</span>
+        Dashboard
+      </a>
+<span class="text-outline-variant">/</span>
+<a class="hover:text-on-surface transition-colors" href="#">Risk Models</a>
+<span class="text-outline-variant">/</span>
+<span class="text-primary font-label-md">KNN Classifier Performance &amp; Hyperparameters</span>
+</nav>
+<!-- HEADER & TELEMETRY OVERVIEW BANNER -->
+<section class="glass-panel rounded-xl p-card-pad-default relative overflow-hidden glow-ai">
+<div class="absolute -right-20 -top-20 w-96 h-96 bg-primary-container/10 rounded-full blur-3xl pointer-events-none"></div>
+<div class="absolute -left-20 -bottom-20 w-80 h-80 bg-secondary/5 rounded-full blur-3xl pointer-events-none"></div>
+<div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 relative z-10 border-b border-white/5 pb-6">
+<div>
+<div class="flex items-center gap-3">
+<h1 class="text-headline-lg font-headline-lg text-on-surface tracking-tight">
+              K-Nearest Neighbors (KNN) Classifier Telemetry &amp; Model Performance
+            </h1>
+<span class="px-2.5 py-0.5 rounded text-label-sm font-label-sm bg-primary/10 border border-primary/30 text-primary">
+              PRODUCTION CLUSTER
+            </span>
+</div>
+<p class="text-body-md font-body-md text-on-surface-variant mt-1.5 max-w-4xl">
+            Algorithmic diagnostics, cross-validation metrics, confusion matrix, and feature weight attributions for production model v1.2.
+          </p>
+</div>
+<!-- Quick Action Buttons -->
+<div class="flex flex-wrap items-center gap-3 shrink-0">
+<button class="px-3.5 py-2 glass-panel hover:bg-white/[0.08] text-on-surface text-body-sm font-body-md rounded-lg transition-all flex items-center gap-2 active:scale-[0.98]">
+<span class="material-symbols-outlined text-lg text-secondary" data-icon="refresh">refresh</span>
+            Retrain Model
+          </button>
+<button class="px-3.5 py-2 glass-panel hover:bg-white/[0.08] text-on-surface text-body-sm font-body-md rounded-lg transition-all flex items-center gap-2 active:scale-[0.98]">
+<span class="material-symbols-outlined text-lg text-tertiary" data-icon="memory">memory</span>
+            Export Weights (ONNX)
+          </button>
+<button class="px-3.5 py-2 bg-surface-container-high border border-outline-variant/40 hover:border-primary/40 text-on-surface text-body-sm font-body-md rounded-lg transition-all flex items-center gap-2 active:scale-[0.98]">
+<span class="material-symbols-outlined text-lg text-primary" data-icon="download">download</span>
+            Download Evaluation Report
+          </button>
+</div>
+</div>
+<!-- 4 Metric Cards Ribbon (Model Overview Banner) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mt-6 pt-1">
+<!-- Metric 1: Accuracy -->
+<div class="bg-surface-container-low/70 border border-white/5 rounded-lg p-4 relative hover:border-white/10 transition-colors">
+<div class="flex items-center justify-between text-outline">
+<span class="text-label-sm font-label-sm uppercase tracking-wider text-on-surface-variant">Model Accuracy</span>
+<span class="material-symbols-outlined text-secondary text-lg" data-icon="verified">verified</span>
+</div>
+<div class="mt-2 flex items-baseline gap-2">
+<span class="text-display-lg font-display-lg tabular-nums text-on-surface font-semibold tracking-tight">84.5%</span>
+<span class="text-label-sm font-label-sm text-secondary bg-secondary/10 px-1.5 py-0.5 rounded border border-secondary/20">+2.4% vs baseline</span>
+</div>
+<p class="text-label-sm font-label-sm text-outline mt-1 tabular-nums">
+            95% CI: [82.8% – 86.1%]
+          </p>
+</div>
+<!-- Metric 2: 10-Fold CV -->
+<div class="bg-surface-container-low/70 border border-white/5 rounded-lg p-4 relative hover:border-white/10 transition-colors">
+<div class="flex items-center justify-between text-outline">
+<span class="text-label-sm font-label-sm uppercase tracking-wider text-on-surface-variant">10-Fold CV Score</span>
+<span class="material-symbols-outlined text-tertiary text-lg" data-icon="layers">layers</span>
+</div>
+<div class="mt-2 flex items-baseline gap-2">
+<span class="text-display-lg font-display-lg tabular-nums text-on-surface font-semibold tracking-tight">83.8%</span>
+<span class="text-label-sm font-label-sm text-tertiary bg-tertiary/10 px-1.5 py-0.5 rounded border border-tertiary/20">CV Evaluated</span>
+</div>
+<p class="text-label-sm font-label-sm text-outline mt-1 tabular-nums">
+            Variance (Std Dev): ±1.2%
+          </p>
+</div>
+<!-- Metric 3: Optimal Neighbor -->
+<div class="bg-surface-container-low/70 border border-white/5 rounded-lg p-4 relative hover:border-white/10 transition-colors">
+<div class="flex items-center justify-between text-outline">
+<span class="text-label-sm font-label-sm uppercase tracking-wider text-on-surface-variant">Optimal Parameter</span>
+<span class="material-symbols-outlined text-primary text-lg" data-icon="hub">hub</span>
+</div>
+<div class="mt-2 flex items-baseline gap-2">
+<span class="text-display-lg font-display-lg tabular-nums text-primary font-semibold tracking-tight">k = 13</span>
+<span class="text-label-sm font-label-sm text-primary bg-primary/10 px-1.5 py-0.5 rounded border border-primary/20">Cosine / L2</span>
+</div>
+<p class="text-label-sm font-label-sm text-outline mt-1 tabular-nums">
+            Minkowski Metric (p=2.0)
+          </p>
+</div>
+<!-- Metric 4: ROC-AUC -->
+<div class="bg-surface-container-low/70 border border-white/5 rounded-lg p-4 relative hover:border-white/10 transition-colors">
+<div class="flex items-center justify-between text-outline">
+<span class="text-label-sm font-label-sm uppercase tracking-wider text-on-surface-variant">ROC-AUC Score</span>
+<span class="material-symbols-outlined text-secondary text-lg" data-icon="show_chart">show_chart</span>
+</div>
+<div class="mt-2 flex items-baseline gap-2">
+<span class="text-display-lg font-display-lg tabular-nums text-on-surface font-semibold tracking-tight">0.892</span>
+<span class="text-label-sm font-label-sm text-secondary bg-secondary/10 px-1.5 py-0.5 rounded border border-secondary/20">High Discrim.</span>
+</div>
+<p class="text-label-sm font-label-sm text-outline mt-1 tabular-nums">
+            Gini Coefficient: 0.784
+          </p>
+</div>
+</div>
+</section>
+<!-- MAIN GRID LAYOUT: 2-COLUMN ANALYTICS -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-gutter-desktop">
+<!-- LEFT CARD: INTERACTIVE CONFUSION MATRIX (7 Columns) -->
+<section class="xl:col-span-6 glass-panel rounded-xl p-card-pad-default flex flex-col justify-between">
+<div>
+<!-- Header with Threshold Slider -->
+<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-4 border-b border-white/5 gap-3">
+<div>
+<div class="text-label-sm font-label-sm uppercase tracking-wider text-outline">Telemetry Evaluation</div>
+<h2 class="text-headline-md font-headline-md text-on-surface mt-0.5 flex items-center gap-2">
+                Confusion Matrix Heatmap
+                <span class="text-label-sm font-label-sm text-outline font-normal">(N = 680 Validation Loans)</span>
+</h2>
+</div>
+<!-- Threshold Selector -->
+<div class="flex items-center gap-2 bg-surface-container-low px-3 py-1.5 rounded-lg border border-white/10">
+<span class="text-label-sm font-label-sm text-on-surface-variant">Threshold:</span>
+<span class="text-label-sm font-label-sm text-secondary font-semibold tabular-nums">0.50</span>
+<span class="text-outline text-xs">•</span>
+<span class="text-label-sm font-label-sm text-outline">Default</span>
+</div>
+</div>
+<!-- The Matrix Visualizer -->
+<div class="mt-6">
+<div class="grid grid-cols-12 gap-2 text-center text-label-sm font-label-sm">
+<div class="col-span-2"></div>
+<div class="col-span-5 text-on-surface-variant pb-1 font-semibold uppercase tracking-wider">Pred. Approved</div>
+<div class="col-span-5 text-on-surface-variant pb-1 font-semibold uppercase tracking-wider">Pred. Rejected</div>
+</div>
+<!-- Row 1: Actual Approved -->
+<div class="grid grid-cols-12 gap-3 mt-1 items-center">
+<div class="col-span-2 text-right pr-2 text-label-sm font-label-sm text-on-surface-variant font-medium">
+                Actual<br/><span class="text-secondary font-semibold">Approved</span>
+</div>
+<!-- True Positive (TP) -->
+<div class="col-span-5 p-4 rounded-xl bg-secondary/10 border border-secondary/40 relative overflow-hidden group hover:border-secondary transition-all cursor-default">
+<div class="absolute inset-0 bg-gradient-to-br from-secondary/15 to-transparent pointer-events-none"></div>
+<div class="flex items-center justify-between">
+<span class="text-label-sm font-label-sm uppercase text-secondary font-bold tracking-wider">True Positive (TP)</span>
+<span class="material-symbols-outlined text-secondary text-sm" data-icon="check_circle">check_circle</span>
+</div>
+<div class="text-3xl font-display-lg text-on-surface tabular-nums mt-1 font-bold">412</div>
+<div class="text-label-sm font-label-sm text-secondary mt-0.5">Approved Correctly (60.6%)</div>
+<div class="w-full bg-surface-container-highest h-1 rounded-full mt-3 overflow-hidden">
+<div class="bg-secondary h-full rounded-full" style="width: 92%"></div>
+</div>
+</div>
+<!-- False Negative (FN) -->
+<div class="col-span-5 p-4 rounded-xl bg-error-container/20 border border-error/20 relative overflow-hidden group hover:border-error/50 transition-all cursor-default">
+<div class="flex items-center justify-between">
+<span class="text-label-sm font-label-sm uppercase text-error font-semibold tracking-wider">False Negative (FN)</span>
+<span class="material-symbols-outlined text-error text-sm" data-icon="error_outline">error_outline</span>
+</div>
+<div class="text-3xl font-display-lg text-on-surface tabular-nums mt-1 font-bold">36</div>
+<div class="text-label-sm font-label-sm text-error/90 mt-0.5">Type II Error: Rejected Miss (5.3%)</div>
+<div class="w-full bg-surface-container-highest h-1 rounded-full mt-3 overflow-hidden">
+<div class="bg-error/80 h-full rounded-full" style="width: 8%"></div>
+</div>
+</div>
+</div>
+<!-- Row 2: Actual Rejected -->
+<div class="grid grid-cols-12 gap-3 mt-3 items-center">
+<div class="col-span-2 text-right pr-2 text-label-sm font-label-sm text-on-surface-variant font-medium">
+                Actual<br/><span class="text-error font-semibold">Rejected</span>
+</div>
+<!-- False Positive (FP) -->
+<div class="col-span-5 p-4 rounded-xl bg-error-container/20 border border-error/30 relative overflow-hidden group hover:border-error/60 transition-all cursor-default">
+<div class="flex items-center justify-between">
+<span class="text-label-sm font-label-sm uppercase text-error font-semibold tracking-wider">False Positive (FP)</span>
+<span class="material-symbols-outlined text-error text-sm" data-icon="warning">warning</span>
+</div>
+<div class="text-3xl font-display-lg text-on-surface tabular-nums mt-1 font-bold">48</div>
+<div class="text-label-sm font-label-sm text-error/90 mt-0.5">Type I Error: Bad Approval (7.1%)</div>
+<div class="w-full bg-surface-container-highest h-1 rounded-full mt-3 overflow-hidden">
+<div class="bg-error/60 h-full rounded-full" style="width: 20.7%"></div>
+</div>
+</div>
+<!-- True Negative (TN) -->
+<div class="col-span-5 p-4 rounded-xl bg-primary/10 border border-primary/30 relative overflow-hidden group hover:border-primary transition-all cursor-default">
+<div class="flex items-center justify-between">
+<span class="text-label-sm font-label-sm uppercase text-primary font-bold tracking-wider">True Negative (TN)</span>
+<span class="material-symbols-outlined text-primary text-sm" data-icon="verified_user">verified_user</span>
+</div>
+<div class="text-3xl font-display-lg text-on-surface tabular-nums mt-1 font-bold">184</div>
+<div class="text-label-sm font-label-sm text-primary mt-0.5">Rejected Correctly (27.0%)</div>
+<div class="w-full bg-surface-container-highest h-1 rounded-full mt-3 overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 79.3%"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Secondary Metrics Row below matrix -->
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-6 mt-6 border-t border-white/5">
+<div class="bg-surface-container-low/60 rounded-lg p-3 text-center border border-white/5">
+<div class="text-label-sm font-label-sm text-outline">PRECISION</div>
+<div class="text-headline-md font-headline-md text-on-surface tabular-nums font-semibold mt-0.5">89.6%</div>
+<div class="text-[10px] text-outline mt-0.5">TP / (TP + FP)</div>
+</div>
+<div class="bg-surface-container-low/60 rounded-lg p-3 text-center border border-white/5">
+<div class="text-label-sm font-label-sm text-outline">RECALL</div>
+<div class="text-headline-md font-headline-md text-secondary tabular-nums font-semibold mt-0.5">92.0%</div>
+<div class="text-[10px] text-outline mt-0.5">Sensitivity TP/(TP+FN)</div>
+</div>
+<div class="bg-surface-container-low/60 rounded-lg p-3 text-center border border-white/5">
+<div class="text-label-sm font-label-sm text-outline">SPECIFICITY</div>
+<div class="text-headline-md font-headline-md text-on-surface tabular-nums font-semibold mt-0.5">79.3%</div>
+<div class="text-[10px] text-outline mt-0.5">TN / (TN + FP)</div>
+</div>
+<div class="bg-surface-container-low/60 rounded-lg p-3 text-center border border-primary/20 bg-primary/5">
+<div class="text-label-sm font-label-sm text-primary font-semibold">F1-SCORE</div>
+<div class="text-headline-md font-headline-md text-primary tabular-nums font-semibold mt-0.5">90.7%</div>
+<div class="text-[10px] text-primary/80 mt-0.5">Harmonic Mean</div>
+</div>
+</div>
+</section>
+<!-- RIGHT CARD: HYPERPARAMETER TUNING BAR CHART (K-VALUE OPTIMIZATION) (5 Columns) -->
+<section class="xl:col-span-6 glass-panel rounded-xl p-card-pad-default flex flex-col justify-between">
+<div>
+<!-- Header -->
+<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-4 border-b border-white/5 gap-2">
+<div>
+<div class="text-label-sm font-label-sm uppercase tracking-wider text-outline">Model Hyperparameters</div>
+<h2 class="text-headline-md font-headline-md text-on-surface mt-0.5 flex items-center gap-2">
+                K-Value Optimization Sweep
+                <span class="px-2 py-0.5 rounded text-label-sm font-label-sm bg-secondary/10 text-secondary border border-secondary/30">
+                  Global Optima Found
+                </span>
+</h2>
+</div>
+<span class="text-label-sm font-label-sm text-outline tabular-nums">Tested range: k ∈ [3, 25]</span>
+</div>
+<!-- Bar Chart Container -->
+<div class="mt-6 space-y-3.5">
+<!-- k=3 -->
+<div class="space-y-1">
+<div class="flex items-center justify-between text-body-sm font-body-sm">
+<div class="flex items-center gap-2">
+<span class="w-10 font-label-sm text-label-sm text-on-surface-variant font-medium">k = 3</span>
+<span class="text-xs text-error font-label-sm bg-error-container/20 px-1.5 py-0.2 rounded">Overfitting risk</span>
+</div>
+<span class="text-label-sm font-label-sm text-outline tabular-nums">78.4%</span>
+</div>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+<div class="bg-outline-variant h-full rounded-full transition-all duration-500" style="width: 78.4%"></div>
+</div>
+</div>
+<!-- k=5 -->
+<div class="space-y-1">
+<div class="flex items-center justify-between text-body-sm font-body-sm">
+<div class="flex items-center gap-2">
+<span class="w-10 font-label-sm text-label-sm text-on-surface-variant font-medium">k = 5</span>
+<span class="text-xs text-outline font-label-sm">Moderate variance</span>
+</div>
+<span class="text-label-sm font-label-sm text-on-surface-variant tabular-nums">81.2%</span>
+</div>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+<div class="bg-outline-variant h-full rounded-full transition-all duration-500" style="width: 81.2%"></div>
+</div>
+</div>
+<!-- k=7 -->
+<div class="space-y-1">
+<div class="flex items-center justify-between text-body-sm font-body-sm">
+<div class="flex items-center gap-2">
+<span class="w-10 font-label-sm text-label-sm text-on-surface-variant font-medium">k = 7</span>
+<span class="text-xs text-outline font-label-sm">Balanced</span>
+</div>
+<span class="text-label-sm font-label-sm text-on-surface-variant tabular-nums">82.9%</span>
+</div>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+<div class="bg-surface-variant h-full rounded-full transition-all duration-500" style="width: 82.9%"></div>
+</div>
+</div>
+<!-- k=9 -->
+<div class="space-y-1">
+<div class="flex items-center justify-between text-body-sm font-body-sm">
+<div class="flex items-center gap-2">
+<span class="w-10 font-label-sm text-label-sm text-on-surface font-medium">k = 9</span>
+<span class="text-xs text-tertiary font-label-sm">Near-optimal</span>
+</div>
+<span class="text-label-sm font-label-sm text-on-surface tabular-nums font-medium">83.6%</span>
+</div>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+<div class="bg-tertiary/70 h-full rounded-full transition-all duration-500" style="width: 83.6%"></div>
+</div>
+</div>
+<!-- k=13 (OPTIMAL - Highlighted) -->
+<div class="p-2.5 rounded-lg bg-secondary/5 border border-secondary/30 glow-emerald space-y-1.5">
+<div class="flex items-center justify-between text-body-sm font-body-sm">
+<div class="flex items-center gap-2">
+<span class="w-10 font-label-sm text-label-sm text-secondary font-bold">k = 13</span>
+<span class="text-xs text-secondary font-label-sm bg-secondary/15 px-2 py-0.5 rounded border border-secondary/30 flex items-center gap-1 font-semibold">
+<span class="material-symbols-outlined text-xs" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+                    OPTIMAL / BEST FIT
+                  </span>
+</div>
+<span class="text-label-md font-label-md text-secondary font-bold tabular-nums">84.5%</span>
+</div>
+<div class="w-full bg-surface-container-high h-3 rounded-full overflow-hidden p-0.5">
+<div class="bg-gradient-to-r from-primary to-secondary h-full rounded-full transition-all duration-500 shadow-sm" style="width: 84.5%"></div>
+</div>
+</div>
+<!-- k=17 -->
+<div class="space-y-1">
+<div class="flex items-center justify-between text-body-sm font-body-sm">
+<div class="flex items-center gap-2">
+<span class="w-10 font-label-sm text-label-sm text-on-surface-variant font-medium">k = 17</span>
+<span class="text-xs text-outline font-label-sm">Underfitting begins</span>
+</div>
+<span class="text-label-sm font-label-sm text-on-surface-variant tabular-nums">83.1%</span>
+</div>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+<div class="bg-outline-variant h-full rounded-full transition-all duration-500" style="width: 83.1%"></div>
+</div>
+</div>
+<!-- k=21 -->
+<div class="space-y-1">
+<div class="flex items-center justify-between text-body-sm font-body-sm">
+<div class="flex items-center gap-2">
+<span class="w-10 font-label-sm text-label-sm text-on-surface-variant font-medium">k = 21</span>
+<span class="text-xs text-outline font-label-sm">Smoothing bias</span>
+</div>
+<span class="text-label-sm font-label-sm text-outline tabular-nums">81.8%</span>
+</div>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+<div class="bg-outline-variant h-full rounded-full transition-all duration-500" style="width: 81.8%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Metric Callouts Footer -->
+<div class="mt-6 pt-4 border-t border-white/5 grid grid-cols-1 sm:grid-cols-2 gap-3">
+<div class="bg-surface-container-low/60 rounded-lg p-2.5 border border-white/5">
+<span class="text-label-sm font-label-sm text-outline block">DISTANCE METRIC</span>
+<span class="text-body-sm font-body-md text-on-surface font-medium flex items-center gap-1.5 mt-0.5">
+<span class="material-symbols-outlined text-tertiary text-sm" data-icon="straighten">straighten</span>
+              Manhattan + Scaled Euclidean
+            </span>
+</div>
+<div class="bg-surface-container-low/60 rounded-lg p-2.5 border border-white/5">
+<span class="text-label-sm font-label-sm text-outline block">WEIGHTING FUNCTION</span>
+<span class="text-body-sm font-body-md text-on-surface font-medium flex items-center gap-1.5 mt-0.5">
+<span class="material-symbols-outlined text-secondary text-sm" data-icon="scale">scale</span>
+              Distance-Weighted (1 / d)
+            </span>
+</div>
+</div>
+</section>
+</div>
+<!-- BOTTOM SECTION: FEATURE IMPORTANCE & VECTOR SPACE PROJECTION -->
+<section class="grid grid-cols-1 xl:grid-cols-12 gap-gutter-desktop">
+<!-- Left: Feature Weight Breakdown horizontal bars (7 Cols) -->
+<div class="xl:col-span-7 glass-panel rounded-xl p-card-pad-default flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between pb-4 border-b border-white/5">
+<div>
+<div class="text-label-sm font-label-sm uppercase tracking-wider text-outline">Permutation Importance</div>
+<h3 class="text-headline-md font-headline-md text-on-surface mt-0.5">
+                Feature Weight Attributions (k=13 Neighbor Space)
+              </h3>
+</div>
+<span class="text-label-sm font-label-sm text-tertiary bg-tertiary/10 border border-tertiary/20 px-2 py-0.5 rounded">
+              SHAP Normalized
+            </span>
+</div>
+<div class="mt-6 space-y-4">
+<!-- 1. Credit History Score -->
+<div>
+<div class="flex items-center justify-between text-body-sm font-body-md mb-1.5">
+<span class="text-on-surface font-medium flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+                  Credit History Score
+                  <span class="text-label-sm font-label-sm text-secondary bg-secondary/10 px-1.5 py-0.2 rounded">Shapley +0.42</span>
+</span>
+<span class="font-label-sm text-label-sm text-on-surface font-semibold tabular-nums">38.5%</span>
+</div>
+<div class="w-full bg-surface-container-high h-2.5 rounded-full overflow-hidden">
+<div class="bg-secondary h-full rounded-full" style="width: 38.5%"></div>
+</div>
+<span class="text-[11px] font-label-sm text-outline mt-0.5 block">Dominant predictor; 1-step credit rating threshold sensitivity.</span>
+</div>
+<!-- 2. Applicant Monthly Income -->
+<div>
+<div class="flex items-center justify-between text-body-sm font-body-md mb-1.5">
+<span class="text-on-surface font-medium flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+                  Applicant Monthly Income
+                  <span class="text-label-sm font-label-sm text-outline">Normalized log-scale</span>
+</span>
+<span class="font-label-sm text-label-sm text-on-surface font-semibold tabular-nums">24.2%</span>
+</div>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 24.2%"></div>
+</div>
+</div>
+<!-- 3. Principal Loan Amount -->
+<div>
+<div class="flex items-center justify-between text-body-sm font-body-md mb-1.5">
+<span class="text-on-surface font-medium flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+                  Principal Loan Amount
+                  <span class="text-label-sm font-label-sm text-outline">Debt exposure coefficient</span>
+</span>
+<span class="font-label-sm text-label-sm text-on-surface font-semibold tabular-nums">18.0%</span>
+</div>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+<div class="bg-tertiary h-full rounded-full" style="width: 18.0%"></div>
+</div>
+</div>
+<!-- 4. Co-Applicant Income Buffer -->
+<div>
+<div class="flex items-center justify-between text-body-sm font-body-md mb-1.5">
+<span class="text-on-surface font-medium flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-outline"></span>
+                  Co-Applicant Income Buffer
+                  <span class="text-label-sm font-label-sm text-outline">Risk hedge factor</span>
+</span>
+<span class="font-label-sm text-label-sm text-on-surface font-semibold tabular-nums">10.5%</span>
+</div>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+<div class="bg-outline h-full rounded-full" style="width: 10.5%"></div>
+</div>
+</div>
+<!-- 5. Property Area Liquidity -->
+<div>
+<div class="flex items-center justify-between text-body-sm font-body-md mb-1.5">
+<span class="text-on-surface font-medium flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-outline-variant"></span>
+                  Property Area Liquidity Tier
+                  <span class="text-label-sm font-label-sm text-outline">Geo-volatility tier</span>
+</span>
+<span class="font-label-sm text-label-sm text-on-surface font-semibold tabular-nums">5.8%</span>
+</div>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+<div class="bg-outline-variant h-full rounded-full" style="width: 5.8%"></div>
+</div>
+</div>
+<!-- 6. Education & Dependents -->
+<div>
+<div class="flex items-center justify-between text-body-sm font-body-md mb-1.5">
+<span class="text-on-surface font-medium flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-outline-variant/60"></span>
+                  Education &amp; Dependents
+                  <span class="text-label-sm font-label-sm text-outline">Demographic stability index</span>
+</span>
+<span class="font-label-sm text-label-sm text-on-surface font-semibold tabular-nums">3.0%</span>
+</div>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+<div class="bg-outline-variant/60 h-full rounded-full" style="width: 3.0%"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-6 pt-4 border-t border-white/5 flex items-center justify-between text-label-sm font-label-sm text-outline">
+<span>Total Attribution: 100.0%</span>
+<span class="text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="check">check</span>
+            All 6 features pass collinearity tolerance tests
+          </span>
+</div>
+</div>
+<!-- Right: Dimensionality Reduction & Vector Space Projection Preview (5 Cols) -->
+<div class="xl:col-span-5 glass-panel rounded-xl p-card-pad-default flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between pb-4 border-b border-white/5">
+<div>
+<div class="text-label-sm font-label-sm uppercase tracking-wider text-outline">Latent Space Geometry</div>
+<h3 class="text-headline-md font-headline-md text-on-surface mt-0.5">
+                PCA / t-SNE Embedding Projection
+              </h3>
+</div>
+<div class="flex items-center gap-1.5 bg-surface-container-low px-2 py-1 rounded border border-white/5">
+<span class="text-label-sm font-label-sm text-secondary">d = 0.142</span>
+</div>
+</div>
+<!-- Synthetic Interactive Scatter Canvas Projection -->
+<div class="mt-4 p-4 rounded-xl bg-surface-container-lowest/80 border border-white/5 relative h-64 flex items-center justify-center overflow-hidden">
+<!-- Grid lines in latent space -->
+<div class="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+<!-- Centroid 1: Approved Cluster (Top Right - Emerald) -->
+<div class="absolute top-12 right-16 flex flex-col items-center">
+<div class="w-24 h-24 rounded-full bg-secondary/10 border border-secondary/30 flex items-center justify-center animate-pulse">
+<div class="w-12 h-12 rounded-full bg-secondary/20 border border-secondary/50 flex items-center justify-center">
+<div class="w-3 h-3 rounded-full bg-secondary shadow-lg shadow-secondary"></div>
+</div>
+</div>
+<span class="text-[10px] font-label-sm text-secondary mt-1 font-semibold">Centroid: Approved (C₀)</span>
+</div>
+<!-- Centroid 2: Rejected Cluster (Bottom Left - Indigo/Rose) -->
+<div class="absolute bottom-10 left-16 flex flex-col items-center">
+<div class="w-24 h-24 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center">
+<div class="w-12 h-12 rounded-full bg-primary/20 border border-primary/50 flex items-center justify-center">
+<div class="w-3 h-3 rounded-full bg-primary"></div>
+</div>
+</div>
+<span class="text-[10px] font-label-sm text-primary mt-1 font-semibold">Centroid: Rejected (C₁)</span>
+</div>
+<!-- Neighbor Connecting Ray -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none stroke-outline-variant/40" stroke-dasharray="4 4">
+<line stroke-width="1.5" x1="28%" x2="75%" y1="65%" y2="35%"></line>
+</svg>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-surface-container-high/90 px-2 py-0.5 rounded border border-white/10 text-[10px] font-label-sm text-outline tabular-nums">
+              Separation Margin: 3.4σ
+            </div>
+<!-- Dynamic Scatter dots -->
+<div class="absolute top-10 right-28 w-1.5 h-1.5 rounded-full bg-secondary/80"></div>
+<div class="absolute top-16 right-10 w-2 h-2 rounded-full bg-secondary"></div>
+<div class="absolute top-24 right-20 w-1.5 h-1.5 rounded-full bg-secondary/60"></div>
+<div class="absolute top-20 right-32 w-1.5 h-1.5 rounded-full bg-secondary"></div>
+<div class="absolute bottom-14 left-10 w-2 h-2 rounded-full bg-primary/70"></div>
+<div class="absolute bottom-20 left-24 w-1.5 h-1.5 rounded-full bg-primary"></div>
+<div class="absolute bottom-8 left-28 w-2 h-2 rounded-full bg-primary/90"></div>
+<div class="absolute bottom-24 left-16 w-1.5 h-1.5 rounded-full bg-error/70"></div> <!-- Outlier -->
+</div>
+</div>
+<!-- Latent Space Stats Footer -->
+<div class="mt-4 pt-4 border-t border-white/5 space-y-2">
+<div class="flex items-center justify-between text-label-sm font-label-sm">
+<span class="text-outline">MANIFOLD DIMENSIONALITY</span>
+<span class="text-on-surface font-semibold">6D → 2D Projection</span>
+</div>
+<div class="flex items-center justify-between text-label-sm font-label-sm">
+<span class="text-outline">EXPLAINED VARIANCE (PC1 + PC2)</span>
+<span class="text-secondary font-semibold tabular-nums">87.4%</span>
+</div>
+<div class="flex items-center justify-between text-label-sm font-label-sm">
+<span class="text-outline">CLUSTER SILHOUETTE COEFFICIENT</span>
+<span class="text-primary font-semibold tabular-nums">0.74 (Strong Separation)</span>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BOTTOM STATUS & TELEMETRY FOOTER -->
+<footer class="mt-12 border-t border-outline-variant/20 bg-surface-container-lowest/60 py-4">
+<div class="w-full max-w-[1680px] mx-auto px-grid-margin-desktop flex flex-col md:flex-row items-center justify-between gap-4 text-label-sm font-label-sm text-outline">
+<div class="flex items-center gap-3">
+<span class="flex items-center gap-1.5 text-secondary">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+          Cluster Node: us-east-algobank-04
+        </span>
+<span class="text-outline-variant">•</span>
+<span>Runtime: ONNX ML v1.16</span>
+<span class="text-outline-variant">•</span>
+<span>Batch Latency p99: 18.4ms</span>
+</div>
+<div class="flex items-center gap-4">
+<span>Model SHA: <code class="text-on-surface font-mono text-[10px]">7f8c2b4..d9e</code></span>
+<span>Synced with Production: 2 mins ago</span>
+</div>
+</div>
+</footer>
+</body></html>

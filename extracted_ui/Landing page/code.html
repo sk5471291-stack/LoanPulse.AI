@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LoanPulse AI - Algorithmic Loan Eligibility Predictor</title>
+<!-- Google Fonts: Inter & JetBrains Mono -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration verbatim as provided -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "outline": "#908fa0",
+            "outline-variant": "#464554",
+            "on-secondary-container": "#00311f",
+            "surface": "#0b1326",
+            "on-primary": "#1000a9",
+            "on-error": "#690005",
+            "on-tertiary-container": "#002f38",
+            "on-secondary-fixed": "#002113",
+            "surface-container-low": "#131b2e",
+            "surface-variant": "#2d3449",
+            "primary-fixed-dim": "#c0c1ff",
+            "on-primary-fixed-variant": "#2f2ebe",
+            "on-background": "#dae2fd",
+            "surface-container": "#171f33",
+            "secondary-container": "#00a572",
+            "secondary-fixed": "#6ffbbe",
+            "error-container": "#93000a",
+            "surface-dim": "#0b1326",
+            "tertiary-fixed-dim": "#4cd7f6",
+            "on-error-container": "#ffdad6",
+            "surface-tint": "#c0c1ff",
+            "inverse-surface": "#dae2fd",
+            "tertiary-fixed": "#acedff",
+            "surface-container-highest": "#2d3449",
+            "on-primary-fixed": "#07006c",
+            "secondary-fixed-dim": "#4edea3",
+            "on-primary-container": "#0d0096",
+            "on-surface": "#dae2fd",
+            "surface-container-high": "#222a3d",
+            "primary-fixed": "#e1e0ff",
+            "error": "#ffb4ab",
+            "primary-container": "#8083ff",
+            "background": "#0b1326",
+            "secondary": "#4edea3",
+            "surface-container-lowest": "#060e20",
+            "on-tertiary-fixed-variant": "#004e5c",
+            "tertiary": "#4cd7f6",
+            "on-tertiary-fixed": "#001f26",
+            "tertiary-container": "#009eb9",
+            "primary": "#c0c1ff",
+            "on-surface-variant": "#c7c4d7",
+            "on-secondary-fixed-variant": "#005236",
+            "on-secondary": "#003824",
+            "on-tertiary": "#003640",
+            "inverse-on-surface": "#283044",
+            "inverse-primary": "#494bd6",
+            "surface-bright": "#31394d"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "gutter-mobile": "0.75rem",
+            "card-pad-default": "1.5rem",
+            "card-pad-compact": "1rem",
+            "grid-margin-desktop": "2rem",
+            "grid-margin-tablet": "1.5rem",
+            "gutter-desktop": "1.5rem",
+            "grid-margin-mobile": "1rem",
+            "gutter-tablet": "1rem",
+            "card-pad-spacious": "2rem"
+          },
+          "fontFamily": {
+            "headline-sm": ["Inter"],
+            "display-lg-mobile": ["Inter"],
+            "label-md": ["JetBrains Mono"],
+            "headline-md": ["Inter"],
+            "headline-lg": ["Inter"],
+            "label-sm": ["JetBrains Mono"],
+            "headline-lg-mobile": ["Inter"],
+            "display-lg": ["Inter"],
+            "body-md": ["Inter"],
+            "body-sm": ["Inter"],
+            "body-lg": ["Inter"]
+          },
+          "fontSize": {
+            "headline-sm": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "display-lg-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+            "label-md": ["13px", { "lineHeight": "18px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+            "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "500" }],
+            "headline-lg": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+            "label-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "500" }],
+            "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600" }],
+            "display-lg": ["44px", { "lineHeight": "52px", "letterSpacing": "-0.025em", "fontWeight": "600" }],
+            "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "body-sm": ["12px", { "lineHeight": "18px", "letterSpacing": "0.005em", "fontWeight": "400" }],
+            "body-lg": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.005em", "fontWeight": "400" }]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    .glow-indigo {
+      box-shadow: 0 0 40px -10px rgba(99, 102, 241, 0.35);
+    }
+    .glow-emerald {
+      box-shadow: 0 0 35px -8px rgba(16, 185, 129, 0.3);
+    }
+    .tabular-numbers {
+      font-variant-numeric: tabular-nums;
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface antialiased selection:bg-primary selection:text-on-primary font-body-md text-body-md relative overflow-x-hidden min-h-screen">
+<!-- Background Ambient Lights / Grid Matrix -->
+<div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+<div class="absolute -top-40 left-1/4 w-[600px] h-[600px] bg-primary-container/10 rounded-full blur-[140px]"></div>
+<div class="absolute top-[35%] -right-20 w-[500px] h-[500px] bg-secondary-container/10 rounded-full blur-[130px]"></div>
+<div class="absolute bottom-10 left-10 w-[550px] h-[550px] bg-tertiary-container/10 rounded-full blur-[150px]"></div>
+<div class="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.03)_1px,transparent_1px)] [background-size:32px_32px] opacity-40"></div>
+</div>
+<!-- Shared Component: TopNavBar -->
+<header class="docked full-width top-0 fixed z-50 bg-surface/80 backdrop-blur-md dark:bg-surface/80 border-b border-outline-variant/20 shadow-sm transition-all duration-150">
+<div class="flex justify-between items-center w-full px-grid-margin-mobile md:px-grid-margin-tablet lg:px-grid-margin-desktop max-w-[1680px] mx-auto h-16">
+<!-- Brand Logo Anchor -->
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-surface-container-high border border-outline-variant/30 flex items-center justify-center glow-indigo text-primary">
+<span class="material-symbols-outlined text-primary text-xl" style="font-variation-settings: 'FILL' 1;">bolt</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-headline-md font-headline-md font-bold text-on-surface dark:text-on-surface tracking-tight">LoanPulse AI</span>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-primary-container/20 border border-primary/30 text-primary uppercase">v1.2 KNN</span>
+</div>
+</div>
+<!-- Navigation Links (Exact from JSON) -->
+<nav class="hidden md:flex items-center gap-8">
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary transition-colors" href="#features">Features</a>
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary transition-colors" href="#how-it-works">How it Works</a>
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary transition-colors" href="#model-accuracy">Model Accuracy</a>
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary transition-colors" href="#pricing">Pricing</a>
+</nav>
+<!-- Trailing Action Buttons (Exact Strings from JSON) -->
+<div class="flex items-center gap-3">
+<button class="hidden sm:inline-flex items-center justify-center font-label-md text-label-md px-4 py-2 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] text-on-surface border border-outline-variant/30 transition-all duration-150 active:scale-[0.98]">
+          Sign In
+        </button>
+<button class="inline-flex items-center gap-1.5 font-label-md text-label-md px-4 py-2 rounded-lg bg-gradient-to-r from-primary-container to-secondary-container text-on-surface font-semibold shadow-sm hover:brightness-110 border border-white/20 transition-all duration-150 active:scale-[0.98] glow-indigo">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+          Try Predictor Now
+        </button>
+</div>
+</div>
+</header>
+<!-- Hero Section -->
+<section class="relative pt-32 pb-20 md:pt-40 md:pb-28 lg:pt-44 z-10">
+<div class="max-w-[1680px] mx-auto px-grid-margin-mobile md:px-grid-margin-tablet lg:px-grid-margin-desktop">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+<!-- Hero Copy (7 Cols desktop) -->
+<div class="lg:col-span-7 flex flex-col items-start">
+<!-- Announcement Pill -->
+<div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-container-high/90 border border-outline-variant/40 mb-6 backdrop-blur-md shadow-sm">
+<span class="inline-block w-2 h-2 rounded-full bg-secondary animate-ping"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+<span>⚡ NEW: KNN Algorithmic Engine v1.2 Live</span>
+<span class="text-outline-variant">•</span>
+<span class="text-secondary font-medium">12ms Inference Latency</span>
+</span>
+</div>
+<!-- Headline -->
+<h1 class="hidden md:block font-display-lg text-display-lg text-on-surface tracking-tight max-w-2xl mb-6">
+            Instant AI-Powered <span class="bg-gradient-to-r from-primary via-tertiary to-secondary bg-clip-text text-transparent">Loan Approval Predictions</span>
+</h1>
+<h1 class="block md:hidden font-display-lg-mobile text-display-lg-mobile text-on-surface tracking-tight mb-4">
+            Instant AI-Powered <span class="bg-gradient-to-r from-primary via-tertiary to-secondary bg-clip-text text-transparent">Loan Approval Predictions</span>
+</h1>
+<!-- Subtitle -->
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl mb-8 leading-relaxed">
+            Leverage advanced K-Nearest Neighbors machine learning to evaluate loan eligibility in seconds with 95%+ precision.
+          </p>
+<!-- Dual CTAs -->
+<div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto mb-6">
+<button class="inline-flex items-center justify-center gap-2.5 font-label-md text-label-md px-6 py-3.5 rounded-xl bg-gradient-to-r from-primary-container via-inverse-primary to-secondary-container text-white font-medium border border-white/20 shadow-lg glow-indigo transition-all duration-150 hover:brightness-110 active:scale-[0.98]">
+<span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 1;">arrow_back_ios_new</span>
+<span>Calculate Eligibility Free</span>
+</button>
+<button class="inline-flex items-center justify-center gap-2 font-label-md text-label-md px-6 py-3.5 rounded-xl bg-white/[0.05] hover:bg-white/[0.09] text-on-surface border border-outline-variant/30 backdrop-blur-md transition-all duration-150 active:scale-[0.98]">
+<span class="material-symbols-outlined text-base">play_circle</span>
+<span>Watch Interactive Demo</span>
+</button>
+</div>
+<!-- Social proof subline -->
+<div class="flex items-center gap-3 font-label-sm text-label-sm text-outline">
+<span class="material-symbols-outlined text-secondary text-sm" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+<span>No hard credit check required</span>
+<span>•</span>
+<span class="material-symbols-outlined text-tertiary text-sm" style="font-variation-settings: 'FILL' 1;">lock</span>
+<span>SOC2 Type II Certified</span>
+</div>
+</div>
+<!-- Right Side Hero Visual: 3D-Like Glassmorphic Predictor Card (5 Cols desktop) -->
+<div class="lg:col-span-5 relative w-full flex justify-center lg:justify-end">
+<!-- Background Glow Halo -->
+<div class="absolute -inset-2 bg-gradient-to-tr from-secondary-container/20 via-primary-container/20 to-tertiary-container/30 rounded-3xl blur-2xl -z-10"></div>
+<div class="w-full max-w-md bg-surface-container/80 backdrop-blur-xl border border-white/15 rounded-2xl p-card-pad-default shadow-2xl relative overflow-hidden">
+<!-- Specular top highlight -->
+<div class="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
+<!-- Card Header Telemetry -->
+<div class="flex items-center justify-between border-b border-outline-variant/20 pb-4 mb-5">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary inline-block animate-pulse"></span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">TELEMETRY_SESSION #9048</span>
+</div>
+<span class="font-label-sm text-label-sm px-2.5 py-0.5 rounded-full bg-tertiary/10 border border-tertiary/30 text-tertiary">KNN v1.2</span>
+</div>
+<!-- Gauge Meter Unit -->
+<div class="bg-surface-container-lowest/80 rounded-xl p-4 border border-outline-variant/25 mb-4 relative">
+<div class="flex items-center justify-between mb-3">
+<span class="font-label-sm text-label-sm text-on-surface-variant">PREDICTIVE VERDICT</span>
+<span class="font-label-sm text-label-sm text-secondary font-semibold">HIGH CONFIDENCE</span>
+</div>
+<div class="flex items-baseline justify-between mb-2">
+<div class="flex items-center gap-2">
+<span class="font-display-lg text-display-lg text-secondary tabular-numbers tracking-tight font-bold">89%</span>
+<span class="px-2 py-0.5 rounded bg-secondary-container/20 text-secondary-fixed text-xs font-label-sm border border-secondary/30 uppercase">APPROVED</span>
+</div>
+<div class="text-right">
+<div class="font-label-sm text-label-sm text-outline">CONFIDENCE</div>
+<div class="font-label-md text-label-md text-on-surface font-semibold tabular-numbers">0.942</div>
+</div>
+</div>
+<!-- Visual Progress Bar -->
+<div class="w-full h-2 rounded-full bg-surface-variant overflow-hidden p-0.5">
+<div class="h-full bg-gradient-to-r from-tertiary to-secondary rounded-full" style="width: 89%;"></div>
+</div>
+</div>
+<!-- Applicant Telemetry Grid -->
+<div class="grid grid-cols-2 gap-3 mb-4">
+<div class="p-3 rounded-lg bg-surface-container-high/60 border border-outline-variant/20">
+<span class="block font-label-sm text-label-sm text-outline mb-1">CREDIT SCORE</span>
+<div class="flex items-center gap-1.5">
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold tabular-numbers">745</span>
+<span class="font-label-sm text-label-sm text-secondary">Excellent</span>
+</div>
+</div>
+<div class="p-3 rounded-lg bg-surface-container-high/60 border border-outline-variant/20">
+<span class="block font-label-sm text-label-sm text-outline mb-1">REQUESTED PRINCIPAL</span>
+<div class="font-headline-sm text-headline-sm text-on-surface font-bold tabular-numbers">$280,000</div>
+</div>
+</div>
+<!-- Micro-Metric Cluster Badges -->
+<div class="space-y-2 pt-2 border-t border-outline-variant/20">
+<div class="flex items-center justify-between text-xs font-label-sm">
+<span class="text-outline flex items-center gap-1">
+<span class="material-symbols-outlined text-xs text-primary">hub</span>
+                  KNN Cluster
+                </span>
+<span class="text-primary font-medium">Tier A-1 (Super-Prime)</span>
+</div>
+<div class="flex items-center justify-between text-xs font-label-sm">
+<span class="text-outline flex items-center gap-1">
+<span class="material-symbols-outlined text-xs text-tertiary">polyline</span>
+                  Cosine Match
+                </span>
+<span class="text-tertiary font-medium tabular-numbers">94.6% Alignment</span>
+</div>
+<div class="flex items-center justify-between text-xs font-label-sm">
+<span class="text-outline flex items-center gap-1">
+<span class="material-symbols-outlined text-xs text-secondary">trending_up</span>
+                  Vector Delta
+                </span>
+<span class="text-secondary font-medium tabular-numbers">+42% DTI Buffer (Safe)</span>
+</div>
+</div>
+<!-- Simulated live timestamp -->
+<div class="mt-4 pt-3 border-t border-outline-variant/15 flex items-center justify-between font-label-sm text-[10px] text-outline">
+<span>LATENCY: 11.8ms</span>
+<span>ALGO: KNN-MANHATTAN-V1</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 3: Trust & Social Proof Metrics Bar -->
+<section class="relative z-10 border-y border-outline-variant/20 bg-surface-container-lowest/60 backdrop-blur-md py-10">
+<div class="max-w-[1680px] mx-auto px-grid-margin-mobile md:px-grid-margin-tablet lg:px-grid-margin-desktop">
+<!-- Proof Numbers Grid -->
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 pb-10 border-b border-outline-variant/15">
+<div class="flex flex-col items-center lg:items-start">
+<span class="font-headline-lg text-headline-lg font-bold text-on-surface tabular-numbers tracking-tight">$50M+</span>
+<span class="font-body-sm text-body-sm text-outline mt-1">Simulated Loans Evaluated</span>
+</div>
+<div class="flex flex-col items-center lg:items-start">
+<span class="font-headline-lg text-headline-lg font-bold text-secondary tabular-numbers tracking-tight">99.2%</span>
+<span class="font-body-sm text-body-sm text-outline mt-1">Model Reliability</span>
+</div>
+<div class="flex flex-col items-center lg:items-start">
+<span class="font-headline-lg text-headline-lg font-bold text-tertiary tabular-numbers tracking-tight">10k+</span>
+<span class="font-body-sm text-body-sm text-outline mt-1">Daily Predictions</span>
+</div>
+<div class="flex flex-col items-center lg:items-start">
+<span class="font-headline-lg text-headline-lg font-bold text-primary tabular-numbers tracking-tight">&lt; 15ms</span>
+<span class="font-body-sm text-body-sm text-outline mt-1">Real-time Inference Engine</span>
+</div>
+</div>
+<!-- Partner / Lender Trust Badges -->
+<div class="pt-8 flex flex-col md:flex-row items-center justify-between gap-6">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">TRUSTED BY INSTITUTIONAL RISK TEAMS</span>
+<div class="flex flex-wrap items-center justify-center gap-8 md:gap-12 opacity-70">
+<div class="flex items-center gap-2 font-headline-sm text-headline-sm text-on-surface-variant tracking-wider font-semibold">
+<span class="material-symbols-outlined text-primary">account_balance</span>
+<span>Apex Financial</span>
+</div>
+<div class="flex items-center gap-2 font-headline-sm text-headline-sm text-on-surface-variant tracking-wider font-semibold">
+<span class="material-symbols-outlined text-secondary">show_chart</span>
+<span>Meridian Capital</span>
+</div>
+<div class="flex items-center gap-2 font-headline-sm text-headline-sm text-on-surface-variant tracking-wider font-semibold">
+<span class="material-symbols-outlined text-tertiary">analytics</span>
+<span>QuantCredit</span>
+</div>
+<div class="flex items-center gap-2 font-headline-sm text-headline-sm text-on-surface-variant tracking-wider font-semibold">
+<span class="material-symbols-outlined text-outline">security</span>
+<span>Nexus Underwriting</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 4: Feature Grid (3 core glassmorphism cards) -->
+<section class="py-24 relative z-10" id="features">
+<div class="max-w-[1680px] mx-auto px-grid-margin-mobile md:px-grid-margin-tablet lg:px-grid-margin-desktop">
+<!-- Section Header -->
+<div class="text-center max-w-3xl mx-auto mb-16">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-primary font-semibold mb-2 block">ALGORITHMIC EXCELLENCE</span>
+<h2 class="font-headline-lg text-headline-lg md:text-[34px] font-bold text-on-surface tracking-tight mb-4">
+          Architected for Millisecond Credit Intelligence
+        </h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">
+          Replacing opaque scoring bureaucracies with transparent mathematical vector neighbor analysis.
+        </p>
+</div>
+<!-- Bento Grid (Snap to column multiples: 4 cols each) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+<!-- Card 1 -->
+<div class="p-card-pad-default rounded-2xl bg-white/[0.04] backdrop-blur-md border border-white/10 relative group hover:border-primary/40 transition-all duration-300 flex flex-col justify-between">
+<div>
+<div class="w-12 h-12 rounded-xl bg-primary-container/20 border border-primary/30 flex items-center justify-center text-primary mb-6 glow-indigo">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">speed</span>
+</div>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline block mb-2">SPEED &amp; PRECISION</span>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface mb-3">Instant ML Scoring</h3>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed mb-6">
+              Real-time KNN multi-vector computation evaluating 12+ demographic and debt parameters in under 15ms.
+            </p>
+</div>
+<div class="pt-4 border-t border-outline-variant/20 flex items-center justify-between text-xs font-label-sm text-primary">
+<span>MULTI-VECTOR INFERENCE</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="p-card-pad-default rounded-2xl bg-white/[0.04] backdrop-blur-md border border-white/10 relative group hover:border-secondary/40 transition-all duration-300 flex flex-col justify-between">
+<div>
+<div class="w-12 h-12 rounded-xl bg-secondary-container/20 border border-secondary/30 flex items-center justify-center text-secondary mb-6 glow-emerald">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">shield</span>
+</div>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline block mb-2">PRIVACY FIRST</span>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface mb-3">Bank-Grade Privacy</h3>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed mb-6">
+              End-to-end encrypted financial data pipeline with zero data persistence and SOC2 Type II compliance.
+            </p>
+</div>
+<div class="pt-4 border-t border-outline-variant/20 flex items-center justify-between text-xs font-label-sm text-secondary">
+<span>ZERO PERSISTENCE PROTOCOL</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="p-card-pad-default rounded-2xl bg-white/[0.04] backdrop-blur-md border border-white/10 relative group hover:border-tertiary/40 transition-all duration-300 flex flex-col justify-between">
+<div>
+<div class="w-12 h-12 rounded-xl bg-tertiary-container/20 border border-tertiary/30 flex items-center justify-center text-tertiary mb-6">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">insights</span>
+</div>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline block mb-2">AUDITABLE TELEMETRY</span>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface mb-3">Explainable Risk Metrics</h3>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed mb-6">
+              Glass-box AI transparency with clear weight breakdowns, DTI thresholds, and centroid telemetry so applicants understand every factor.
+            </p>
+</div>
+<div class="pt-4 border-t border-outline-variant/20 flex items-center justify-between text-xs font-label-sm text-tertiary">
+<span>CENTROID TELEMETRY</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 5: How It Works (3-Step Interactive Process) -->
+<section class="py-24 border-t border-outline-variant/20 bg-surface-container-low/40 relative z-10" id="how-it-works">
+<div class="max-w-[1680px] mx-auto px-grid-margin-mobile md:px-grid-margin-tablet lg:px-grid-margin-desktop">
+<!-- Header -->
+<div class="text-center max-w-3xl mx-auto mb-16">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary font-semibold mb-2 block">WORKFLOW ARCHITECTURE</span>
+<h2 class="font-headline-lg text-headline-lg md:text-[34px] font-bold text-on-surface tracking-tight mb-4">
+          From Financial Intake to Decision in Three Steps
+        </h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">
+          A frictionless pipeline engineered to replace traditional multi-day loan underwriting waiting times.
+        </p>
+</div>
+<!-- 3 Steps -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+<!-- Step 01 -->
+<div class="relative bg-surface-container/60 border border-outline-variant/25 rounded-2xl p-card-pad-default backdrop-blur-md">
+<div class="flex items-center justify-between mb-6">
+<span class="font-label-md text-label-md px-3 py-1 rounded bg-primary-container/20 border border-primary/30 text-primary font-bold">STEP 01</span>
+<span class="material-symbols-outlined text-outline">description</span>
+</div>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface mb-3">Input Financial Profile</h3>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+            Seamless 60-second intake of monthly income, co-applicant data, and requested principal with zero credit friction.
+          </p>
+<div class="mt-6 pt-4 border-t border-outline-variant/15 flex items-center gap-2 text-xs font-label-sm text-outline">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span>Zero impact on bureau score</span>
+</div>
+</div>
+<!-- Step 02 -->
+<div class="relative bg-surface-container/60 border border-outline-variant/25 rounded-2xl p-card-pad-default backdrop-blur-md">
+<div class="flex items-center justify-between mb-6">
+<span class="font-label-md text-label-md px-3 py-1 rounded bg-tertiary/20 border border-tertiary/30 text-tertiary font-bold">STEP 02</span>
+<span class="material-symbols-outlined text-outline">hub</span>
+</div>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface mb-3">AI KNN Cluster Matching</h3>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+            Algorithmic mapping against 50,000+ validated institutional borrower profiles in high-dimensional vector space.
+          </p>
+<div class="mt-6 pt-4 border-t border-outline-variant/15 flex items-center gap-2 text-xs font-label-sm text-outline">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+<span>Distance metric: Euclidean &amp; Manhattan</span>
+</div>
+</div>
+<!-- Step 03 -->
+<div class="relative bg-surface-container/60 border border-outline-variant/25 rounded-2xl p-card-pad-default backdrop-blur-md">
+<div class="flex items-center justify-between mb-6">
+<span class="font-label-md text-label-md px-3 py-1 rounded bg-secondary-container/20 border border-secondary/30 text-secondary-fixed font-bold">STEP 03</span>
+<span class="material-symbols-outlined text-outline">fact_check</span>
+</div>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface mb-3">Instant Decision &amp; Report</h3>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+            Full underwriting verdict with probability gauge, feature weight transparency, and immediate next steps.
+          </p>
+<div class="mt-6 pt-4 border-t border-outline-variant/15 flex items-center gap-2 text-xs font-label-sm text-outline">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span>Comprehensive PDF audit breakdown</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 6: Interactive Model Accuracy & Benchmark Teaser -->
+<section class="py-24 relative z-10" id="model-accuracy">
+<div class="max-w-[1680px] mx-auto px-grid-margin-mobile md:px-grid-margin-tablet lg:px-grid-margin-desktop">
+<div class="bg-gradient-to-b from-surface-container-high/70 to-surface-container/90 border border-outline-variant/30 rounded-3xl p-card-pad-default md:p-card-pad-spacious backdrop-blur-2xl shadow-xl">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+<!-- Left info -->
+<div class="lg:col-span-5">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-primary font-semibold block mb-2">BENCHMARK TELEMETRY</span>
+<h3 class="font-headline-lg text-headline-lg font-bold text-on-surface tracking-tight mb-4">
+              LoanPulse KNN v1.2 vs. Traditional Underwriting
+            </h3>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed mb-6">
+              Institutional benchmark tests on historical loan portfolios demonstrate significant risk precision over legacy FICO-centric models.
+            </p>
+<div class="space-y-3 font-label-md text-label-md">
+<div class="flex items-center gap-2 text-on-surface">
+<span class="material-symbols-outlined text-secondary text-sm">check_circle</span>
+<span>k=7 Optimized Neighbor Centroids</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface">
+<span class="material-symbols-outlined text-secondary text-sm">check_circle</span>
+<span>Zero Human Bias or Geographic Disparity</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface">
+<span class="material-symbols-outlined text-secondary text-sm">check_circle</span>
+<span>Validated against FDIC Default Historical Datasets</span>
+</div>
+</div>
+</div>
+<!-- Right Comparison Matrix -->
+<div class="lg:col-span-7">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- LoanPulse Card (Highlighted) -->
+<div class="p-5 rounded-xl bg-surface-container-lowest/90 border-2 border-primary/50 relative glow-indigo">
+<div class="flex items-center justify-between mb-4">
+<span class="font-label-md text-label-md font-bold text-primary">LoanPulse KNN v1.2</span>
+<span class="px-2 py-0.5 rounded bg-primary/20 text-primary font-label-sm text-xs uppercase">ADVANCED</span>
+</div>
+<div class="space-y-4">
+<div>
+<span class="font-label-sm text-label-sm text-outline block mb-1">PREDICTION ACCURACY</span>
+<div class="flex items-baseline gap-2">
+<span class="font-display-lg text-display-lg font-bold text-secondary tabular-numbers">94.8%</span>
+<span class="font-label-sm text-label-sm text-secondary font-medium">+22.7% boost</span>
+</div>
+</div>
+<div>
+<span class="font-label-sm text-label-sm text-outline block mb-1">INFERENCE LATENCY</span>
+<div class="font-headline-lg text-headline-lg font-bold text-tertiary tabular-numbers">12ms</div>
+</div>
+<div>
+<span class="font-label-sm text-label-sm text-outline block mb-1">AUDITABILITY</span>
+<div class="font-body-md text-body-md text-on-surface font-semibold">100% Vector Explainable</div>
+</div>
+</div>
+</div>
+<!-- Legacy Traditional Card -->
+<div class="p-5 rounded-xl bg-surface-container-high/40 border border-outline-variant/20 opacity-80">
+<div class="flex items-center justify-between mb-4">
+<span class="font-label-md text-label-md font-bold text-outline">Traditional Credit Bureau</span>
+<span class="px-2 py-0.5 rounded bg-outline/10 text-outline font-label-sm text-xs uppercase">LEGACY</span>
+</div>
+<div class="space-y-4">
+<div>
+<span class="font-label-sm text-label-sm text-outline block mb-1">PREDICTION ACCURACY</span>
+<div class="font-display-lg text-display-lg font-bold text-outline tabular-numbers">72.1%</div>
+</div>
+<div>
+<span class="font-label-sm text-label-sm text-outline block mb-1">INFERENCE LATENCY</span>
+<div class="font-headline-lg text-headline-lg font-bold text-outline tabular-numbers">3-5 Days</div>
+</div>
+<div>
+<span class="font-label-sm text-label-sm text-outline block mb-1">AUDITABILITY</span>
+<div class="font-body-md text-body-md text-outline">Opaque Bureau Score</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 7: Bottom High-Impact CTA Banner -->
+<section class="py-20 relative z-10">
+<div class="max-w-[1680px] mx-auto px-grid-margin-mobile md:px-grid-margin-tablet lg:px-grid-margin-desktop">
+<div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-surface-container via-surface-container-high to-surface-container border border-primary/30 p-card-pad-spacious text-center glow-indigo">
+<!-- Atmospheric glows inside banner -->
+<div class="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-primary/20 rounded-full blur-[90px] pointer-events-none"></div>
+<div class="relative z-10 max-w-3xl mx-auto">
+<span class="font-label-sm text-label-sm px-3 py-1 rounded-full bg-secondary-container/20 border border-secondary/30 text-secondary uppercase font-semibold mb-4 inline-block">
+            IMMEDIATE SIMULATION ACCESS
+          </span>
+<h2 class="font-headline-lg md:text-[36px] md:leading-[44px] font-bold text-on-surface tracking-tight mb-4">
+            Ready to Predict Loan Eligibility with Institutional Precision?
+          </h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-8 max-w-xl mx-auto">
+            Join hundreds of forward-thinking lenders and thousands of applicants streamlining underwriting.
+          </p>
+<div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+<button class="w-full sm:w-auto inline-flex items-center justify-center gap-2 font-label-md text-label-md px-8 py-4 rounded-xl bg-gradient-to-r from-primary-container via-inverse-primary to-secondary-container text-white font-semibold shadow-2xl hover:brightness-110 border border-white/30 transition-all duration-150 active:scale-[0.98] glow-emerald">
+<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">rocket_launch</span>
+<span>Launch Live Predictor</span>
+</button>
+<button class="w-full sm:w-auto inline-flex items-center justify-center gap-2 font-label-md text-label-md px-6 py-4 rounded-xl bg-white/[0.05] hover:bg-white/[0.09] text-on-surface border border-outline-variant/30 backdrop-blur-md transition-all duration-150">
+<span class="material-symbols-outlined text-lg">call</span>
+<span>Schedule Institutional Pilot</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Shared Component: Footer (Exact Labels & Layout as JSON) -->
+<footer class="w-full px-grid-margin-mobile md:px-grid-margin-tablet lg:px-grid-margin-desktop max-w-[1680px] mx-auto py-12 border-t border-outline-variant/15 bg-surface-container-lowest dark:bg-surface-container-lowest relative z-10">
+<div class="grid grid-cols-1 md:grid-cols-5 gap-10 mb-12">
+<!-- Brand & Mission Column -->
+<div class="md:col-span-2">
+<div class="flex items-center gap-2 mb-3">
+<div class="w-7 h-7 rounded-lg bg-surface-container-high border border-outline-variant/30 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 1;">bolt</span>
+</div>
+<span class="text-headline-sm font-headline-sm font-bold text-on-surface dark:text-on-surface">LoanPulse AI</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant max-w-sm mb-4 leading-relaxed">
+          LoanPulse AI - Next-generation algorithmic underwriting telemetry. Delivering transparent, high-dimensional machine learning evaluations for institutional risk governance.
+        </p>
+<div class="font-label-sm text-label-sm text-outline flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span>Inference Cluster v1.2 Operational</span>
+</div>
+</div>
+<!-- Links Column 1: Product & Tech -->
+<div>
+<h4 class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface mb-4 font-semibold">Technology</h4>
+<ul class="space-y-2 font-label-sm text-label-sm">
+<li><a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary transition-colors" href="#">KNN Algorithmic Engine</a></li>
+<li><a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary transition-colors" href="#">Vector Calibration</a></li>
+<li><a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary transition-colors" href="#">System Telemetry</a></li>
+<li><a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary transition-colors" href="#">API Documentation</a></li>
+</ul>
+</div>
+<!-- Links Column 2: Compliance & Security -->
+<div>
+<h4 class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface mb-4 font-semibold">Governance</h4>
+<ul class="space-y-2 font-label-sm text-label-sm">
+<li><a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary transition-colors" href="#">Security Architecture</a></li>
+<li><a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary transition-colors" href="#">Regulatory Compliance</a></li>
+<li><a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary transition-colors" href="#">FCRA &amp; ECOA Standards</a></li>
+<li><a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary transition-colors" href="#">Model Explainability</a></li>
+</ul>
+</div>
+<!-- Links Column 3: Legal (Exact Strings from JSON) -->
+<div>
+<h4 class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface mb-4 font-semibold">Legal &amp; Policy</h4>
+<ul class="space-y-2 font-label-sm text-label-sm">
+<li><a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary transition-colors" href="#">Privacy Policy</a></li>
+<li><a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary transition-colors" href="#">Terms of Service</a></li>
+<li><a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary transition-colors" href="#">Security Architecture</a></li>
+<li><a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary transition-colors" href="#">Regulatory Compliance</a></li>
+</ul>
+</div>
+</div>
+<!-- Compliance Disclaimer Mandatory in Fintech -->
+<div class="py-4 border-t border-outline-variant/10 text-xs text-outline font-body-sm leading-relaxed mb-6">
+      All algorithmic models are for simulation and pre-qualification advisory purposes. Fully compliant with FCRA &amp; ECOA fair lending guidelines. LoanPulse AI does not act as a direct loan originator or depository institution.
+    </div>
+<!-- Bottom Copyright from JSON -->
+<div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-outline-variant/10 font-body-sm text-body-sm text-outline">
+<span>© 2024 LoanPulse AI, Inc. All algorithmic telemetry and predictive engines reserved.</span>
+<div class="flex items-center gap-4">
+<span class="font-label-sm text-label-sm text-secondary">SOC2 TYPE II VERIFIED</span>
+<span class="font-label-sm text-label-sm text-tertiary">256-BIT TLS ENCRYPTED</span>
+</div>
+</div>
+</footer>
+</body></html>

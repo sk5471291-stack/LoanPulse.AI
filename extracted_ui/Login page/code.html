@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LoanPulse AI — Authentication</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-secondary-fixed-variant": "#005236",
+            "inverse-surface": "#dae2fd",
+            "on-tertiary-fixed": "#001f26",
+            "secondary-container": "#00a572",
+            "primary-container": "#8083ff",
+            "on-primary-container": "#0d0096",
+            "on-secondary": "#003824",
+            "secondary-fixed-dim": "#4edea3",
+            "surface-container-high": "#222a3d",
+            "surface": "#0b1326",
+            "tertiary-fixed": "#acedff",
+            "secondary-fixed": "#6ffbbe",
+            "on-surface-variant": "#c7c4d7",
+            "background": "#0b1326",
+            "on-secondary-container": "#00311f",
+            "on-tertiary": "#003640",
+            "secondary": "#4edea3",
+            "surface-dim": "#0b1326",
+            "surface-container-low": "#131b2e",
+            "tertiary": "#4cd7f6",
+            "inverse-on-surface": "#283044",
+            "inverse-primary": "#494bd6",
+            "surface-container-lowest": "#060e20",
+            "surface-variant": "#2d3449",
+            "outline": "#908fa0",
+            "error-container": "#93000a",
+            "on-primary-fixed-variant": "#2f2ebe",
+            "primary": "#c0c1ff",
+            "on-background": "#dae2fd",
+            "surface-tint": "#c0c1ff",
+            "error": "#ffb4ab",
+            "primary-fixed": "#e1e0ff",
+            "surface-bright": "#31394d",
+            "on-secondary-fixed": "#002113",
+            "surface-container": "#171f33",
+            "on-error-container": "#ffdad6",
+            "on-error": "#690005",
+            "surface-container-highest": "#2d3449",
+            "on-primary-fixed": "#07006c",
+            "tertiary-fixed-dim": "#4cd7f6",
+            "primary-fixed-dim": "#c0c1ff",
+            "on-primary": "#1000a9",
+            "outline-variant": "#464554",
+            "on-tertiary-container": "#002f38",
+            "on-surface": "#dae2fd",
+            "tertiary-container": "#009eb9",
+            "on-tertiary-fixed-variant": "#004e5c"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "gutter-desktop": "1.5rem",
+            "grid-margin-tablet": "1.5rem",
+            "grid-margin-mobile": "1rem",
+            "card-pad-default": "1.5rem",
+            "grid-margin-desktop": "2rem",
+            "card-pad-spacious": "2rem",
+            "gutter-tablet": "1rem",
+            "gutter-mobile": "0.75rem",
+            "card-pad-compact": "1rem"
+          },
+          "fontFamily": {
+            "display-lg-mobile": ["Inter"],
+            "display-lg": ["Inter"],
+            "label-sm": ["JetBrains Mono"],
+            "body-lg": ["Inter"],
+            "headline-sm": ["Inter"],
+            "headline-lg-mobile": ["Inter"],
+            "headline-lg": ["Inter"],
+            "body-md": ["Inter"],
+            "label-md": ["JetBrains Mono"],
+            "body-sm": ["Inter"],
+            "headline-md": ["Inter"]
+          },
+          "fontSize": {
+            "display-lg-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+            "display-lg": ["44px", { "lineHeight": "52px", "letterSpacing": "-0.025em", "fontWeight": "600" }],
+            "label-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "500" }],
+            "body-lg": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.005em", "fontWeight": "400" }],
+            "headline-sm": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600" }],
+            "headline-lg": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+            "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "label-md": ["13px", { "lineHeight": "18px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+            "body-sm": ["12px", { "lineHeight": "18px", "letterSpacing": "0.005em", "fontWeight": "400" }],
+            "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "500" }]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .glass-surface {
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .glass-input {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      transition: all 150ms ease-out;
+    }
+    .glass-input:focus {
+      border-color: #8083ff;
+      box-shadow: 0 0 0 3px rgba(128, 131, 255, 0.2);
+    }
+    .ambient-glow-indigo {
+      box-shadow: 0 0 32px -4px rgba(99, 102, 241, 0.25);
+    }
+    .ambient-glow-emerald {
+      box-shadow: 0 0 32px -4px rgba(16, 185, 129, 0.2);
+    }
+    .grid-bg {
+      background-size: 32px 32px;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+    }
+  </style>
+</head>
+<body class="bg-surface-container-lowest text-on-surface antialiased min-h-screen selection:bg-primary-container selection:text-on-primary-container">
+<!-- Main Viewport Split Container -->
+<main class="min-h-screen w-full grid grid-cols-1 lg:grid-cols-12 overflow-x-hidden">
+<!-- Left Column: Brand, Predictive Telemetry & Institutional Credibility -->
+<section class="lg:col-span-5 xl:col-span-5 relative flex flex-col justify-between p-6 sm:p-10 lg:p-12 xl:p-14 bg-surface-dim border-b lg:border-b-0 lg:border-r border-outline-variant/20 overflow-hidden">
+<!-- Ambient Glow Orbs & Grid Blueprint -->
+<div class="absolute inset-0 grid-bg pointer-events-none opacity-80"></div>
+<div class="absolute -top-24 -left-24 w-96 h-96 bg-primary-container/15 rounded-full blur-3xl pointer-events-none"></div>
+<div class="absolute top-1/2 -right-28 w-80 h-80 bg-secondary/10 rounded-full blur-3xl pointer-events-none"></div>
+<div class="absolute -bottom-20 left-10 w-72 h-72 bg-tertiary/10 rounded-full blur-3xl pointer-events-none"></div>
+<!-- Top Header / Brand Identity & Direct Action -->
+<div class="relative z-10 space-y-6">
+<div class="flex items-center justify-between gap-4">
+<!-- Brand Logo -->
+<a class="inline-flex items-center gap-2.5 group" href="#">
+<div class="w-10 h-10 rounded-xl bg-primary-container/20 border border-primary-container/40 flex items-center justify-center text-primary group-hover:scale-105 transition-transform duration-200 ambient-glow-indigo">
+<span class="material-symbols-outlined text-primary text-xl" style="font-variation-settings: 'FILL' 1;">bolt</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-md text-headline-md font-bold text-on-surface tracking-tight">LoanPulse AI</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant/80 tracking-wide">Algorithmic Risk Engine</span>
+</div>
+</a>
+<!-- Return Action -->
+<a class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface glass-surface hover:bg-white/[0.08] transition-all text-body-sm font-body-sm" href="#">
+<span class="material-symbols-outlined text-sm">cloud_upload</span>
+<span class="hidden sm:inline">Back to main site</span>
+</a>
+</div>
+<!-- Compliance & Engine Version Badges -->
+<div class="flex flex-wrap items-center gap-2.5 pt-1">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-variant/60 border border-outline-variant/30 text-primary-fixed-dim">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+<span class="font-label-sm text-label-sm">KNN Engine v1.2</span>
+</div>
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-variant/60 border border-outline-variant/30 text-secondary-fixed-dim">
+<span class="material-symbols-outlined text-xs text-secondary" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+<span class="font-label-sm text-label-sm">SOC2 Certified</span>
+</div>
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-variant/60 border border-outline-variant/30 text-tertiary-fixed-dim">
+<span class="font-label-sm text-label-sm">FCRA Compliant</span>
+</div>
+</div>
+</div>
+<!-- Center Dynamic Telemetry Card -->
+<div class="relative z-10 my-8 lg:my-10 space-y-4">
+<div class="glass-surface rounded-2xl p-5 sm:p-6 border border-white/10 shadow-2xl relative overflow-hidden group">
+<!-- Background luminous accent -->
+<div class="absolute -top-12 -right-12 w-36 h-36 bg-primary-container/20 rounded-full blur-2xl group-hover:scale-110 transition-transform duration-500"></div>
+<!-- Header -->
+<div class="flex items-center justify-between border-b border-white/[0.06] pb-3 mb-4">
+<div class="flex items-center gap-2">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-secondary"></span>
+</span>
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider font-semibold">Live Underwriting Stream</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant tabular-nums">US-EAST-1</span>
+</div>
+<!-- Metrics Grid -->
+<div class="grid grid-cols-2 gap-4 mb-4">
+<div class="p-3 rounded-xl bg-surface-container-lowest/60 border border-white/[0.04]">
+<span class="font-label-sm text-label-sm text-outline block mb-1">Target Cluster</span>
+<span class="font-headline-sm text-headline-sm font-semibold text-on-surface">Tier A-1 (Super-Prime)</span>
+</div>
+<div class="p-3 rounded-xl bg-surface-container-lowest/60 border border-white/[0.04]">
+<span class="font-label-sm text-label-sm text-outline block mb-1">Inference Latency</span>
+<div class="flex items-baseline gap-1">
+<span class="font-headline-sm text-headline-sm font-semibold text-secondary tabular-nums">11.4</span>
+<span class="font-label-sm text-label-sm text-secondary/80">ms</span>
+</div>
+</div>
+</div>
+<!-- Algorithmic Precision Display Bar -->
+<div class="p-3.5 rounded-xl bg-surface-container-high/50 border border-white/[0.06] space-y-2">
+<div class="flex justify-between items-center text-body-sm font-body-sm">
+<span class="text-on-surface-variant flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-tertiary">analytics</span>
+                Algorithmic Precision
+              </span>
+<span class="font-label-sm text-label-sm font-semibold text-secondary tabular-nums">94.8% Match</span>
+</div>
+<div class="w-full bg-surface-container-lowest h-2 rounded-full overflow-hidden p-0.5">
+<div class="bg-gradient-to-r from-primary via-tertiary to-secondary h-full rounded-full w-[94.8%]"></div>
+</div>
+<div class="flex justify-between text-on-surface-variant font-label-sm text-label-sm pt-0.5">
+<span>2,841 active assessments today</span>
+<span class="text-tertiary">99.98% uptime</span>
+</div>
+</div>
+</div>
+<!-- Institutional Testimonial Card -->
+<div class="glass-surface rounded-2xl p-5 sm:p-6 border border-white/10 shadow-xl relative backdrop-blur-xl">
+<div class="flex items-center gap-1 text-secondary mb-3">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant ml-2">Enterprise Client</span>
+</div>
+<blockquote class="font-body-md text-body-md text-on-surface-variant italic mb-4 leading-relaxed">
+            "LoanPulse AI helped our credit union automate preliminary screening in seconds, cutting manual review queues by 64% while maintaining strict FCRA compliance."
+          </blockquote>
+<div class="flex items-center gap-3.5">
+<div class="w-10 h-10 rounded-full bg-gradient-to-tr from-primary-container to-secondary flex items-center justify-center font-bold text-on-primary text-sm shadow-md">
+              MV
+            </div>
+<div>
+<div class="font-headline-sm text-headline-sm font-semibold text-on-surface">Marcus Vance</div>
+<div class="font-body-sm text-body-sm text-outline">VP of Credit Risk, Meridian Capital Group</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Micro Telemetry & Cryptographic Verification Footer -->
+<div class="relative z-10 pt-4 border-t border-white/[0.04] flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-sm text-secondary">lock</span>
+<span class="font-label-sm text-label-sm">Protected by 256-bit TLS encryption &amp; zero-retention data protocol.</span>
+</div>
+</section>
+<!-- Right Column: Authentication Portal -->
+<section class="lg:col-span-7 xl:col-span-7 flex items-center justify-center p-6 sm:p-10 lg:p-14 xl:p-16 relative bg-surface-container-lowest">
+<!-- Subtle atmospheric lighting overlay -->
+<div class="absolute top-0 right-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none"></div>
+<!-- Form Container Wrapper -->
+<div class="max-w-md w-full space-y-7 relative z-10">
+<!-- Tab Switcher: Segmented Pill Control -->
+<div class="bg-surface-container p-1 rounded-xl border border-white/[0.08] flex items-center">
+<button class="flex-1 py-2 text-center rounded-lg font-headline-sm text-headline-sm transition-all duration-150 bg-primary-container text-on-primary-container font-semibold shadow-sm" id="tab-signin" type="button">
+            Sign In
+          </button>
+<button class="flex-1 py-2 text-center rounded-lg font-headline-sm text-headline-sm text-on-surface-variant hover:text-on-surface transition-all duration-150" id="tab-signup" type="button">
+            Create Account
+          </button>
+</div>
+<!-- Header Content -->
+<div class="space-y-2 text-left">
+<h1 class="font-headline-lg text-headline-lg font-bold text-on-surface tracking-tight" id="auth-title">
+            Welcome Back
+          </h1>
+<p class="font-body-md text-body-md text-on-surface-variant" id="auth-subtitle">
+            Sign in to access your Loan Predictor Dashboard &amp; Underwriting Models
+          </p>
+</div>
+<!-- Social Federation Options -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+<!-- Google Auth -->
+<button class="flex items-center justify-center gap-2.5 px-4 py-2.5 rounded-xl glass-surface hover:bg-white/[0.08] border border-white/10 text-on-surface transition-all duration-150 active:scale-[0.99]" type="button">
+<svg class="w-4 h-4 flex-shrink-0" viewbox="0 0 24 24">
+<path d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z" fill="#4285F4"></path>
+<path d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z" fill="#34A853"></path>
+<path d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z" fill="#FBBC05"></path>
+<path d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z" fill="#EA4335"></path>
+</svg>
+<span class="font-body-md text-body-md font-medium">Google</span>
+</button>
+<!-- GitHub Auth -->
+<button class="flex items-center justify-center gap-2.5 px-4 py-2.5 rounded-xl glass-surface hover:bg-white/[0.08] border border-white/10 text-on-surface transition-all duration-150 active:scale-[0.99]" type="button">
+<svg class="w-4 h-4 flex-shrink-0 fill-current" viewbox="0 0 24 24">
+<path clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" fill-rule="evenodd"></path>
+</svg>
+<span class="font-body-md text-body-md font-medium">GitHub</span>
+</button>
+</div>
+<!-- Sectional Divider -->
+<div class="relative flex items-center justify-center">
+<div class="border-t border-outline-variant/30 w-full"></div>
+<span class="bg-surface-container-lowest px-3 font-label-sm text-label-sm text-outline uppercase tracking-wider relative">
+            Or continue with email
+          </span>
+</div>
+<!-- Authentication Form -->
+<form class="space-y-4" onsubmit="event.preventDefault();">
+<!-- Name Field (Conditional / for Sign Up) -->
+<div class="hidden space-y-1.5" id="signup-name-field">
+<label class="block font-headline-sm text-headline-sm font-medium text-on-surface-variant" for="fullName">
+              Full Legal Name
+            </label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline text-lg pointer-events-none">badge</span>
+<input class="w-full glass-input rounded-xl pl-11 pr-4 py-2.5 text-on-surface placeholder:text-outline font-body-md text-body-md outline-none" id="fullName" placeholder="Sarah Connor" type="text"/>
+</div>
+</div>
+<!-- Email Input -->
+<div class="space-y-1.5">
+<label class="block font-headline-sm text-headline-sm font-medium text-on-surface-variant" for="email">
+              Institutional / Work Email
+            </label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline text-lg pointer-events-none">mail</span>
+<input class="w-full glass-input rounded-xl pl-11 pr-4 py-2.5 text-on-surface placeholder:text-outline font-body-md text-body-md outline-none" id="email" placeholder="sarah.connor@meridianbank.com" required="" type="email"/>
+</div>
+</div>
+<!-- Password Input -->
+<div class="space-y-1.5">
+<div class="flex items-center justify-between">
+<label class="block font-headline-sm text-headline-sm font-medium text-on-surface-variant" for="password">
+                Password
+              </label>
+<button class="font-body-sm text-body-sm text-tertiary hover:underline inline-flex items-center gap-1 focus:outline-none" id="togglePasswordBtn" type="button">
+<span class="material-symbols-outlined text-sm" id="eyeIcon">visibility</span>
+<span id="eyeText">Show</span>
+</button>
+</div>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline text-lg pointer-events-none">lock</span>
+<input class="w-full glass-input rounded-xl pl-11 pr-11 py-2.5 text-on-surface placeholder:text-outline font-body-md text-body-md outline-none" id="password" placeholder="••••••••••••" required="" type="password"/>
+</div>
+</div>
+<!-- Checkbox and Forgot Password -->
+<div class="flex items-center justify-between pt-1">
+<label class="inline-flex items-center gap-2 cursor-pointer select-none">
+<input checked="" class="w-4 h-4 rounded bg-surface-container border-outline-variant/50 text-primary-container focus:ring-primary-container/30 focus:ring-offset-0 focus:ring-1 transition cursor-pointer" type="checkbox"/>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Remember device for 30 days</span>
+</label>
+<a class="font-body-sm text-body-sm text-primary hover:text-primary-fixed-dim transition-colors hover:underline" href="#">
+              Forgot password?
+            </a>
+</div>
+<!-- Primary Submit Action Button -->
+<button class="w-full mt-2 py-3 px-6 rounded-xl bg-gradient-to-r from-primary-container via-inverse-primary to-tertiary-container hover:opacity-95 text-white font-headline-sm text-headline-sm font-semibold flex items-center justify-center gap-2 shadow-lg shadow-primary-container/25 active:scale-[0.99] transition-all duration-150 group" id="submitBtn" type="submit">
+<span id="btnText">Sign In to Dashboard</span>
+<span class="material-symbols-outlined text-lg group-hover:translate-x-0.5 transition-transform" style="font-variation-settings: 'FILL' 1;">bolt</span>
+</button>
+</form>
+<!-- SAML / Enterprise SSO Link -->
+<div class="p-3.5 rounded-xl bg-surface-container/60 border border-white/[0.06] text-center">
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-tertiary transition-colors inline-flex items-center gap-1.5 group" href="#">
+<span>Organization using SAML SSO? Sign in with Okta / Azure AD</span>
+<span class="material-symbols-outlined text-sm group-hover:translate-x-0.5 transition-transform">arrow_forward</span>
+</a>
+</div>
+<!-- Footer / Regulatory Disclosures -->
+<div class="text-center space-y-3 pt-2">
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+<span id="switch-prompt">Don't have an account?</span>
+<button class="text-primary hover:underline font-medium ml-1" id="toggle-form-mode" type="button">
+              Sign up for instant simulation access
+            </button>
+</p>
+<p class="font-label-sm text-label-sm text-outline leading-relaxed max-w-sm mx-auto">
+            By authenticating, you agree to the LoanPulse 
+            <a class="text-on-surface-variant hover:underline" href="#">Terms of Service</a>, 
+            <a class="text-on-surface-variant hover:underline" href="#">Privacy Policy</a>, and 
+            <a class="text-on-surface-variant hover:underline" href="#">FCRA Disclosures</a>.
+          </p>
+</div>
+</div>
+</section>
+</main>
+<!-- Interactive Logic for Auth Toggle & Password Visibility -->
+<script>
+    const tabSignIn = document.getElementById('tab-signin');
+    const tabSignUp = document.getElementById('tab-signup');
+    const authTitle = document.getElementById('auth-title');
+    const authSubtitle = document.getElementById('auth-subtitle');
+    const btnText = document.getElementById('btnText');
+    const signupNameField = document.getElementById('signup-name-field');
+    const switchPrompt = document.getElementById('switch-prompt');
+    const toggleFormMode = document.getElementById('toggle-form-mode');
+    
+    const passwordInput = document.getElementById('password');
+    const togglePasswordBtn = document.getElementById('togglePasswordBtn');
+    const eyeIcon = document.getElementById('eyeIcon');
+    const eyeText = document.getElementById('eyeText');
+
+    let isSignUp = false;
+
+    function setAuthMode(signUp) {
+      isSignUp = signUp;
+      if (isSignUp) {
+        // Sign Up Mode
+        tabSignUp.className = 'flex-1 py-2 text-center rounded-lg font-headline-sm text-headline-sm transition-all duration-150 bg-primary-container text-on-primary-container font-semibold shadow-sm';
+        tabSignIn.className = 'flex-1 py-2 text-center rounded-lg font-headline-sm text-headline-sm text-on-surface-variant hover:text-on-surface transition-all duration-150';
+        authTitle.innerText = 'Create Account';
+        authSubtitle.innerText = 'Start configuring real-time AI loan evaluation pipelines';
+        btnText.innerText = 'Create Institutional Account';
+        signupNameField.classList.remove('hidden');
+        switchPrompt.innerText = 'Already have credentials?';
+        toggleFormMode.innerText = 'Sign in to existing account';
+      } else {
+        // Sign In Mode
+        tabSignIn.className = 'flex-1 py-2 text-center rounded-lg font-headline-sm text-headline-sm transition-all duration-150 bg-primary-container text-on-primary-container font-semibold shadow-sm';
+        tabSignUp.className = 'flex-1 py-2 text-center rounded-lg font-headline-sm text-headline-sm text-on-surface-variant hover:text-on-surface transition-all duration-150';
+        authTitle.innerText = 'Welcome Back';
+        authSubtitle.innerText = 'Sign in to access your Loan Predictor Dashboard & Underwriting Models';
+        btnText.innerText = 'Sign In to Dashboard';
+        signupNameField.classList.add('hidden');
+        switchPrompt.innerText = "Don't have an account?";
+        toggleFormMode.innerText = 'Sign up for instant simulation access';
+      }
+    }
+
+    tabSignIn.addEventListener('click', () => setAuthMode(false));
+    tabSignUp.addEventListener('click', () => setAuthMode(true));
+    toggleFormMode.addEventListener('click', () => setAuthMode(!isSignUp));
+
+    // Show/Hide Password Toggle
+    togglePasswordBtn.addEventListener('click', () => {
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        eyeIcon.textContent = 'visibility_off';
+        eyeText.textContent = 'Hide';
+      } else {
+        passwordInput.type = 'password';
+        eyeIcon.textContent = 'visibility';
+        eyeText.textContent = 'Show';
+      }
+    });
+  </script>
+</body></html>

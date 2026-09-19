@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LoanPulse AI - Loan Eligibility Predictor</title>
+<!-- Fonts: Inter & JetBrains Mono -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-surface-variant": "#c7c4d7",
+            "on-background": "#dae2fd",
+            "on-secondary-fixed": "#002113",
+            "surface-container-highest": "#2d3449",
+            "surface-bright": "#31394d",
+            "background": "#0b1326",
+            "on-secondary": "#003824",
+            "secondary-container": "#00a572",
+            "on-secondary-fixed-variant": "#005236",
+            "on-tertiary-container": "#002f38",
+            "surface-container-high": "#222a3d",
+            "on-primary": "#1000a9",
+            "secondary-fixed-dim": "#4edea3",
+            "secondary-fixed": "#6ffbbe",
+            "surface-variant": "#2d3449",
+            "outline": "#908fa0",
+            "on-surface": "#dae2fd",
+            "tertiary": "#4cd7f6",
+            "surface-dim": "#0b1326",
+            "error": "#ffb4ab",
+            "primary-fixed": "#e1e0ff",
+            "on-primary-container": "#0d0096",
+            "tertiary-fixed-dim": "#4cd7f6",
+            "inverse-on-surface": "#283044",
+            "on-secondary-container": "#00311f",
+            "tertiary-fixed": "#acedff",
+            "surface": "#0b1326",
+            "tertiary-container": "#009eb9",
+            "inverse-primary": "#494bd6",
+            "surface-tint": "#c0c1ff",
+            "on-tertiary": "#003640",
+            "inverse-surface": "#dae2fd",
+            "primary-container": "#8083ff",
+            "secondary": "#4edea3",
+            "on-error": "#690005",
+            "on-primary-fixed": "#07006c",
+            "surface-container": "#171f33",
+            "on-tertiary-fixed": "#001f26",
+            "primary-fixed-dim": "#c0c1ff",
+            "error-container": "#93000a",
+            "on-primary-fixed-variant": "#2f2ebe",
+            "on-error-container": "#ffdad6",
+            "primary": "#c0c1ff",
+            "outline-variant": "#464554",
+            "surface-container-low": "#131b2e",
+            "surface-container-lowest": "#060e20",
+            "on-tertiary-fixed-variant": "#004e5c"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "card-pad-compact": "1rem",
+            "card-pad-default": "1.5rem",
+            "grid-margin-desktop": "2rem",
+            "gutter-mobile": "0.75rem",
+            "card-pad-spacious": "2rem",
+            "gutter-tablet": "1rem",
+            "grid-margin-mobile": "1rem",
+            "grid-margin-tablet": "1.5rem",
+            "gutter-desktop": "1.5rem"
+          },
+          "fontFamily": {
+            "body-lg": ["Inter"],
+            "headline-lg": ["Inter"],
+            "display-lg-mobile": ["Inter"],
+            "display-lg": ["Inter"],
+            "headline-lg-mobile": ["Inter"],
+            "body-sm": ["Inter"],
+            "label-sm": ["JetBrains Mono"],
+            "headline-md": ["Inter"],
+            "headline-sm": ["Inter"],
+            "body-md": ["Inter"],
+            "label-md": ["JetBrains Mono"]
+          },
+          "fontSize": {
+            "body-lg": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.005em", "fontWeight": "400" }],
+            "headline-lg": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+            "display-lg-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+            "display-lg": ["44px", { "lineHeight": "52px", "letterSpacing": "-0.025em", "fontWeight": "600" }],
+            "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600" }],
+            "body-sm": ["12px", { "lineHeight": "18px", "letterSpacing": "0.005em", "fontWeight": "400" }],
+            "label-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "500" }],
+            "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "500" }],
+            "headline-sm": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "label-md": ["13px", { "lineHeight": "18px", "letterSpacing": "0.02em", "fontWeight": "500" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    .custom-range::-webkit-slider-thumb {
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #c0c1ff;
+      border: 2px solid #060e20;
+      box-shadow: 0 0 12px rgba(192, 193, 255, 0.7);
+      cursor: pointer;
+      transition: transform 0.1s ease;
+    }
+    .custom-range::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+    }
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.2; transform: scale(1); }
+      50% { opacity: 0.35; transform: scale(1.03); }
+    }
+    .ambient-pulse {
+      animation: pulseGlow 5s infinite ease-in-out;
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface antialiased min-h-screen selection:bg-primary-container selection:text-on-primary">
+<!-- TOP APP BAR (Shared Component Execution) -->
+<header class="bg-surface-container-lowest/80 backdrop-blur-md dark:bg-surface-container-lowest/80 docked full-width top-0 z-50 sticky border-b border-outline-variant/30 shadow-2xl shadow-surface-container-lowest/50">
+<div class="w-full px-grid-margin-desktop max-w-[1680px] mx-auto flex items-center justify-between h-16">
+<!-- Brand & Left Search / Navigation cluster -->
+<div class="flex items-center gap-8">
+<a class="text-headline-sm font-headline-sm text-on-surface tracking-tight flex items-center gap-2 group" href="#">
+<div class="w-8 h-8 rounded-lg bg-surface-container-high border border-outline-variant/40 flex items-center justify-center text-primary shadow-[0_0_12px_rgba(192,193,255,0.25)]">
+<span class="material-symbols-outlined text-[18px]">account_balance</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-on-surface">LoanPulse AI</span>
+</a>
+<!-- Navigation Links -->
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-primary font-headline-sm border-b-2 border-primary pb-3.5 pt-4 transition-colors" href="#">Underwriting</a>
+<a class="text-on-surface-variant font-body-md hover:text-on-surface pb-3.5 pt-4 transition-colors" href="#">Risk Models</a>
+<a class="text-on-surface-variant font-body-md hover:text-on-surface pb-3.5 pt-4 transition-colors" href="#">Batch Assessment</a>
+<a class="text-on-surface-variant font-body-md hover:text-on-surface pb-3.5 pt-4 transition-colors" href="#">Audit Log</a>
+<a class="text-on-surface-variant font-body-md hover:text-on-surface pb-3.5 pt-4 transition-colors" href="#">Docs</a>
+</nav>
+</div>
+<!-- Trailing Status & Actions -->
+<div class="flex items-center gap-3">
+<!-- Model Pill (Trailing Secondary) -->
+<div class="hidden lg:flex items-center gap-2 px-2.5 py-1 rounded-full bg-surface-container-high/60 border border-secondary/30">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-secondary"></span>
+</span>
+<span class="font-label-sm text-label-sm text-secondary">KNN v1.2 Active</span>
+</div>
+<!-- Notification Icon Action -->
+<button class="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-surface-container-high/60 text-on-surface-variant hover:text-on-surface transition-all duration-150 ease-out active:scale-[0.98]">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+</button>
+<!-- Settings Icon Action -->
+<button class="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-surface-container-high/60 text-on-surface-variant hover:text-on-surface transition-all duration-150 ease-out active:scale-[0.98]">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+</button>
+<!-- Trailing Primary Action -->
+<button class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-surface-container-high border border-outline-variant/40 hover:bg-surface-container-highest text-primary font-headline-sm text-headline-sm transition-all duration-150 active:scale-[0.98]">
+<span class="material-symbols-outlined text-[18px]">add_circle</span>
+<span>New Assessment</span>
+</button>
+<!-- Profile Image Alt -->
+<div class="w-8 h-8 rounded-full border border-outline-variant/50 overflow-hidden bg-surface-container-high flex items-center justify-center text-primary ml-1" title="Senior Underwriter Avatar">
+<span class="material-symbols-outlined text-[18px]">person</span>
+</div>
+</div>
+</div>
+</header>
+<!-- SUBHEADER / TELEMETRY STATUS BAR -->
+<div class="border-b border-outline-variant/20 bg-surface-container-lowest/50">
+<div class="max-w-[1680px] mx-auto px-grid-margin-desktop py-2.5 flex flex-wrap items-center justify-between gap-4">
+<!-- Breadcrumb Navigation -->
+<nav class="flex items-center gap-2">
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" href="#">Dashboard</a>
+<span class="material-symbols-outlined text-[14px] text-outline">chevron_right</span>
+<span class="font-body-sm text-body-sm text-primary font-medium">Loan Predictor</span>
+</nav>
+<!-- Right Telemetry Metrics & Quick Utility Actions -->
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-1.5 px-2.5 py-1 rounded bg-surface-container-high/40 border border-outline-variant/30">
+<span class="material-symbols-outlined text-[14px] text-tertiary">bolt</span>
+<span class="font-label-sm text-label-sm text-tertiary">12ms latency</span>
+</div>
+<div class="h-4 w-[1px] bg-outline-variant/30"></div>
+<button class="flex items-center gap-1 px-2.5 py-1 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/40 transition-colors font-body-sm text-body-sm" id="reset-form-top">
+<span class="material-symbols-outlined text-[14px]">refresh</span>
+<span>Reset form</span>
+</button>
+<button class="flex items-center gap-1 px-2.5 py-1 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/40 transition-colors font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[14px]">ios_share</span>
+<span>Export report</span>
+</button>
+</div>
+</div>
+</div>
+<!-- MAIN 2-COLUMN GRID CONTENT -->
+<main class="max-w-[1680px] mx-auto px-grid-margin-desktop py-6">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- LEFT COLUMN: APPLICANT DATA FORM (7 Cols on Desktop) -->
+<section class="lg:col-span-7 space-y-6">
+<div class="bg-surface-container-low/70 backdrop-blur-md rounded-xl border border-outline-variant/30 p-card-pad-default shadow-xl">
+<!-- Card Header -->
+<div class="flex items-center justify-between pb-4 border-b border-outline-variant/20 mb-6">
+<div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">tune</span>
+<h1 class="font-headline-md text-headline-md text-on-surface font-semibold">Underwriting Vector Parameters</h1>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Configure institutional applicant variables for automated nearest-neighbor classification.</p>
+</div>
+<span class="font-label-sm text-label-sm px-2.5 py-1 rounded bg-surface-container-high border border-outline-variant/40 text-on-surface-variant">MODEL ID: KNN-804</span>
+</div>
+<!-- FORM CATEGORIES -->
+<form class="space-y-6" id="loan-form" onsubmit="event.preventDefault(); runPrediction();">
+<!-- CATEGORY 1: Personal Profile -->
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">Category 01 • Personal Profile</span>
+<span class="font-label-sm text-label-sm text-secondary flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Verified Vector
+                </span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<!-- Gender (Radio pills) -->
+<div>
+<label class="block font-body-sm text-body-sm text-on-surface-variant mb-1.5">Gender Indicator</label>
+<div class="grid grid-cols-2 gap-2 bg-surface-container-lowest/60 p-1 rounded-lg border border-outline-variant/30">
+<label class="flex items-center justify-center py-1.5 px-3 rounded cursor-pointer transition-all bg-surface-container-high text-on-surface border border-outline-variant/40 font-body-sm text-body-sm text-center">
+<input checked="" class="sr-only" name="gender" type="radio" value="Male"/>
+<span>Male</span>
+</label>
+<label class="flex items-center justify-center py-1.5 px-3 rounded cursor-pointer transition-all hover:bg-surface-container-high/40 text-on-surface-variant font-body-sm text-body-sm text-center">
+<input class="sr-only" name="gender" type="radio" value="Female"/>
+<span>Female</span>
+</label>
+</div>
+</div>
+<!-- Marital Status (Toggle switch pills) -->
+<div>
+<label class="block font-body-sm text-body-sm text-on-surface-variant mb-1.5">Marital Status</label>
+<div class="grid grid-cols-2 gap-2 bg-surface-container-lowest/60 p-1 rounded-lg border border-outline-variant/30">
+<label class="flex items-center justify-center py-1.5 px-3 rounded cursor-pointer transition-all hover:bg-surface-container-high/40 text-on-surface-variant font-body-sm text-body-sm text-center">
+<input class="sr-only" name="married" type="radio" value="No"/>
+<span>Single</span>
+</label>
+<label class="flex items-center justify-center py-1.5 px-3 rounded cursor-pointer transition-all bg-surface-container-high text-on-surface border border-outline-variant/40 font-body-sm text-body-sm text-center">
+<input checked="" class="sr-only" name="married" type="radio" value="Yes"/>
+<span>Married</span>
+</label>
+</div>
+</div>
+<!-- Dependents (Interactive selector pills) -->
+<div>
+<label class="block font-body-sm text-body-sm text-on-surface-variant mb-1.5">Dependents</label>
+<div class="grid grid-cols-4 gap-1.5 bg-surface-container-lowest/60 p-1 rounded-lg border border-outline-variant/30 text-center">
+<button class="dep-pill py-1 rounded font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface" type="button">0</button>
+<button class="dep-pill py-1 rounded font-label-sm text-label-sm bg-primary-container text-on-primary-container font-semibold shadow" type="button">1</button>
+<button class="dep-pill py-1 rounded font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface" type="button">2</button>
+<button class="dep-pill py-1 rounded font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface" type="button">3+</button>
+</div>
+</div>
+<!-- Education Level (Segmented control) -->
+<div>
+<label class="block font-body-sm text-body-sm text-on-surface-variant mb-1.5">Education Credential</label>
+<div class="grid grid-cols-2 gap-2 bg-surface-container-lowest/60 p-1 rounded-lg border border-outline-variant/30">
+<button class="edu-btn py-1.5 rounded font-body-sm text-body-sm bg-surface-container-high border border-outline-variant/40 text-primary font-medium" type="button">Graduate</button>
+<button class="edu-btn py-1.5 rounded font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface" type="button">Non-Graduate</button>
+</div>
+</div>
+</div>
+<!-- Self-Employed (Switch toggle) -->
+<div class="flex items-center justify-between p-3 rounded-lg bg-surface-container-lowest/40 border border-outline-variant/30">
+<div class="flex items-center gap-2.5">
+<div class="w-7 h-7 rounded bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[16px]">domain</span>
+</div>
+<div>
+<span class="font-body-md text-body-md text-on-surface block leading-tight">Self-Employed (1099 / Business Entity)</span>
+<span class="font-body-sm text-body-sm text-outline">Adjusts volatility weight in cash-flow variance model</span>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" id="self-employed-toggle" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-on-surface after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+</div>
+</div>
+<!-- Internal subtle divider -->
+<div class="border-t border-outline-variant/20 pt-4"></div>
+<!-- CATEGORY 2: Financial Profile -->
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">Category 02 • Financial Profile</span>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-secondary/10 border border-secondary/30 text-secondary" id="household-badge">
+                  Household: $9,300/mo
+                </span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<!-- Applicant Monthly Income -->
+<div>
+<label class="block font-body-sm text-body-sm text-on-surface-variant mb-1.5 flex items-center justify-between">
+<span>Applicant Monthly Income ($)</span>
+<span class="font-label-sm text-label-sm text-outline">Verified W2</span>
+</label>
+<div class="relative">
+<span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-outline font-label-md text-label-md">$</span>
+<input class="w-full h-10 pl-7 pr-3 bg-surface-container-lowest/60 border border-outline-variant/40 rounded-lg text-on-surface font-body-md text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all tabular-nums" id="applicant-income" step="100" type="number" value="6500"/>
+</div>
+</div>
+<!-- Co-applicant Monthly Income -->
+<div>
+<label class="block font-body-sm text-body-sm text-on-surface-variant mb-1.5 flex items-center justify-between">
+<span class="flex items-center gap-1">
+                      Co-applicant Income ($)
+                      <span class="material-symbols-outlined text-[14px] text-outline cursor-help" title="Secondary liquid cash flow from verifiable co-signer or guarantor.">info</span>
+</span>
+<span class="font-label-sm text-label-sm text-tertiary">Optional Buffer</span>
+</label>
+<div class="relative">
+<span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-outline font-label-md text-label-md">$</span>
+<input class="w-full h-10 pl-7 pr-3 bg-surface-container-lowest/60 border border-outline-variant/40 rounded-lg text-on-surface font-body-md text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all tabular-nums" id="coapplicant-income" step="100" type="number" value="2800"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Internal subtle divider -->
+<div class="border-t border-outline-variant/20 pt-4"></div>
+<!-- CATEGORY 3: Loan Parameters -->
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">Category 03 • Loan Parameters</span>
+<span class="font-label-sm text-label-sm text-tertiary font-mono">Bound: $20k - $800k</span>
+</div>
+<!-- Loan Amount: Dual-control range slider synced with formatted numeric input -->
+<div class="p-3.5 rounded-lg bg-surface-container-lowest/40 border border-outline-variant/30 space-y-2">
+<div class="flex items-center justify-between">
+<label class="font-body-sm text-body-sm text-on-surface-variant" for="loan-amount-slider">Principal Loan Amount</label>
+<div class="flex items-center gap-1">
+<span class="font-label-md text-label-md text-outline">$</span>
+<input class="w-32 text-right bg-surface-container-high/60 border border-outline-variant/40 rounded px-2 py-0.5 text-on-surface font-label-md text-label-md focus:border-primary focus:outline-none tabular-nums" id="loan-amount-num" max="800000" min="20000" step="5000" type="number" value="240000"/>
+</div>
+</div>
+<input class="w-full h-2 bg-surface-container-highest rounded-lg appearance-none cursor-pointer custom-range" id="loan-amount-slider" max="800000" min="20000" step="5000" type="range" value="240000"/>
+<div class="flex justify-between font-label-sm text-label-sm text-outline pt-0.5">
+<span>$20,000</span>
+<span>$400,000</span>
+<span>$800,000</span>
+</div>
+</div>
+<!-- Loan Term Selector -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div>
+<label class="block font-body-sm text-body-sm text-on-surface-variant mb-1.5">Amortization Term</label>
+<select class="w-full h-10 px-3 bg-surface-container-lowest/60 border border-outline-variant/40 rounded-lg text-on-surface font-body-md text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none" id="loan-term-select">
+<option value="120">120 Months (10 Years)</option>
+<option value="180">180 Months (15 Years)</option>
+<option value="240">240 Months (20 Years)</option>
+<option selected="" value="360">360 Months (30 Years)</option>
+</select>
+</div>
+<!-- Credit History Primary Vector Toggle -->
+<div class="flex flex-col justify-end">
+<div class="h-10 px-3 bg-surface-container-lowest/60 border border-secondary/40 rounded-lg flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-secondary text-[18px]">verified_user</span>
+<span class="font-body-sm text-body-sm text-on-surface font-medium">Clear Credit (Score &gt; 700)</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" id="credit-history-toggle" type="checkbox"/>
+<div class="w-8 h-4 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:left-[1px] after:bg-on-surface after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all peer-checked:bg-secondary"></div>
+</label>
+</div>
+</div>
+</div>
+<!-- Property Area Selection Cards -->
+<div>
+<label class="block font-body-sm text-body-sm text-on-surface-variant mb-2 flex items-center justify-between">
+<span>Property Area Geographic Zone</span>
+<span class="font-label-sm text-label-sm text-outline">Liquidity Classification</span>
+</label>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-3" id="property-cards-container">
+<!-- Urban Card -->
+<div class="property-card cursor-pointer p-3 rounded-lg bg-surface-container-lowest/40 border border-outline-variant/30 hover:border-outline-variant/60 transition-all">
+<div class="flex items-center justify-between mb-1">
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">apartment</span>
+<span class="w-3 h-3 rounded-full border border-outline-variant/40 check-circle"></span>
+</div>
+<div class="font-headline-sm text-headline-sm text-on-surface">Urban</div>
+<div class="font-body-sm text-body-sm text-outline mt-0.5">High collateral velocity, moderate cap yield</div>
+</div>
+<!-- Semiurban Card (Selected / Optimal) -->
+<div class="property-card active-prop cursor-pointer p-3 rounded-lg bg-surface-container-high/60 border border-secondary/50 shadow-[0_0_15px_rgba(78,222,163,0.15)] transition-all">
+<div class="flex items-center justify-between mb-1">
+<span class="material-symbols-outlined text-secondary text-[18px]">domain_add</span>
+<span class="font-label-sm text-label-sm px-1.5 py-0.2 rounded bg-secondary/20 text-secondary border border-secondary/40 font-mono">OPTIMAL</span>
+</div>
+<div class="font-headline-sm text-headline-sm text-secondary font-semibold">Semiurban</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Lowest delinquency cohort in training set</div>
+</div>
+<!-- Rural Card -->
+<div class="property-card cursor-pointer p-3 rounded-lg bg-surface-container-lowest/40 border border-outline-variant/30 hover:border-outline-variant/60 transition-all">
+<div class="flex items-center justify-between mb-1">
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">cottage</span>
+<span class="w-3 h-3 rounded-full border border-outline-variant/40 check-circle"></span>
+</div>
+<div class="font-headline-sm text-headline-sm text-on-surface">Rural</div>
+<div class="font-body-sm text-body-sm text-outline mt-0.5">Extended liquidation horizon window</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Form Action CTAs -->
+<div class="pt-4 space-y-3">
+<!-- Full-width Sparkling Gradient Button -->
+<button class="w-full relative overflow-hidden group py-3 px-6 rounded-lg bg-gradient-to-r from-primary-container via-inverse-primary to-tertiary text-on-primary font-headline-sm text-headline-sm font-semibold flex items-center justify-center gap-2 shadow-[0_0_24px_-4px_rgba(99,102,241,0.5)] hover:shadow-[0_0_32px_0px_rgba(99,102,241,0.7)] transition-all duration-200 active:scale-[0.99]" id="predict-btn" type="submit">
+<span class="absolute inset-0 w-full h-full bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+<span class="material-symbols-outlined text-[20px] text-white animate-spin-slow">auto_awesome</span>
+<span class="text-white tracking-wide">Run KNN Prediction</span>
+<span class="material-symbols-outlined text-[18px] text-white/80 group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+<!-- Secondary Helper Actions -->
+<div class="flex items-center justify-between px-1">
+<button class="font-body-sm text-body-sm text-outline hover:text-on-surface transition-colors flex items-center gap-1" id="btn-baseline" type="button">
+<span class="material-symbols-outlined text-[14px]">restart_alt</span>
+<span>Reset to Baseline</span>
+</button>
+<button class="font-body-sm text-body-sm text-primary hover:text-white transition-colors flex items-center gap-1" id="btn-demo" type="button">
+<span class="material-symbols-outlined text-[14px]">magic_button</span>
+<span>Fill Demo Profile (Optimal)</span>
+</button>
+</div>
+</div>
+</form>
+</div>
+</section>
+<!-- RIGHT COLUMN: REAL-TIME PREDICTION RESULT CARD (5 Cols on Desktop) -->
+<section class="lg:col-span-5 space-y-4">
+<!-- Interactive State Switcher / Preview Tabs -->
+<div class="flex items-center justify-between bg-surface-container-low/70 p-1.5 rounded-lg border border-outline-variant/30">
+<div class="flex items-center gap-1">
+<button class="px-3 py-1 rounded-md text-label-sm font-label-sm bg-surface-container-high text-primary font-medium border border-outline-variant/30 flex items-center gap-1.5" id="tab-live">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+              Live Result (Post)
+            </button>
+<button class="px-3 py-1 rounded-md text-label-sm font-label-sm text-on-surface-variant hover:text-on-surface flex items-center gap-1.5" id="tab-preview">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+              Pre-Submission Idle
+            </button>
+</div>
+<span class="text-label-sm font-label-sm text-outline hidden sm:inline">Telemetry Feed</span>
+</div>
+<!-- POST-SUBMISSION STATE (Default Prominent View) -->
+<div class="bg-surface-container-low/70 backdrop-blur-md rounded-xl border border-outline-variant/30 p-card-pad-default shadow-xl space-y-5 relative overflow-hidden" id="post-submission-view">
+<!-- Ambient Glow Accent -->
+<div class="absolute -right-20 -top-20 w-56 h-56 rounded-full bg-secondary/10 blur-3xl pointer-events-none ambient-pulse"></div>
+<div class="absolute -left-20 bottom-10 w-48 h-48 rounded-full bg-primary/10 blur-3xl pointer-events-none"></div>
+<!-- Result Header -->
+<div class="flex items-center justify-between border-b border-outline-variant/20 pb-3">
+<div>
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-outline">DOSSIER #LP-8841</span>
+<span class="font-label-sm text-label-sm px-1.5 py-0.2 rounded bg-surface-container-high text-on-surface-variant">OCT 24, 14:32 EST</span>
+</div>
+<div class="font-body-sm text-body-sm text-secondary flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-[15px]">verified</span>
+<span>Model Confidence: High Tier (k=5)</span>
+</div>
+</div>
+<button class="text-label-sm font-label-sm px-2 py-1 rounded bg-surface-container-high/60 border border-outline-variant/40 hover:bg-surface-container-high text-on-surface-variant flex items-center gap-1" id="toggle-outcome-btn" title="Toggle between Approved and Rejected for preview testing">
+<span class="material-symbols-outlined text-[14px]">swap_horiz</span>
+<span id="outcome-toggle-label">Test Reject</span>
+</button>
+</div>
+<!-- Outcome Badge & Radial Probability Gauge -->
+<div class="p-4 rounded-xl bg-surface-container-lowest/60 border border-secondary/40 shadow-[0_0_24px_-4px_rgba(16,185,129,0.2)]" id="outcome-container">
+<div class="flex items-center justify-between gap-4">
+<!-- Outcome Text Indicator -->
+<div>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-mono block">Inference Decision</span>
+<div class="font-display-lg text-display-lg text-secondary font-bold tracking-tight flex items-center gap-2" id="outcome-badge-text">
+<span>APPROVED</span>
+<span class="material-symbols-outlined text-[32px] text-secondary">check_circle</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1" id="outcome-desc">
+                  Applicant feature vectors align with high-repayment historical clusters under Basel III norms.
+                </p>
+</div>
+<!-- Circular Radial Gauge -->
+<div class="relative w-24 h-24 flex-shrink-0 flex items-center justify-center">
+<svg class="w-24 h-24 transform -rotate-90" viewbox="0 0 100 100">
+<!-- Background circle -->
+<circle cx="50" cy="50" fill="transparent" r="40" stroke="rgba(255, 255, 255, 0.08)" stroke-width="8"></circle>
+<!-- Animated Progress stroke -->
+<circle class="transition-all duration-700 ease-out" cx="50" cy="50" fill="transparent" id="gauge-circle" r="40" stroke="url(#emeraldCyanGrad)" stroke-dasharray="251.2" stroke-dashoffset="32.6" stroke-linecap="round" stroke-width="8"></circle>
+<defs>
+<lineargradient id="emeraldCyanGrad" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#4edea3"></stop>
+<stop offset="100%" stop-color="#4cd7f6"></stop>
+</lineargradient>
+</defs>
+</svg>
+<!-- Central Score -->
+<div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+<span class="font-headline-md text-headline-md font-bold text-on-surface tabular-nums" id="gauge-percent">87%</span>
+<span class="font-label-sm text-label-sm text-outline -mt-1">PROB</span>
+</div>
+</div>
+</div>
+<!-- Tier Tag -->
+<div class="mt-3 pt-3 border-t border-outline-variant/20 flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-outline">CREDIT QUALITY TIER</span>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded bg-secondary/15 text-secondary border border-secondary/30 font-mono" id="tier-badge">
+                Tier A-1 (Lowest Loss Given Default)
+              </span>
+</div>
+</div>
+<!-- Risk Factor Breakdown List -->
+<div class="space-y-3">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline block">Feature Attribution &amp; Vector Weights</span>
+<div class="space-y-2">
+<!-- Item 1: Credit History -->
+<div class="p-2.5 rounded-lg bg-surface-container-lowest/50 border border-outline-variant/20 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-6 rounded-full bg-secondary"></span>
+<div>
+<span class="font-body-sm text-body-sm text-on-surface font-medium block">Credit History Impact</span>
+<span class="font-label-sm text-label-sm text-outline">Clean bureau score verified (&gt;700)</span>
+</div>
+</div>
+<div class="text-right">
+<span class="font-label-md text-label-md text-secondary font-mono">+38.0%</span>
+<span class="block font-label-sm text-label-sm text-outline">Positive Weight</span>
+</div>
+</div>
+<!-- Item 2: DTI Ratio -->
+<div class="p-2.5 rounded-lg bg-surface-container-lowest/50 border border-outline-variant/20 space-y-1.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-6 rounded-full bg-tertiary"></span>
+<div>
+<span class="font-body-sm text-body-sm text-on-surface font-medium block">Debt-to-Income (DTI) Ratio</span>
+<span class="font-label-sm text-label-sm text-outline">Calculated against $9,300 gross inflow</span>
+</div>
+</div>
+<div class="text-right">
+<span class="font-label-md text-label-md text-tertiary font-mono" id="dti-metric">25.8%</span>
+<span class="block font-label-sm text-label-sm text-secondary">Healthy Buffer</span>
+</div>
+</div>
+<!-- Mini Progress Bar -->
+<div class="w-full h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-tertiary rounded-full" id="dti-bar" style="width: 25.8%"></div>
+</div>
+</div>
+<!-- Item 3: Property Area Weighting -->
+<div class="p-2.5 rounded-lg bg-surface-container-lowest/50 border border-outline-variant/20 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-6 rounded-full bg-primary"></span>
+<div>
+<span class="font-body-sm text-body-sm text-on-surface font-medium block">Property Area Weighting</span>
+<span class="font-label-sm text-label-sm text-outline">Semiurban market liquidity tier</span>
+</div>
+</div>
+<div class="text-right">
+<span class="font-label-md text-label-md text-primary font-mono">+14.2%</span>
+<span class="block font-label-sm text-label-sm text-outline">Low Volatility</span>
+</div>
+</div>
+<!-- Item 4: Co-applicant Cushion -->
+<div class="p-2.5 rounded-lg bg-surface-container-lowest/50 border border-outline-variant/20 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-6 rounded-full bg-secondary"></span>
+<div>
+<span class="font-body-sm text-body-sm text-on-surface font-medium block">Co-applicant Income Cushion</span>
+<span class="font-label-sm text-label-sm text-outline">Adds $2,800 monthly hedge</span>
+</div>
+</div>
+<div class="text-right">
+<span class="font-label-md text-label-md text-secondary font-mono">+12.0%</span>
+<span class="block font-label-sm text-label-sm text-outline">Variance Reduction</span>
+</div>
+</div>
+</div>
+</div>
+<!-- KNN Nearest Neighbors Cluster Widget -->
+<div class="p-3 rounded-lg bg-surface-container-lowest/60 border border-outline-variant/30 space-y-2">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-primary">hub</span>
+<span>KNN Nearest Neighbors Cluster (k=5)</span>
+</span>
+<span class="font-label-sm text-label-sm text-secondary font-mono">100% Repayment</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Matched with <strong class="text-on-surface">5 nearest approved historical applicant vectors</strong> within Euclidean feature space distance: <span class="text-primary font-mono font-medium">d = 0.142</span>.
+            </p>
+<div class="grid grid-cols-5 gap-1 pt-1">
+<div class="h-1.5 rounded-full bg-secondary" title="Neighbor 1: Approved (Dist 0.08)"></div>
+<div class="h-1.5 rounded-full bg-secondary" title="Neighbor 2: Approved (Dist 0.11)"></div>
+<div class="h-1.5 rounded-full bg-secondary" title="Neighbor 3: Approved (Dist 0.13)"></div>
+<div class="h-1.5 rounded-full bg-secondary" title="Neighbor 4: Approved (Dist 0.15)"></div>
+<div class="h-1.5 rounded-full bg-secondary" title="Neighbor 5: Approved (Dist 0.19)"></div>
+</div>
+</div>
+<!-- Secondary Actions -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+<button class="w-full py-2 px-3 rounded-lg bg-surface-container-high border border-outline-variant/40 hover:bg-surface-container-highest text-on-surface font-body-sm text-body-sm flex items-center justify-center gap-1.5 transition-all">
+<span class="material-symbols-outlined text-[16px]">picture_as_pdf</span>
+<span>Download PDF Underwriting Dossier</span>
+</button>
+<button class="w-full py-2 px-3 rounded-lg bg-surface-container-high border border-outline-variant/40 hover:bg-surface-container-highest text-on-surface font-body-sm text-body-sm flex items-center justify-center gap-1.5 transition-all">
+<span class="material-symbols-outlined text-[16px]">assignment_turned_in</span>
+<span>Send to Secondary Review</span>
+</button>
+</div>
+</div>
+<!-- PRE-SUBMISSION STATE (Toggleable or Docked Preview Card) -->
+<div class="hidden bg-surface-container-low/70 backdrop-blur-md rounded-xl border border-dashed border-outline-variant/40 p-8 text-center space-y-4" id="pre-submission-view">
+<div class="relative w-24 h-24 mx-auto flex items-center justify-center">
+<!-- Pulsing radar rings -->
+<div class="absolute inset-0 rounded-full border border-primary/30 animate-ping opacity-25"></div>
+<div class="absolute inset-2 rounded-full border border-primary/20"></div>
+<div class="w-16 h-16 rounded-full bg-surface-container-high flex items-center justify-center text-primary shadow-[0_0_20px_rgba(192,193,255,0.2)]">
+<span class="material-symbols-outlined text-[32px] animate-pulse">radar</span>
+</div>
+</div>
+<div>
+<span class="font-label-sm text-label-sm px-2.5 py-0.5 rounded-full bg-primary/10 border border-primary/30 text-primary font-mono uppercase">
+              Ready for Inference
+            </span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold mt-2">Waiting for Vector Inputs</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant max-w-sm mx-auto mt-1">
+              Fill in the applicant details on the left and click <strong class="text-on-surface">Run KNN Prediction</strong> to calculate instant eligibility, vector weights, and cluster matching.
+            </p>
+</div>
+<div class="p-3 rounded-lg bg-surface-container-lowest/60 border border-outline-variant/30 text-left space-y-1.5 max-w-sm mx-auto font-body-sm text-body-sm text-outline">
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-primary">check</span>
+<span>k-Nearest Neighbors (k=5) Hyperplane Ready</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-primary">check</span>
+<span>Categorical One-Hot Normalizer Armed</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-primary">check</span>
+<span>Basel III Capital Adequacy Checked</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- MICRO-INTERACTION SCRIPT FOR SLIDERS, TABS & PREDICTION RUN -->
+<script>
+    // Elements
+    const loanSlider = document.getElementById('loan-amount-slider');
+    const loanNum = document.getElementById('loan-amount-num');
+    const appIncome = document.getElementById('applicant-income');
+    const coappIncome = document.getElementById('coapplicant-income');
+    const householdBadge = document.getElementById('household-badge');
+    const dtiMetric = document.getElementById('dti-metric');
+    const dtiBar = document.getElementById('dti-bar');
+
+    // Sync Loan Slider & Numeric Input
+    loanSlider.addEventListener('input', (e) => {
+      loanNum.value = e.target.value;
+      updateHouseholdAndDTI();
+    });
+    loanNum.addEventListener('input', (e) => {
+      loanSlider.value = e.target.value;
+      updateHouseholdAndDTI();
+    });
+
+    // Income Changes
+    appIncome.addEventListener('input', updateHouseholdAndDTI);
+    coappIncome.addEventListener('input', updateHouseholdAndDTI);
+
+    function updateHouseholdAndDTI() {
+      const app = parseFloat(appIncome.value) || 0;
+      const coapp = parseFloat(coappIncome.value) || 0;
+      const total = app + coapp;
+      householdBadge.textContent = `Household: $${total.toLocaleString()}/mo`;
+
+      // Estimated 30y monthly payment based on 6.5% interest
+      const p = parseFloat(loanSlider.value) || 240000;
+      const r = 0.065 / 12;
+      const n = 360;
+      const monthlyPmt = (p * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+      
+      const dti = total > 0 ? ((monthlyPmt / total) * 100).toFixed(1) : 0;
+      dtiMetric.textContent = `${dti}%`;
+      dtiBar.style.width = `${Math.min(dti, 100)}%`;
+
+      if (dti > 43) {
+        dtiMetric.className = 'font-label-md text-label-md text-error font-mono';
+        dtiBar.className = 'h-full bg-error rounded-full';
+      } else {
+        dtiMetric.className = 'font-label-md text-label-md text-tertiary font-mono';
+        dtiBar.className = 'h-full bg-tertiary rounded-full';
+      }
+    }
+
+    // Dependent Pills
+    document.querySelectorAll('.dep-pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        document.querySelectorAll('.dep-pill').forEach(p => {
+          p.className = 'dep-pill py-1 rounded font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface';
+        });
+        pill.className = 'dep-pill py-1 rounded font-label-sm text-label-sm bg-primary-container text-on-primary-container font-semibold shadow';
+      });
+    });
+
+    // Education Buttons
+    document.querySelectorAll('.edu-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.edu-btn').forEach(b => {
+          b.className = 'edu-btn py-1.5 rounded font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface';
+        });
+        btn.className = 'edu-btn py-1.5 rounded font-body-sm text-body-sm bg-surface-container-high border border-outline-variant/40 text-primary font-medium';
+      });
+    });
+
+    // Property Cards Selection
+    const propCards = document.querySelectorAll('.property-card');
+    propCards.forEach(card => {
+      card.addEventListener('click', () => {
+        propCards.forEach(c => {
+          c.className = 'property-card cursor-pointer p-3 rounded-lg bg-surface-container-lowest/40 border border-outline-variant/30 hover:border-outline-variant/60 transition-all';
+          const icon = c.querySelector('.check-circle');
+          if (icon) icon.className = 'w-3 h-3 rounded-full border border-outline-variant/40 check-circle';
+        });
+        card.className = 'property-card active-prop cursor-pointer p-3 rounded-lg bg-surface-container-high/60 border border-secondary/50 shadow-[0_0_15px_rgba(78,222,163,0.15)] transition-all';
+      });
+    });
+
+    // Toggle Preview Tab Switcher
+    const tabLive = document.getElementById('tab-live');
+    const tabPreview = document.getElementById('tab-preview');
+    const postView = document.getElementById('post-submission-view');
+    const preView = document.getElementById('pre-submission-view');
+
+    tabLive.addEventListener('click', () => {
+      tabLive.className = 'px-3 py-1 rounded-md text-label-sm font-label-sm bg-surface-container-high text-primary font-medium border border-outline-variant/30 flex items-center gap-1.5';
+      tabPreview.className = 'px-3 py-1 rounded-md text-label-sm font-label-sm text-on-surface-variant hover:text-on-surface flex items-center gap-1.5';
+      postView.classList.remove('hidden');
+      preView.classList.add('hidden');
+    });
+
+    tabPreview.addEventListener('click', () => {
+      tabPreview.className = 'px-3 py-1 rounded-md text-label-sm font-label-sm bg-surface-container-high text-primary font-medium border border-outline-variant/30 flex items-center gap-1.5';
+      tabLive.className = 'px-3 py-1 rounded-md text-label-sm font-label-sm text-on-surface-variant hover:text-on-surface flex items-center gap-1.5';
+      postView.classList.add('hidden');
+      preView.classList.remove('hidden');
+    });
+
+    // Run KNN Prediction Action
+    function runPrediction() {
+      // Show Live tab if on preview
+      tabLive.click();
+
+      const btn = document.getElementById('predict-btn');
+      const originalText = btn.innerHTML;
+      btn.innerHTML = `<span class="material-symbols-outlined text-[20px] animate-spin text-white">sync</span><span class="text-white">Executing KNN Hyperplane Query...</span>`;
+      btn.disabled = true;
+
+      setTimeout(() => {
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+
+        // Spark pulse effect on outcome card
+        const card = document.getElementById('outcome-container');
+        card.classList.add('scale-[1.02]');
+        setTimeout(() => card.classList.remove('scale-[1.02]'), 200);
+      }, 600);
+    }
+
+    // Toggle Outcome Tester (Approved vs Rejected)
+    let isApproved = true;
+    const toggleOutcomeBtn = document.getElementById('toggle-outcome-btn');
+    const toggleLabel = document.getElementById('outcome-toggle-label');
+    const outcomeText = document.getElementById('outcome-badge-text');
+    const outcomeContainer = document.getElementById('outcome-container');
+    const outcomeDesc = document.getElementById('outcome-desc');
+    const gaugePercent = document.getElementById('gauge-percent');
+    const gaugeCircle = document.getElementById('gauge-circle');
+    const tierBadge = document.getElementById('tier-badge');
+
+    toggleOutcomeBtn.addEventListener('click', () => {
+      isApproved = !isApproved;
+      if (isApproved) {
+        toggleLabel.textContent = 'Test Reject';
+        outcomeContainer.className = 'p-4 rounded-xl bg-surface-container-lowest/60 border border-secondary/40 shadow-[0_0_24px_-4px_rgba(16,185,129,0.2)] transition-all';
+        outcomeText.innerHTML = `<span>APPROVED</span><span class="material-symbols-outlined text-[32px] text-secondary">check_circle</span>`;
+        outcomeText.className = 'font-display-lg text-display-lg text-secondary font-bold tracking-tight flex items-center gap-2';
+        outcomeDesc.textContent = 'Applicant feature vectors align with high-repayment historical clusters under Basel III norms.';
+        gaugePercent.textContent = '87%';
+        gaugeCircle.style.strokeDashoffset = '32.6';
+        gaugeCircle.setAttribute('stroke', 'url(#emeraldCyanGrad)');
+        tierBadge.textContent = 'Tier A-1 (Lowest Loss Given Default)';
+        tierBadge.className = 'font-label-sm text-label-sm px-2 py-0.5 rounded bg-secondary/15 text-secondary border border-secondary/30 font-mono';
+      } else {
+        toggleLabel.textContent = 'Test Approve';
+        outcomeContainer.className = 'p-4 rounded-xl bg-surface-container-lowest/60 border border-error/40 shadow-[0_0_24px_-4px_rgba(239,68,68,0.2)] transition-all';
+        outcomeText.innerHTML = `<span>REJECTED</span><span class="material-symbols-outlined text-[32px] text-error">cancel</span>`;
+        outcomeText.className = 'font-display-lg text-display-lg text-error font-bold tracking-tight flex items-center gap-2';
+        outcomeDesc.textContent = 'Vector projected outside acceptable delinquency cluster. High likelihood of early 90-day covenant default.';
+        gaugePercent.textContent = '34%';
+        gaugeCircle.style.strokeDashoffset = '165.7';
+        gaugeCircle.setAttribute('stroke', '#ffb4ab');
+        tierBadge.textContent = 'Tier C-3 (Excessive Delinquency Risk)';
+        tierBadge.className = 'font-label-sm text-label-sm px-2 py-0.5 rounded bg-error/15 text-error border border-error/30 font-mono';
+      }
+    });
+
+    // Fill Demo Profile Button
+    document.getElementById('btn-demo').addEventListener('click', () => {
+      appIncome.value = 8500;
+      coappIncome.value = 4200;
+      loanSlider.value = 320000;
+      loanNum.value = 320000;
+      document.getElementById('credit-history-toggle').checked = true;
+      document.getElementById('self-employed-toggle').checked = false;
+      updateHouseholdAndDTI();
+      runPrediction();
+    });
+
+    // Reset Baseline Action
+    document.getElementById('btn-baseline').addEventListener('click', () => {
+      appIncome.value = 6500;
+      coappIncome.value = 2800;
+      loanSlider.value = 240000;
+      loanNum.value = 240000;
+      document.getElementById('credit-history-toggle').checked = true;
+      document.getElementById('self-employed-toggle').checked = false;
+      updateHouseholdAndDTI();
+    });
+
+    document.getElementById('reset-form-top').addEventListener('click', () => {
+      document.getElementById('btn-baseline').click();
+    });
+
+    // Initial run
+    updateHouseholdAndDTI();
+  </script>
+</body></html>

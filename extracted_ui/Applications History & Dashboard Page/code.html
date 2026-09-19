@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LoanPulse AI - Applications History &amp; Portfolio Telemetry</title>
+<!-- Fonts: Inter & JetBrains Mono -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<!-- Google Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Theme Config -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "primary-container": "#8083ff",
+            "on-error": "#690005",
+            "on-primary-container": "#0d0096",
+            "secondary": "#4edea3",
+            "on-primary": "#1000a9",
+            "primary": "#c0c1ff",
+            "on-primary-fixed-variant": "#2f2ebe",
+            "on-secondary-container": "#00311f",
+            "on-primary-fixed": "#07006c",
+            "on-error-container": "#ffdad6",
+            "secondary-fixed": "#6ffbbe",
+            "error": "#ffb4ab",
+            "surface": "#0b1326",
+            "surface-dim": "#0b1326",
+            "on-tertiary-container": "#002f38",
+            "surface-container-high": "#222a3d",
+            "outline": "#908fa0",
+            "surface-bright": "#31394d",
+            "tertiary-fixed-dim": "#4cd7f6",
+            "surface-container-highest": "#2d3449",
+            "on-secondary-fixed-variant": "#005236",
+            "secondary-container": "#00a572",
+            "surface-container": "#171f33",
+            "surface-variant": "#2d3449",
+            "on-secondary-fixed": "#002113",
+            "on-surface-variant": "#c7c4d7",
+            "inverse-surface": "#dae2fd",
+            "background": "#0b1326",
+            "on-background": "#dae2fd",
+            "tertiary-container": "#009eb9",
+            "inverse-on-surface": "#283044",
+            "on-tertiary-fixed-variant": "#004e5c",
+            "primary-fixed": "#e1e0ff",
+            "on-tertiary-fixed": "#001f26",
+            "surface-container-low": "#131b2e",
+            "primary-fixed-dim": "#c0c1ff",
+            "outline-variant": "#464554",
+            "secondary-fixed-dim": "#4edea3",
+            "on-secondary": "#003824",
+            "tertiary-fixed": "#acedff",
+            "error-container": "#93000a",
+            "inverse-primary": "#494bd6",
+            "on-background": "#dae2fd",
+            "tertiary": "#4cd7f6",
+            "on-tertiary": "#003640",
+            "surface-tint": "#c0c1ff",
+            "surface-container-lowest": "#060e20"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "grid-margin-tablet": "1.5rem",
+            "card-pad-spacious": "2rem",
+            "gutter-desktop": "1.5rem",
+            "grid-margin-desktop": "2rem",
+            "card-pad-default": "1.5rem",
+            "gutter-mobile": "0.75rem",
+            "grid-margin-mobile": "1rem",
+            "gutter-tablet": "1rem",
+            "card-pad-compact": "1rem"
+          },
+          "fontFamily": {
+            "headline-lg-mobile": ["Inter"],
+            "label-md": ["JetBrains Mono"],
+            "display-lg": ["Inter"],
+            "display-lg-mobile": ["Inter"],
+            "label-sm": ["JetBrains Mono"],
+            "body-lg": ["Inter"],
+            "body-md": ["Inter"],
+            "headline-md": ["Inter"],
+            "headline-lg": ["Inter"],
+            "body-sm": ["Inter"],
+            "headline-sm": ["Inter"]
+          },
+          "fontSize": {
+            "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600" }],
+            "label-md": ["13px", { "lineHeight": "18px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+            "display-lg": ["44px", { "lineHeight": "52px", "letterSpacing": "-0.025em", "fontWeight": "600" }],
+            "display-lg-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+            "label-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "500" }],
+            "body-lg": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.005em", "fontWeight": "400" }],
+            "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "500" }],
+            "headline-lg": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+            "body-sm": ["12px", { "lineHeight": "18px", "letterSpacing": "0.005em", "fontWeight": "400" }],
+            "headline-sm": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      height: 6px;
+      width: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: rgba(11, 19, 38, 0.4);
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: rgba(144, 143, 160, 0.25);
+      border-radius: 9999px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: rgba(144, 143, 160, 0.45);
+    }
+    .tabular-numbers {
+      font-variant-numeric: tabular-nums;
+    }
+    @keyframes pulse-subtle {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .animate-pulse-subtle {
+      animation: pulse-subtle 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface font-body-md antialiased min-h-screen selection:bg-primary selection:text-on-primary">
+<!-- TopNavBar (Shared Component Execution) -->
+<header class="docked full-width top-0 z-50 sticky bg-surface-container-lowest/80 backdrop-blur-md dark:bg-surface-container-lowest/80 border-b border-outline-variant/30 shadow-2xl shadow-surface-container-lowest/50">
+<div class="w-full px-grid-margin-desktop max-w-[1680px] mx-auto flex items-center justify-between h-16">
+<!-- Brand & Left Actions -->
+<div class="flex items-center gap-8">
+<a class="text-headline-sm font-headline-sm text-on-surface tracking-tight flex items-center gap-2.5" href="#">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center border border-outline-variant/40 shadow-[0_0_15px_rgba(99,102,241,0.25)]">
+<span class="material-symbols-outlined text-primary text-headline-sm" data-icon="insights" style="font-variation-settings: 'FILL' 1;">insights</span>
+</div>
+<span>LoanPulse AI</span>
+</a>
+<!-- Global Fast Telemetry Search -->
+<div class="hidden xl:flex items-center relative w-72">
+<span class="material-symbols-outlined text-outline absolute left-3 text-body-lg pointer-events-none" data-icon="search">search</span>
+<input class="w-full h-9 pl-9 pr-4 rounded-lg bg-surface-container-low/80 border border-outline-variant/40 text-on-surface text-body-sm placeholder-outline focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all" placeholder="Search parameters, loans, hashes..." type="text"/>
+<kbd class="absolute right-2.5 px-1.5 py-0.5 rounded text-[10px] font-label-sm bg-surface-container-high border border-outline-variant/40 text-on-surface-variant">⌘K</kbd>
+</div>
+</div>
+<!-- Navigation Links (Audit Log matches destination context) -->
+<nav class="hidden md:flex items-center gap-7 h-full">
+<a class="text-on-surface-variant font-body-md hover:text-on-surface pb-3.5 pt-4 transition-colors" href="#">Underwriting</a>
+<a class="text-on-surface-variant font-body-md hover:text-on-surface pb-3.5 pt-4 transition-colors" href="#">Risk Models</a>
+<a class="text-on-surface-variant font-body-md hover:text-on-surface pb-3.5 pt-4 transition-colors" href="#">Batch Assessment</a>
+<a class="text-primary font-headline-sm border-b-2 border-primary pb-3.5 pt-4 transition-colors flex items-center gap-1.5" href="#">
+<span>Audit Log</span>
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-ping"></span>
+</a>
+<a class="text-on-surface-variant font-body-md hover:text-on-surface pb-3.5 pt-4 transition-colors" href="#">Docs</a>
+</nav>
+<!-- Trailing Action Items & Badges -->
+<div class="flex items-center gap-3.5">
+<!-- Model Engine Status Pill -->
+<div class="hidden sm:flex items-center gap-2 px-3 py-1 rounded-full bg-secondary-container/10 border border-secondary-container/30 text-secondary text-label-sm font-label-sm">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse-subtle"></span>
+<span>KNN v1.2 Active</span>
+</div>
+<!-- Latency Pill -->
+<div class="hidden lg:flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container border border-outline-variant/30 text-on-surface-variant text-label-sm font-label-sm">
+<span class="material-symbols-outlined text-body-sm text-tertiary" data-icon="bolt">bolt</span>
+<span>12ms</span>
+</div>
+<!-- Primary Trigger Action -->
+<button class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-primary-container text-on-primary-container text-body-sm font-headline-sm hover:opacity-95 transition-transform active:scale-[0.98] shadow-sm shadow-primary/20">
+<span class="material-symbols-outlined text-body-lg" data-icon="add">add</span>
+<span>New Assessment</span>
+</button>
+<!-- Notification & Setting Icon Buttons -->
+<div class="flex items-center gap-1 border-l border-outline-variant/30 pl-3">
+<button class="w-9 h-9 rounded-lg flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/60 transition-all duration-150 ease-out relative" title="Notifications">
+<span class="material-symbols-outlined text-headline-sm" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-primary-container ring-2 ring-surface"></span>
+</button>
+<button class="w-9 h-9 rounded-lg flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/60 transition-all duration-150 ease-out" title="Settings">
+<span class="material-symbols-outlined text-headline-sm" data-icon="settings">settings</span>
+</button>
+</div>
+<!-- Profile Avatar -->
+<div class="flex items-center gap-2 pl-2">
+<div class="relative group cursor-pointer">
+<img alt="Senior Underwriter Avatar" class="w-8 h-8 rounded-lg object-cover ring-1 ring-outline-variant/40" data-alt="A refined portrait of a senior institutional financial risk underwriter wearing tailored dark navy corporate attire with subtle cyan edge lighting, set inside a high-tech computational trading desk environment in deep slate aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBy_845ygu03El1l8tD4OSiGUb6au9dY2-Kedbv63RmaF4OjCVywkYbN32n5GU4T4UMQR8lEDhuaGwUCNeUR7iFt9Gkdng5CGi6hkRih6hZPKSOP8exo1QwIA56tckdQt0dfL18BllmwlLfXf-jCBKICGd17NjOdI7mNn2o0ZBWLlCeuBrPW0k5doJKMdkhN81MiVBBdlU6H8PBxd-tg49dpZwEZNU0o5VkqFowDWgE5ZsJAuSjzu85UA"/>
+<div class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-secondary ring-2 ring-surface"></div>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Operational Canvas -->
+<main class="w-full max-w-[1680px] mx-auto px-grid-margin-mobile md:px-grid-margin-tablet lg:px-grid-margin-desktop py-8 space-y-8">
+<!-- Breadcrumbs, Title and Global Action Controls -->
+<div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5 border-b border-outline-variant/20 pb-6">
+<div>
+<div class="flex items-center gap-2 text-label-sm font-label-sm text-outline mb-2">
+<span class="hover:text-primary transition-colors cursor-pointer">Dashboard</span>
+<span class="material-symbols-outlined text-body-sm" data-icon="chevron_right">chevron_right</span>
+<span class="text-tertiary">Analytics &amp; History</span>
+</div>
+<h1 class="text-display-lg-mobile md:text-headline-lg font-headline-lg text-on-surface tracking-tight">
+          Applications History &amp; Portfolio Telemetry
+        </h1>
+<p class="text-body-md font-body-md text-on-surface-variant mt-1">
+          Audit log of historical loan evaluations, algorithmic inference confidence, and batch risk telemetry.
+        </p>
+</div>
+<!-- Action Group -->
+<div class="flex flex-wrap items-center gap-3">
+<!-- Date Range Filter -->
+<div class="flex items-center gap-2 px-3.5 py-2 rounded-lg bg-surface-container-low border border-outline-variant/30 text-body-sm text-on-surface shadow-inner hover:border-outline transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-tertiary text-body-lg" data-icon="calendar_month">calendar_month</span>
+<span class="font-body-md">Last 30 Days</span>
+<span class="material-symbols-outlined text-outline text-body-sm" data-icon="arrow_drop_down">arrow_drop_down</span>
+</div>
+<!-- Filter Modal Trigger -->
+<button class="flex items-center gap-2 px-3.5 py-2 rounded-lg bg-surface-container-low border border-outline-variant/30 text-body-sm text-on-surface hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-outline text-body-lg" data-icon="tune">tune</span>
+<span class="font-body-md">Filters</span>
+<span class="px-1.5 py-0.2 rounded-full text-[10px] font-label-sm bg-primary/20 text-primary border border-primary/30">3</span>
+</button>
+<!-- Export Data / Report Button -->
+<div class="relative inline-flex">
+<button class="flex items-center gap-2 px-4 py-2 rounded-lg bg-surface-bright/40 hover:bg-surface-bright border border-white/10 text-on-surface text-body-sm font-headline-sm transition-all active:scale-[0.98] shadow-md shadow-black/20">
+<span class="material-symbols-outlined text-secondary text-body-lg" data-icon="download">download</span>
+<span>Export Underwriting Dossier</span>
+</button>
+</div>
+</div>
+</div>
+<!-- 4 High-Fidelity Metric Glassmorphic Cards -->
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
+<!-- Card 1: Total Applications -->
+<div class="p-card-pad-default rounded-2xl bg-white/[0.03] backdrop-blur-md border border-white/10 hover:border-primary/40 transition-all duration-300 relative overflow-hidden group shadow-lg shadow-black/20">
+<div class="absolute -right-6 -top-6 w-28 h-28 rounded-full bg-primary/10 blur-2xl group-hover:bg-primary/20 transition-all"></div>
+<div class="flex items-center justify-between">
+<span class="text-label-sm font-label-sm text-outline tracking-wider uppercase">Total Applications</span>
+<div class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center border border-white/5">
+<span class="material-symbols-outlined text-primary text-body-lg" data-icon="folder_shared">folder_shared</span>
+</div>
+</div>
+<div class="mt-4 flex items-baseline justify-between">
+<div class="text-headline-lg font-headline-lg tabular-numbers text-on-surface">1,248</div>
+<div class="flex items-center gap-1 text-label-sm font-label-sm text-secondary bg-secondary/10 px-2 py-0.5 rounded border border-secondary/30">
+<span class="material-symbols-outlined text-body-sm" data-icon="trending_up">trending_up</span>
+<span>+14.2%</span>
+</div>
+</div>
+<!-- Sparkline Visualization -->
+<div class="mt-4 pt-3 border-t border-white/[0.04] flex items-end justify-between gap-1 h-9">
+<div class="w-full bg-white/[0.05] h-3 rounded-sm group-hover:bg-primary/30 transition-all"></div>
+<div class="w-full bg-white/[0.05] h-5 rounded-sm group-hover:bg-primary/40 transition-all"></div>
+<div class="w-full bg-white/[0.05] h-4 rounded-sm group-hover:bg-primary/30 transition-all"></div>
+<div class="w-full bg-white/[0.05] h-6 rounded-sm group-hover:bg-primary/50 transition-all"></div>
+<div class="w-full bg-white/[0.05] h-7 rounded-sm group-hover:bg-primary/60 transition-all"></div>
+<div class="w-full bg-primary/40 h-8 rounded-sm group-hover:bg-primary/80 transition-all"></div>
+<div class="w-full bg-primary h-9 rounded-sm shadow-[0_0_10px_rgba(192,193,255,0.5)]"></div>
+</div>
+<div class="flex items-center justify-between text-[11px] font-label-sm text-on-surface-variant/70 mt-2">
+<span>T-30d</span>
+<span>Current Ingestion Rate: 42/hr</span>
+</div>
+</div>
+<!-- Card 2: Approval Rate -->
+<div class="p-card-pad-default rounded-2xl bg-white/[0.03] backdrop-blur-md border border-white/10 hover:border-secondary/40 transition-all duration-300 relative overflow-hidden group shadow-lg shadow-black/20">
+<div class="absolute -right-6 -top-6 w-28 h-28 rounded-full bg-secondary/10 blur-2xl group-hover:bg-secondary/20 transition-all"></div>
+<div class="flex items-center justify-between">
+<span class="text-label-sm font-label-sm text-outline tracking-wider uppercase">Approval Rate</span>
+<div class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center border border-white/5">
+<span class="material-symbols-outlined text-secondary text-body-lg" data-icon="verified">verified</span>
+</div>
+</div>
+<div class="mt-4 flex items-baseline justify-between">
+<div class="text-headline-lg font-headline-lg tabular-numbers text-on-surface">68.4%</div>
+<div class="flex items-center gap-1 text-label-sm font-label-sm text-secondary bg-secondary/10 px-2 py-0.5 rounded border border-secondary/30">
+<span class="material-symbols-outlined text-body-sm" data-icon="arrow_upward">arrow_upward</span>
+<span>+3.1%</span>
+</div>
+</div>
+<!-- Progress Bar Indicator -->
+<div class="mt-4 pt-3 border-t border-white/[0.04]">
+<div class="w-full bg-surface-container-highest h-2 rounded-full overflow-hidden flex">
+<div class="bg-secondary h-full rounded-full shadow-[0_0_12px_rgba(78,222,163,0.5)]" style="width: 68.4%"></div>
+</div>
+<div class="flex items-center justify-between text-[11px] font-label-sm text-on-surface-variant/70 mt-2.5">
+<span>Automated Algorithmic Pass</span>
+<span class="text-secondary font-label-md">854 approved</span>
+</div>
+</div>
+</div>
+<!-- Card 3: Avg Loan Requested -->
+<div class="p-card-pad-default rounded-2xl bg-white/[0.03] backdrop-blur-md border border-white/10 hover:border-tertiary/40 transition-all duration-300 relative overflow-hidden group shadow-lg shadow-black/20">
+<div class="absolute -right-6 -top-6 w-28 h-28 rounded-full bg-tertiary/10 blur-2xl group-hover:bg-tertiary/20 transition-all"></div>
+<div class="flex items-center justify-between">
+<span class="text-label-sm font-label-sm text-outline tracking-wider uppercase">Avg Loan Requested</span>
+<div class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center border border-white/5">
+<span class="material-symbols-outlined text-tertiary text-body-lg" data-icon="account_balance">account_balance</span>
+</div>
+</div>
+<div class="mt-4 flex items-baseline justify-between">
+<div class="text-headline-lg font-headline-lg tabular-numbers text-on-surface">$145,000</div>
+<div class="text-label-sm font-label-sm text-on-surface-variant bg-surface-container px-2 py-0.5 rounded border border-outline-variant/30">
+<span>Median $130k</span>
+</div>
+</div>
+<!-- Metric Detail Strip -->
+<div class="mt-4 pt-3 border-t border-white/[0.04]">
+<div class="flex items-center justify-between text-body-sm">
+<span class="text-on-surface-variant font-body-sm">Avg Portfolio DTI</span>
+<span class="text-tertiary font-label-md">24.6% <span class="text-[10px] text-outline">(Optimal &lt; 36%)</span></span>
+</div>
+<div class="w-full bg-surface-container-highest h-1.5 rounded-full mt-2">
+<div class="bg-tertiary h-full rounded-full" style="width: 48%"></div>
+</div>
+</div>
+</div>
+<!-- Card 4: High Risk Flags -->
+<div class="p-card-pad-default rounded-2xl bg-white/[0.03] backdrop-blur-md border border-white/10 hover:border-error/40 transition-all duration-300 relative overflow-hidden group shadow-lg shadow-black/20">
+<div class="absolute -right-6 -top-6 w-28 h-28 rounded-full bg-error-container/20 blur-2xl group-hover:bg-error-container/30 transition-all"></div>
+<div class="flex items-center justify-between">
+<span class="text-label-sm font-label-sm text-outline tracking-wider uppercase">High Risk Flags</span>
+<div class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center border border-white/5">
+<span class="material-symbols-outlined text-error text-body-lg" data-icon="warning">warning</span>
+</div>
+</div>
+<div class="mt-4 flex items-baseline justify-between">
+<div class="text-headline-lg font-headline-lg tabular-numbers text-error">12 cases</div>
+<div class="flex items-center gap-1 text-label-sm font-label-sm text-error bg-error-container/20 px-2 py-0.5 rounded border border-error/40">
+<span class="w-1.5 h-1.5 rounded-full bg-error animate-ping"></span>
+<span>Escalated</span>
+</div>
+</div>
+<!-- Human Audit Telemetry -->
+<div class="mt-4 pt-3 border-t border-white/[0.04]">
+<div class="flex items-center justify-between text-[11px] font-label-sm text-on-surface-variant/70">
+<span>Manual Queue Load</span>
+<span class="text-error font-label-md">0.96% of cohort</span>
+</div>
+<div class="flex items-center gap-2 mt-2">
+<span class="text-[10px] font-label-sm text-on-surface-variant">SLA Target: &lt; 2 hrs</span>
+<span class="text-secondary text-body-sm font-label-sm ml-auto">On Track</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Quick Analytics & Risk Distribution Telemetry Strip -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- Risk Tier Segment Breakdown -->
+<div class="lg:col-span-7 p-card-pad-default rounded-2xl bg-white/[0.03] backdrop-blur-md border border-white/10 flex flex-col justify-between">
+<div class="flex items-center justify-between border-b border-white/[0.04] pb-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-body-lg" data-icon="pie_chart">pie_chart</span>
+<h3 class="text-label-sm font-label-sm uppercase tracking-wider text-outline">Underwriting Risk Tier Distribution</h3>
+</div>
+<span class="text-[11px] font-label-sm text-on-surface-variant">Confidence Factor: 98.4%</span>
+</div>
+<div class="my-4">
+<!-- Stacked Horizontal Bar -->
+<div class="w-full h-4 rounded-full overflow-hidden flex gap-1 p-0.5 bg-surface-container-high border border-outline-variant/30">
+<div class="bg-secondary rounded-l-full transition-all hover:brightness-110 cursor-pointer shadow-[0_0_12px_rgba(78,222,163,0.3)]" style="width: 62%" title="Tier A Super-Prime: 62%"></div>
+<div class="bg-tertiary transition-all hover:brightness-110 cursor-pointer shadow-[0_0_12px_rgba(76,215,246,0.3)]" style="width: 26%" title="Tier B Moderate: 26%"></div>
+<div class="bg-error rounded-r-full transition-all hover:brightness-110 cursor-pointer shadow-[0_0_12px_rgba(255,180,171,0.3)]" style="width: 12%" title="Tier C High Risk: 12%"></div>
+</div>
+<!-- Legend Items -->
+<div class="grid grid-cols-3 gap-4 mt-4">
+<div class="p-2.5 rounded-lg bg-surface-container-low/60 border border-outline-variant/20">
+<div class="flex items-center gap-2 mb-1">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary"></span>
+<span class="text-body-sm font-headline-sm text-on-surface">Super-Prime (Tier A)</span>
+</div>
+<div class="text-headline-sm font-label-md tabular-numbers text-secondary">62% <span class="text-body-sm font-body-sm text-outline">(774 files)</span></div>
+<div class="text-[10px] font-label-sm text-outline-variant mt-0.5">Instant Automated Approval</div>
+</div>
+<div class="p-2.5 rounded-lg bg-surface-container-low/60 border border-outline-variant/20">
+<div class="flex items-center gap-2 mb-1">
+<span class="w-2.5 h-2.5 rounded-full bg-tertiary"></span>
+<span class="text-body-sm font-headline-sm text-on-surface">Moderate (Tier B)</span>
+</div>
+<div class="text-headline-sm font-label-md tabular-numbers text-tertiary">26% <span class="text-body-sm font-body-sm text-outline">(324 files)</span></div>
+<div class="text-[10px] font-label-sm text-outline-variant mt-0.5">Conditioned Guarantee</div>
+</div>
+<div class="p-2.5 rounded-lg bg-surface-container-low/60 border border-outline-variant/20">
+<div class="flex items-center gap-2 mb-1">
+<span class="w-2.5 h-2.5 rounded-full bg-error"></span>
+<span class="text-body-sm font-headline-sm text-on-surface">Sub-Prime (Tier C)</span>
+</div>
+<div class="text-headline-sm font-label-md tabular-numbers text-error">12% <span class="text-body-sm font-body-sm text-outline">(150 files)</span></div>
+<div class="text-[10px] font-label-sm text-outline-variant mt-0.5">Manual Review Required</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Property Area Geographical Distribution -->
+<div class="lg:col-span-5 p-card-pad-default rounded-2xl bg-white/[0.03] backdrop-blur-md border border-white/10 flex flex-col justify-between">
+<div class="flex items-center justify-between border-b border-white/[0.04] pb-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary text-body-lg" data-icon="location_city">location_city</span>
+<h3 class="text-label-sm font-label-sm uppercase tracking-wider text-outline">Property Area Volume</h3>
+</div>
+<span class="text-[11px] font-label-sm text-on-surface-variant">Geo-Cluster v2</span>
+</div>
+<div class="space-y-3.5 my-3">
+<!-- Urban -->
+<div>
+<div class="flex justify-between text-body-sm mb-1.5">
+<span class="text-on-surface flex items-center gap-2 font-headline-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                Urban Core
+              </span>
+<span class="text-on-surface font-label-md tabular-numbers">45% <span class="text-outline font-body-sm">(562 loans)</span></span>
+</div>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 45%"></div>
+</div>
+</div>
+<!-- Semiurban -->
+<div>
+<div class="flex justify-between text-body-sm mb-1.5">
+<span class="text-on-surface flex items-center gap-2 font-headline-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                Semiurban (Growth Corridor)
+              </span>
+<span class="text-on-surface font-label-md tabular-numbers">38% <span class="text-outline font-body-sm">(474 loans)</span></span>
+</div>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+<div class="bg-secondary h-full rounded-full" style="width: 38%"></div>
+</div>
+</div>
+<!-- Rural -->
+<div>
+<div class="flex justify-between text-body-sm mb-1.5">
+<span class="text-on-surface flex items-center gap-2 font-headline-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+                Rural &amp; Agricultural
+              </span>
+<span class="text-on-surface font-label-md tabular-numbers">17% <span class="text-outline font-body-sm">(212 loans)</span></span>
+</div>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+<div class="bg-tertiary h-full rounded-full" style="width: 17%"></div>
+</div>
+</div>
+</div>
+<div class="text-[11px] font-label-sm text-outline-variant pt-2 border-t border-white/[0.04] flex items-center justify-between">
+<span>Highest Repayment Reliability: Semiurban</span>
+<span class="text-secondary font-label-md">Default: 0.28%</span>
+</div>
+</div>
+</div>
+<!-- Comprehensive Data Table Section -->
+<section class="rounded-2xl bg-white/[0.03] backdrop-blur-md border border-white/10 overflow-hidden shadow-2xl shadow-black/40">
+<!-- Table Header & Multi-parameter Filters -->
+<div class="p-card-pad-default border-b border-white/[0.06] space-y-4">
+<div class="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-4">
+<!-- Live Search Bar -->
+<div class="relative flex-1 max-w-md">
+<span class="material-symbols-outlined text-outline absolute left-3.5 top-1/2 -translate-y-1/2 text-body-lg" data-icon="search">search</span>
+<input class="w-full h-10 pl-10 pr-4 rounded-lg bg-surface-container-low/90 border border-white/10 text-on-surface text-body-sm placeholder-outline focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all font-body-md" placeholder="Search by Applicant ID (#LP-...), name, SSN hash..." type="text"/>
+</div>
+<!-- Filter Pills & Options -->
+<div class="flex flex-wrap items-center gap-2.5">
+<!-- Outcome Pill Filter -->
+<div class="inline-flex rounded-lg p-1 bg-surface-container-low border border-white/10 text-label-sm font-label-sm">
+<button class="px-3 py-1 rounded bg-primary-container/20 text-primary border border-primary/30">All Outcomes</button>
+<button class="px-3 py-1 rounded text-on-surface-variant hover:text-on-surface transition-colors">Approved</button>
+<button class="px-3 py-1 rounded text-on-surface-variant hover:text-on-surface transition-colors">Flagged / Rejected</button>
+<button class="px-3 py-1 rounded text-on-surface-variant hover:text-on-surface transition-colors">Under Review</button>
+</div>
+<!-- Property Area Dropdown -->
+<select class="h-9 px-3 rounded-lg bg-surface-container-low border border-white/10 text-on-surface text-body-sm font-body-md focus:border-primary focus:ring-0">
+<option>All Areas</option>
+<option>Urban Core</option>
+<option>Semiurban</option>
+<option>Rural</option>
+</select>
+<!-- Credit History Dropdown -->
+<select class="h-9 px-3 rounded-lg bg-surface-container-low border border-white/10 text-on-surface text-body-sm font-body-md focus:border-primary focus:ring-0">
+<option>Credit: All Records</option>
+<option>Clean Record (&gt;700)</option>
+<option>Delinquent / Warning</option>
+</select>
+<!-- Table View Density / Customization -->
+<button class="h-9 w-9 flex items-center justify-center rounded-lg bg-surface-container-low border border-white/10 text-outline hover:text-on-surface transition-colors" title="Customize Columns">
+<span class="material-symbols-outlined text-body-lg" data-icon="view_column">view_column</span>
+</button>
+</div>
+</div>
+<!-- Sub-bar Indicator -->
+<div class="flex items-center justify-between text-label-sm font-label-sm text-outline-variant pt-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-body-sm text-secondary" data-icon="sync">sync</span>
+<span>Real-time Ingestion Stream Connected</span>
+</div>
+<div class="flex items-center gap-4">
+<span>Model: GradientBoost-KNN Ensemble</span>
+<span>Loss Metric: 0.014 RMSE</span>
+</div>
+</div>
+</div>
+<!-- Financial Data Table -->
+<div class="overflow-x-auto custom-scrollbar">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-white/[0.08] bg-surface-container-lowest/50 text-label-sm font-label-sm uppercase tracking-wider text-outline">
+<th class="py-3.5 px-4 font-medium" scope="col">Application ID</th>
+<th class="py-3.5 px-4 font-medium" scope="col">Applicant Profile</th>
+<th class="py-3.5 px-4 font-medium text-right" scope="col">Combined Income</th>
+<th class="py-3.5 px-4 font-medium text-right" scope="col">Requested Amount</th>
+<th class="py-3.5 px-4 font-medium text-center" scope="col">Credit History</th>
+<th class="py-3.5 px-4 font-medium" scope="col">Property Area</th>
+<th class="py-3.5 px-4 font-medium" scope="col">Prediction Status</th>
+<th class="py-3.5 px-4 font-medium text-right" scope="col">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-white/[0.04] text-body-md font-body-md">
+<!-- Row 1: Approved Graduate with Co-applicant -->
+<tr class="hover:bg-white/[0.02] transition-colors group">
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="font-label-md text-primary font-medium tracking-tight">#LP-9482</div>
+<div class="text-[11px] font-label-sm text-outline">Today, 14:32:09</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="font-headline-sm text-on-surface flex items-center gap-2">
+<span>Eleanor Vance</span>
+<span class="px-1.5 py-0.2 rounded text-[10px] font-label-sm bg-surface-container border border-outline-variant/30 text-on-surface-variant">Grad</span>
+</div>
+<div class="text-[12px] text-on-surface-variant flex items-center gap-2 mt-0.5">
+<span class="material-symbols-outlined text-[14px] text-tertiary" data-icon="female">female</span>
+<span>0 Dependents • Self-Employed</span>
+</div>
+</td>
+<td class="py-3.5 px-4 text-right whitespace-nowrap">
+<div class="font-label-md text-on-surface tabular-numbers font-medium">$9,300<span class="text-outline text-[11px]">/mo</span></div>
+<div class="text-[11px] font-label-sm text-secondary font-medium">Co-App: $3,200</div>
+</td>
+<td class="py-3.5 px-4 text-right whitespace-nowrap">
+<div class="font-label-md text-on-surface tabular-numbers font-medium">$240,000</div>
+<div class="text-[11px] font-label-sm text-outline">360 Mo Term</div>
+</td>
+<td class="py-3.5 px-4 text-center whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-label-sm font-label-sm bg-secondary/10 border border-secondary/30 text-secondary">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span>Score 754 • Clean</span>
+</span>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="flex items-center gap-1.5 text-on-surface">
+<span class="material-symbols-outlined text-body-sm text-outline" data-icon="apartment">apartment</span>
+<span>Urban</span>
+</div>
+<div class="text-[11px] text-outline font-label-sm">Sector 4C Metro</div>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-label-sm font-label-sm bg-secondary/15 border border-secondary/30 text-secondary shadow-[0_0_12px_rgba(78,222,163,0.15)]">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse-subtle"></span>
+<span>Approved (87%)</span>
+</span>
+</div>
+<div class="w-24 bg-surface-container-high h-1 rounded-full mt-1.5 overflow-hidden">
+<div class="bg-secondary h-full rounded-full" style="width: 87%"></div>
+</div>
+</td>
+<td class="py-3.5 px-4 text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-1">
+<button class="px-2.5 py-1 rounded-md bg-surface-container hover:bg-surface-bright text-on-surface text-body-sm font-headline-sm transition-colors border border-white/5 flex items-center gap-1">
+<span>Dossier</span>
+<span class="material-symbols-outlined text-body-sm" data-icon="arrow_forward">arrow_forward</span>
+</button>
+<button class="w-8 h-8 rounded-md flex items-center justify-center text-outline hover:text-on-surface hover:bg-surface-container transition-colors" title="Download Report">
+<span class="material-symbols-outlined text-body-sm" data-icon="download">download</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2: Rejected Low Credit -->
+<tr class="hover:bg-white/[0.02] transition-colors group">
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="font-label-md text-primary font-medium tracking-tight">#LP-9481</div>
+<div class="text-[11px] font-label-sm text-outline">Today, 14:18:41</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="font-headline-sm text-on-surface flex items-center gap-2">
+<span>Marcus K. Sterling</span>
+<span class="px-1.5 py-0.2 rounded text-[10px] font-label-sm bg-surface-container border border-outline-variant/30 text-on-surface-variant">Not Grad</span>
+</div>
+<div class="text-[12px] text-on-surface-variant flex items-center gap-2 mt-0.5">
+<span class="material-symbols-outlined text-[14px] text-primary" data-icon="male">male</span>
+<span>2 Dependents • Salaried</span>
+</div>
+</td>
+<td class="py-3.5 px-4 text-right whitespace-nowrap">
+<div class="font-label-md text-on-surface tabular-numbers font-medium">$4,120<span class="text-outline text-[11px]">/mo</span></div>
+<div class="text-[11px] font-label-sm text-outline">Co-App: None</div>
+</td>
+<td class="py-3.5 px-4 text-right whitespace-nowrap">
+<div class="font-label-md text-on-surface tabular-numbers font-medium">$380,000</div>
+<div class="text-[11px] font-label-sm text-error">High DTI (78%)</div>
+</td>
+<td class="py-3.5 px-4 text-center whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-label-sm font-label-sm bg-error/10 border border-error/30 text-error">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+<span>Score 580 • Delinquent</span>
+</span>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="flex items-center gap-1.5 text-on-surface">
+<span class="material-symbols-outlined text-body-sm text-outline" data-icon="location_city">location_city</span>
+<span>Urban</span>
+</div>
+<div class="text-[11px] text-outline font-label-sm">High Volatility Zone</div>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-label-sm font-label-sm bg-error/15 border border-error/30 text-error shadow-[0_0_12px_rgba(255,180,171,0.15)]">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+<span>Rejected (24%)</span>
+</span>
+</div>
+<div class="w-24 bg-surface-container-high h-1 rounded-full mt-1.5 overflow-hidden">
+<div class="bg-error h-full rounded-full" style="width: 24%"></div>
+</div>
+</td>
+<td class="py-3.5 px-4 text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-1">
+<button class="px-2.5 py-1 rounded-md bg-surface-container hover:bg-surface-bright text-on-surface text-body-sm font-headline-sm transition-colors border border-white/5 flex items-center gap-1">
+<span>Dossier</span>
+<span class="material-symbols-outlined text-body-sm" data-icon="arrow_forward">arrow_forward</span>
+</button>
+<button class="w-8 h-8 rounded-md flex items-center justify-center text-outline hover:text-on-surface hover:bg-surface-container transition-colors" title="Re-score Model">
+<span class="material-symbols-outlined text-body-sm" data-icon="refresh">refresh</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3: Semiurban High-Income Optimal Approved -->
+<tr class="hover:bg-white/[0.02] transition-colors group">
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="font-label-md text-primary font-medium tracking-tight">#LP-9480</div>
+<div class="text-[11px] font-label-sm text-outline">Today, 13:54:12</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="font-headline-sm text-on-surface flex items-center gap-2">
+<span>Dr. Aris Thorne</span>
+<span class="px-1.5 py-0.2 rounded text-[10px] font-label-sm bg-surface-container border border-outline-variant/30 text-secondary">PhD / Grad</span>
+</div>
+<div class="text-[12px] text-on-surface-variant flex items-center gap-2 mt-0.5">
+<span class="material-symbols-outlined text-[14px] text-tertiary" data-icon="person">person</span>
+<span>1 Dependent • Institutional</span>
+</div>
+</td>
+<td class="py-3.5 px-4 text-right whitespace-nowrap">
+<div class="font-label-md text-on-surface tabular-numbers font-medium">$16,500<span class="text-outline text-[11px]">/mo</span></div>
+<div class="text-[11px] font-label-sm text-secondary font-medium">Co-App: $4,800</div>
+</td>
+<td class="py-3.5 px-4 text-right whitespace-nowrap">
+<div class="font-label-md text-on-surface tabular-numbers font-medium">$520,000</div>
+<div class="text-[11px] font-label-sm text-outline">360 Mo Term</div>
+</td>
+<td class="py-3.5 px-4 text-center whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-label-sm font-label-sm bg-secondary/10 border border-secondary/30 text-secondary">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span>Score 812 • Prime</span>
+</span>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="flex items-center gap-1.5 text-on-surface">
+<span class="material-symbols-outlined text-body-sm text-secondary" data-icon="domain_add">domain_add</span>
+<span>Semiurban</span>
+<span class="px-1.5 py-0.2 rounded text-[9px] font-label-sm bg-secondary/10 text-secondary border border-secondary/30">Optimal</span>
+</div>
+<div class="text-[11px] text-outline font-label-sm">High Equity Index</div>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-label-sm font-label-sm bg-secondary/15 border border-secondary/30 text-secondary shadow-[0_0_12px_rgba(78,222,163,0.2)]">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse-subtle"></span>
+<span>Approved (94%)</span>
+</span>
+</div>
+<div class="w-24 bg-surface-container-high h-1 rounded-full mt-1.5 overflow-hidden">
+<div class="bg-secondary h-full rounded-full" style="width: 94%"></div>
+</div>
+</td>
+<td class="py-3.5 px-4 text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-1">
+<button class="px-2.5 py-1 rounded-md bg-surface-container hover:bg-surface-bright text-on-surface text-body-sm font-headline-sm transition-colors border border-white/5 flex items-center gap-1">
+<span>Dossier</span>
+<span class="material-symbols-outlined text-body-sm" data-icon="arrow_forward">arrow_forward</span>
+</button>
+<button class="w-8 h-8 rounded-md flex items-center justify-center text-outline hover:text-on-surface hover:bg-surface-container transition-colors" title="Download Dossier">
+<span class="material-symbols-outlined text-body-sm" data-icon="download">download</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4: Rural Farm Loan Under Manual Review -->
+<tr class="hover:bg-white/[0.02] transition-colors group">
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="font-label-md text-primary font-medium tracking-tight">#LP-9479</div>
+<div class="text-[11px] font-label-sm text-outline">Today, 12:40:05</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="font-headline-sm text-on-surface flex items-center gap-2">
+<span>Johan Lindqvist</span>
+<span class="px-1.5 py-0.2 rounded text-[10px] font-label-sm bg-surface-container border border-outline-variant/30 text-on-surface-variant">Grad</span>
+</div>
+<div class="text-[12px] text-on-surface-variant flex items-center gap-2 mt-0.5">
+<span class="material-symbols-outlined text-[14px] text-primary" data-icon="male">male</span>
+<span>3 Dependents • Agri-Producer</span>
+</div>
+</td>
+<td class="py-3.5 px-4 text-right whitespace-nowrap">
+<div class="font-label-md text-on-surface tabular-numbers font-medium">$7,800<span class="text-outline text-[11px]">/mo</span></div>
+<div class="text-[11px] font-label-sm text-outline">Seasonal Variance</div>
+</td>
+<td class="py-3.5 px-4 text-right whitespace-nowrap">
+<div class="font-label-md text-on-surface tabular-numbers font-medium">$310,000</div>
+<div class="text-[11px] font-label-sm text-outline">240 Mo Term</div>
+</td>
+<td class="py-3.5 px-4 text-center whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-label-sm font-label-sm bg-surface-container-high border border-outline-variant/40 text-on-surface">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+<span>Score 690 • Fair</span>
+</span>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="flex items-center gap-1.5 text-on-surface">
+<span class="material-symbols-outlined text-body-sm text-tertiary" data-icon="agriculture">agriculture</span>
+<span>Rural</span>
+</div>
+<div class="text-[11px] text-outline font-label-sm">Parcel 92 North</div>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-label-sm font-label-sm bg-tertiary/15 border border-tertiary/30 text-tertiary shadow-[0_0_12px_rgba(76,215,246,0.15)]">
+<span class="w-2 h-2 rounded-full bg-tertiary animate-pulse-subtle"></span>
+<span>Under Review (61%)</span>
+</span>
+</div>
+<div class="w-24 bg-surface-container-high h-1 rounded-full mt-1.5 overflow-hidden">
+<div class="bg-tertiary h-full rounded-full" style="width: 61%"></div>
+</div>
+</td>
+<td class="py-3.5 px-4 text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-1">
+<button class="px-2.5 py-1 rounded-md bg-surface-container hover:bg-surface-bright text-on-surface text-body-sm font-headline-sm transition-colors border border-white/5 flex items-center gap-1">
+<span>Audit File</span>
+<span class="material-symbols-outlined text-body-sm" data-icon="arrow_forward">arrow_forward</span>
+</button>
+<button class="w-8 h-8 rounded-md flex items-center justify-center text-outline hover:text-on-surface hover:bg-surface-container transition-colors" title="Escalate">
+<span class="material-symbols-outlined text-body-sm" data-icon="assignment_ind">assignment_ind</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 5: Young Professional Semiurban Approved -->
+<tr class="hover:bg-white/[0.02] transition-colors group">
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="font-label-md text-primary font-medium tracking-tight">#LP-9478</div>
+<div class="text-[11px] font-label-sm text-outline">Today, 11:22:19</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="font-headline-sm text-on-surface flex items-center gap-2">
+<span>Chloe Z. Zhang</span>
+<span class="px-1.5 py-0.2 rounded text-[10px] font-label-sm bg-surface-container border border-outline-variant/30 text-on-surface-variant">Grad</span>
+</div>
+<div class="text-[12px] text-on-surface-variant flex items-center gap-2 mt-0.5">
+<span class="material-symbols-outlined text-[14px] text-tertiary" data-icon="female">female</span>
+<span>0 Dependents • Tech Sector</span>
+</div>
+</td>
+<td class="py-3.5 px-4 text-right whitespace-nowrap">
+<div class="font-label-md text-on-surface tabular-numbers font-medium">$8,400<span class="text-outline text-[11px]">/mo</span></div>
+<div class="text-[11px] font-label-sm text-secondary font-medium">Co-App: $2,100</div>
+</td>
+<td class="py-3.5 px-4 text-right whitespace-nowrap">
+<div class="font-label-md text-on-surface tabular-numbers font-medium">$195,000</div>
+<div class="text-[11px] font-label-sm text-outline">180 Mo Term</div>
+</td>
+<td class="py-3.5 px-4 text-center whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-label-sm font-label-sm bg-secondary/10 border border-secondary/30 text-secondary">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span>Score 768 • Clean</span>
+</span>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="flex items-center gap-1.5 text-on-surface">
+<span class="material-symbols-outlined text-body-sm text-secondary" data-icon="domain_add">domain_add</span>
+<span>Semiurban</span>
+<span class="px-1.5 py-0.2 rounded text-[9px] font-label-sm bg-secondary/10 text-secondary border border-secondary/30">Optimal</span>
+</div>
+<div class="text-[11px] text-outline font-label-sm">Bay View Corridor</div>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-label-sm font-label-sm bg-secondary/15 border border-secondary/30 text-secondary shadow-[0_0_12px_rgba(78,222,163,0.15)]">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse-subtle"></span>
+<span>Approved (91%)</span>
+</span>
+</div>
+<div class="w-24 bg-surface-container-high h-1 rounded-full mt-1.5 overflow-hidden">
+<div class="bg-secondary h-full rounded-full" style="width: 91%"></div>
+</div>
+</td>
+<td class="py-3.5 px-4 text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-1">
+<button class="px-2.5 py-1 rounded-md bg-surface-container hover:bg-surface-bright text-on-surface text-body-sm font-headline-sm transition-colors border border-white/5 flex items-center gap-1">
+<span>Dossier</span>
+<span class="material-symbols-outlined text-body-sm" data-icon="arrow_forward">arrow_forward</span>
+</button>
+<button class="w-8 h-8 rounded-md flex items-center justify-center text-outline hover:text-on-surface hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-body-sm" data-icon="download">download</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 6: Rejected High Flag Credit Warning -->
+<tr class="hover:bg-white/[0.02] transition-colors group">
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="font-label-md text-primary font-medium tracking-tight">#LP-9477</div>
+<div class="text-[11px] font-label-sm text-outline">Today, 10:14:02</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="font-headline-sm text-on-surface flex items-center gap-2">
+<span>Devon Reynolds</span>
+<span class="px-1.5 py-0.2 rounded text-[10px] font-label-sm bg-surface-container border border-outline-variant/30 text-on-surface-variant">Not Grad</span>
+</div>
+<div class="text-[12px] text-on-surface-variant flex items-center gap-2 mt-0.5">
+<span class="material-symbols-outlined text-[14px] text-primary" data-icon="male">male</span>
+<span>1 Dependent • Contract</span>
+</div>
+</td>
+<td class="py-3.5 px-4 text-right whitespace-nowrap">
+<div class="font-label-md text-on-surface tabular-numbers font-medium">$3,400<span class="text-outline text-[11px]">/mo</span></div>
+<div class="text-[11px] font-label-sm text-outline">Co-App: None</div>
+</td>
+<td class="py-3.5 px-4 text-right whitespace-nowrap">
+<div class="font-label-md text-on-surface tabular-numbers font-medium">$180,000</div>
+<div class="text-[11px] font-label-sm text-outline">360 Mo Term</div>
+</td>
+<td class="py-3.5 px-4 text-center whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-label-sm font-label-sm bg-error/10 border border-error/30 text-error">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+<span>Score 540 • Default History</span>
+</span>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="flex items-center gap-1.5 text-on-surface">
+<span class="material-symbols-outlined text-body-sm text-outline" data-icon="apartment">apartment</span>
+<span>Urban</span>
+</div>
+<div class="text-[11px] text-outline font-label-sm">South Central Zone</div>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-label-sm font-label-sm bg-error/15 border border-error/30 text-error shadow-[0_0_12px_rgba(255,180,171,0.15)]">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+<span>Rejected (18%)</span>
+</span>
+</div>
+<div class="w-24 bg-surface-container-high h-1 rounded-full mt-1.5 overflow-hidden">
+<div class="bg-error h-full rounded-full" style="width: 18%"></div>
+</div>
+</td>
+<td class="py-3.5 px-4 text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-1">
+<button class="px-2.5 py-1 rounded-md bg-surface-container hover:bg-surface-bright text-on-surface text-body-sm font-headline-sm transition-colors border border-white/5 flex items-center gap-1">
+<span>Dossier</span>
+<span class="material-symbols-outlined text-body-sm" data-icon="arrow_forward">arrow_forward</span>
+</button>
+<button class="w-8 h-8 rounded-md flex items-center justify-center text-outline hover:text-on-surface hover:bg-surface-container transition-colors" title="Audit Log">
+<span class="material-symbols-outlined text-body-sm" data-icon="history">history</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 7: Dual-Earner Household Semiurban Approved -->
+<tr class="hover:bg-white/[0.02] transition-colors group">
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="font-label-md text-primary font-medium tracking-tight">#LP-9476</div>
+<div class="text-[11px] font-label-sm text-outline">Yesterday, 19:44:11</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="font-headline-sm text-on-surface flex items-center gap-2">
+<span>Amina &amp; Tariq Mansour</span>
+<span class="px-1.5 py-0.2 rounded text-[10px] font-label-sm bg-surface-container border border-outline-variant/30 text-on-surface-variant">Grad</span>
+</div>
+<div class="text-[12px] text-on-surface-variant flex items-center gap-2 mt-0.5">
+<span class="material-symbols-outlined text-[14px] text-secondary" data-icon="group">group</span>
+<span>2 Dependents • Dual Medical</span>
+</div>
+</td>
+<td class="py-3.5 px-4 text-right whitespace-nowrap">
+<div class="font-label-md text-on-surface tabular-numbers font-medium">$14,200<span class="text-outline text-[11px]">/mo</span></div>
+<div class="text-[11px] font-label-sm text-secondary font-medium">Co-App: $6,400</div>
+</td>
+<td class="py-3.5 px-4 text-right whitespace-nowrap">
+<div class="font-label-md text-on-surface tabular-numbers font-medium">$440,000</div>
+<div class="text-[11px] font-label-sm text-outline">360 Mo Term</div>
+</td>
+<td class="py-3.5 px-4 text-center whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-label-sm font-label-sm bg-secondary/10 border border-secondary/30 text-secondary">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span>Score 788 • Clean</span>
+</span>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="flex items-center gap-1.5 text-on-surface">
+<span class="material-symbols-outlined text-body-sm text-secondary" data-icon="domain_add">domain_add</span>
+<span>Semiurban</span>
+<span class="px-1.5 py-0.2 rounded text-[9px] font-label-sm bg-secondary/10 text-secondary border border-secondary/30">Optimal</span>
+</div>
+<div class="text-[11px] text-outline font-label-sm">High Net-Worth Pocket</div>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-label-sm font-label-sm bg-secondary/15 border border-secondary/30 text-secondary shadow-[0_0_12px_rgba(78,222,163,0.15)]">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse-subtle"></span>
+<span>Approved (96%)</span>
+</span>
+</div>
+<div class="w-24 bg-surface-container-high h-1 rounded-full mt-1.5 overflow-hidden">
+<div class="bg-secondary h-full rounded-full" style="width: 96%"></div>
+</div>
+</td>
+<td class="py-3.5 px-4 text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-1">
+<button class="px-2.5 py-1 rounded-md bg-surface-container hover:bg-surface-bright text-on-surface text-body-sm font-headline-sm transition-colors border border-white/5 flex items-center gap-1">
+<span>Dossier</span>
+<span class="material-symbols-outlined text-body-sm" data-icon="arrow_forward">arrow_forward</span>
+</button>
+<button class="w-8 h-8 rounded-md flex items-center justify-center text-outline hover:text-on-surface hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-body-sm" data-icon="download">download</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 8: Borderline Rural Farm File Under Manual Review -->
+<tr class="hover:bg-white/[0.02] transition-colors group">
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="font-label-md text-primary font-medium tracking-tight">#LP-9475</div>
+<div class="text-[11px] font-label-sm text-outline">Yesterday, 18:05:44</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="font-headline-sm text-on-surface flex items-center gap-2">
+<span>Colt Winchester</span>
+<span class="px-1.5 py-0.2 rounded text-[10px] font-label-sm bg-surface-container border border-outline-variant/30 text-on-surface-variant">Not Grad</span>
+</div>
+<div class="text-[12px] text-on-surface-variant flex items-center gap-2 mt-0.5">
+<span class="material-symbols-outlined text-[14px] text-primary" data-icon="male">male</span>
+<span>1 Dependent • Small Business</span>
+</div>
+</td>
+<td class="py-3.5 px-4 text-right whitespace-nowrap">
+<div class="font-label-md text-on-surface tabular-numbers font-medium">$5,900<span class="text-outline text-[11px]">/mo</span></div>
+<div class="text-[11px] font-label-sm text-outline">Co-App: None</div>
+</td>
+<td class="py-3.5 px-4 text-right whitespace-nowrap">
+<div class="font-label-md text-on-surface tabular-numbers font-medium">$165,000</div>
+<div class="text-[11px] font-label-sm text-outline">300 Mo Term</div>
+</td>
+<td class="py-3.5 px-4 text-center whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-label-sm font-label-sm bg-surface-container-high border border-outline-variant/40 text-on-surface">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+<span>Score 670 • Acceptable</span>
+</span>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="flex items-center gap-1.5 text-on-surface">
+<span class="material-symbols-outlined text-body-sm text-tertiary" data-icon="agriculture">agriculture</span>
+<span>Rural</span>
+</div>
+<div class="text-[11px] text-outline font-label-sm">High Collateral Acreage</div>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-label-sm font-label-sm bg-tertiary/15 border border-tertiary/30 text-tertiary shadow-[0_0_12px_rgba(76,215,246,0.15)]">
+<span class="w-2 h-2 rounded-full bg-tertiary animate-pulse-subtle"></span>
+<span>Under Review (64%)</span>
+</span>
+</div>
+<div class="w-24 bg-surface-container-high h-1 rounded-full mt-1.5 overflow-hidden">
+<div class="bg-tertiary h-full rounded-full" style="width: 64%"></div>
+</div>
+</td>
+<td class="py-3.5 px-4 text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-1">
+<button class="px-2.5 py-1 rounded-md bg-surface-container hover:bg-surface-bright text-on-surface text-body-sm font-headline-sm transition-colors border border-white/5 flex items-center gap-1">
+<span>Audit File</span>
+<span class="material-symbols-outlined text-body-sm" data-icon="arrow_forward">arrow_forward</span>
+</button>
+<button class="w-8 h-8 rounded-md flex items-center justify-center text-outline hover:text-on-surface hover:bg-surface-container transition-colors" title="Fast Assessment">
+<span class="material-symbols-outlined text-body-sm" data-icon="bolt">bolt</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination & Telemetry Footer Bar -->
+<div class="p-card-pad-default border-t border-white/[0.06] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-surface-container-lowest/30">
+<div class="flex items-center gap-4 text-body-sm text-on-surface-variant font-body-md">
+<span>Showing <strong class="text-on-surface font-label-md">1-8</strong> of <strong class="text-on-surface font-label-md">1,248</strong> applications</span>
+<div class="hidden sm:flex items-center gap-1.5">
+<span class="text-outline text-label-sm">Density:</span>
+<select class="h-7 px-2 text-label-sm rounded bg-surface-container-low border border-white/10 text-on-surface">
+<option>10 per page</option>
+<option>25 per page</option>
+<option>50 per page</option>
+<option>100 per page</option>
+</select>
+</div>
+</div>
+<!-- Clean Pagination Buttons -->
+<div class="flex items-center gap-1">
+<button class="h-8 px-2.5 rounded bg-surface-container-low border border-white/10 text-outline hover:text-on-surface transition-colors disabled:opacity-40" disabled="">
+<span class="material-symbols-outlined text-body-md" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="h-8 w-8 rounded bg-primary-container text-on-primary-container font-label-md text-label-sm font-semibold shadow-sm shadow-primary/30">
+            1
+          </button>
+<button class="h-8 w-8 rounded bg-surface-container-low border border-white/10 text-on-surface hover:bg-surface-container transition-colors font-label-md text-label-sm">
+            2
+          </button>
+<button class="h-8 w-8 rounded bg-surface-container-low border border-white/10 text-on-surface hover:bg-surface-container transition-colors font-label-md text-label-sm">
+            3
+          </button>
+<span class="px-1 text-outline font-label-sm">...</span>
+<button class="h-8 w-8 rounded bg-surface-container-low border border-white/10 text-on-surface hover:bg-surface-container transition-colors font-label-md text-label-sm">
+            125
+          </button>
+<button class="h-8 px-2.5 rounded bg-surface-container-low border border-white/10 text-on-surface hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-body-md" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Bottom System Telemetry Ribbon -->
+<div class="p-4 rounded-xl bg-surface-container-low/40 border border-white/5 flex flex-col md:flex-row items-center justify-between text-body-sm text-outline gap-4">
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 text-label-sm">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="text-on-surface font-label-md">Algorithmic Inference Cluster 04 (US-East)</span>
+</div>
+<span class="hidden md:inline text-outline-variant">|</span>
+<span class="text-[12px]">Model Hash: <code class="text-tertiary font-label-sm">9f84a32e1...b84</code></span>
+</div>
+<div class="flex items-center gap-6 text-label-sm">
+<span>Fair Lending Compliance: <strong class="text-secondary font-label-md">Audited (v2025.1)</strong></span>
+<a class="text-primary hover:underline flex items-center gap-1" href="#">
+<span>Audit Protocol Specs</span>
+<span class="material-symbols-outlined text-[14px]" data-icon="open_in_new">open_in_new</span>
+</a>
+</div>
+</div>
+</main>
+<script>
+    // Micro-interaction toggles for filters
+    document.querySelectorAll('.inline-flex button').forEach(button => {
+      button.addEventListener('click', function() {
+        const parent = this.parentElement;
+        parent.querySelectorAll('button').forEach(b => {
+          b.className = 'px-3 py-1 rounded text-on-surface-variant hover:text-on-surface transition-colors';
+        });
+        this.className = 'px-3 py-1 rounded bg-primary-container/20 text-primary border border-primary/30';
+      });
+    });
+  </script>
+</body></html>
