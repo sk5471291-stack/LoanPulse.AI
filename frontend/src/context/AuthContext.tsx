@@ -16,6 +16,7 @@ interface AuthContextType {
   loginWithEmail: (email: string, password: string) => Promise<boolean>;
   signUpWithEmail: (name: string, email: string, password: string) => Promise<boolean>;
   loginWithGoogle: (customEmail?: string) => Promise<boolean>;
+  updateProfile: (updatedData: Partial<UserProfile>) => void;
   logout: () => void;
 }
 
@@ -41,7 +42,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         email: "alex.morgan@gmail.com",
         avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=256&q=80",
         method: "google",
-        role: "Senior Risk Analyst"
+        role: "Senior Risk Underwriter"
       };
       setUser(defaultUser);
       localStorage.setItem("loanpulse_user", JSON.stringify(defaultUser));
@@ -52,6 +53,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const saveSession = (newUser: UserProfile) => {
     setUser(newUser);
     localStorage.setItem("loanpulse_user", JSON.stringify(newUser));
+  };
+
+  const updateProfile = (updatedData: Partial<UserProfile>) => {
+    if (!user) return;
+    const updatedUser = { ...user, ...updatedData };
+    saveSession(updatedUser);
   };
 
   const loginWithEmail = async (email: string, password: string): Promise<boolean> => {
@@ -96,9 +103,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const newUser: UserProfile = {
       name: formattedName || "Google User",
       email: selectedEmail,
-      avatar: "https://lh3.googleusercontent.com/a/default-user=s96-c",
+      avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=256&q=80",
       method: "google",
-      role: "Risk Underwriter"
+      role: "Senior Risk Underwriter"
     };
 
     saveSession(newUser);
@@ -118,6 +125,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         loginWithEmail,
         signUpWithEmail,
         loginWithGoogle,
+        updateProfile,
         logout
       }}
     >
